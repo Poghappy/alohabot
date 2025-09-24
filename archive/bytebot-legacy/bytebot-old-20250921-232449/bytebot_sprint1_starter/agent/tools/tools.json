@@ -1,0 +1,78 @@
+{
+  "tools": [
+    {
+      "name": "brand_brief_parse",
+      "entry": "scripts/brand_brief_parse.py",
+      "inputs": {
+        "brief": "text",
+        "options": "json"
+      },
+      "timeout_s": 10
+    },
+    {
+      "name": "generate_logo",
+      "entry": "scripts/generate_logo.py",
+      "inputs": {
+        "brief_struct": "json",
+        "directions": "int",
+        "formats": "list"
+      },
+      "timeout_s": 10
+    },
+    {
+      "name": "asset_lint",
+      "entry": "scripts/lint_assets.py",
+      "inputs": {
+        "asset_dir": "path"
+      },
+      "timeout_s": 10
+    },
+    {
+      "name": "icon_pack_gen",
+      "entry": "scripts/icon_pack_gen.py",
+      "inputs": {
+        "spec": "json"
+      },
+      "timeout_s": 10
+    },
+    {
+      "name": "app_icon_export",
+      "entry": "scripts/app_icon_export.py",
+      "inputs": {
+        "logo_svg_uri": "path",
+        "bg": "hex",
+        "padding_ratio": "float"
+      },
+      "timeout_s": 10
+    },
+    {
+      "name": "ui_theme_compile",
+      "entry": "scripts/ui_theme_compile.py",
+      "inputs": {
+        "palette": "json",
+        "typography": "json",
+        "spacing": "json",
+        "radius": "json",
+        "shadows": "json"
+      },
+      "timeout_s": 10
+    },
+    {
+      "name": "ui_components_export",
+      "entry": "scripts/ui_components_export.py",
+      "inputs": {
+        "tokens_json_uri": "path",
+        "components": "list"
+      },
+      "timeout_s": 10
+    },
+    {
+      "name": "accessibility_check",
+      "entry": "scripts/check_contrast.py",
+      "inputs": {
+        "assets": "list"
+      },
+      "timeout_s": 10
+    }
+  ]
+}

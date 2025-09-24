@@ -1,0 +1,279 @@
+{
+  "$schema": "https://github.com/modelcontextprotocol/specification/blob/main/schema/mcp_config_schema.json",
+  "description": "n8n MCP 配置示例 - 基于实际测试的工作配置",
+  "mcpServers": {
+    "n8n-official": {
+      "description": "官方 n8n MCP 服务器 - 推荐用于 ChatGPT Pro 用户",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e", "N8N_API_URL=http://localhost:5678",
+        "-e", "N8N_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+        "-e", "N8N_WEBHOOK_URL=http://localhost:5678/webhook",
+        "-e", "N8N_EDITOR_URL=http://localhost:5678",
+        "--network", "host",
+        "vredrick/n8n-mcp:latest"
+      ],
+      "env": {
+        "N8N_API_URL": "http://localhost:5678",
+        "N8N_API_KEY": "你的实际JWT密钥",
+        "N8N_WEBHOOK_URL": "http://localhost:5678/webhook",
+        "N8N_EDITOR_URL": "http://localhost:5678"
+      }
+    },
+    "n8n-custom": {
+      "description": "自定义 n8n MCP 服务器 - 基于 FastMCP 实现",
+      "command": "python",
+      "args": [
+        "/path/to/your/n8n_mcp_server.py"
+      ],
+      "env": {
+        "N8N_API_URL": "http://localhost:5678",
+        "N8N_API_KEY": "你的实际JWT密钥",
+        "MCP_SERVER_PORT": "8000",
+        "MCP_SERVER_HOST": "0.0.0.0"
+      }
+    },
+    "n8n-local-dev": {
+      "description": "本地开发环境配置 - 用于测试和调试",
+      "command": "node",
+      "args": [
+        "/path/to/n8n-mcp-server/dist/index.js"
+      ],
+      "env": {
+        "N8N_API_URL": "http://localhost:5678",
+        "N8N_API_KEY": "你的实际JWT密钥",
+        "DEBUG": "n8n-mcp:*",
+        "NODE_ENV": "development"
+      }
+    }
+  },
+  "globalSettings": {
+    "timeout": 30000,
+    "retries": 3,
+    "logLevel": "info"
+  },
+  "security": {
+    "allowedHosts": [
+      "localhost",
+      "127.0.0.1",
+      "你的n8n域名"
+    ],
+    "requireHttps": false,
+    "validateCertificates": true
+  },
+  "features": {
+    "enableWorkflowManagement": true,
+    "enableNodeSearch": true,
+    "enableTemplateAccess": true,
+    "enableExecutionMonitoring": true,
+    "enableAINodes": true
+  },
+  "examples": {
+    "chatgpt_pro_config": {
+      "description": "ChatGPT Pro 用户的完整配置示例",
+      "steps": [
+        "1. 确保 n8n 运行在 localhost:5678",
+        "2. 创建 API 密钥并替换上面的示例密钥",
+        "3. 拉取 Docker 镜像: docker pull vredrick/n8n-mcp:latest",
+        "4. 将此配置保存到 ~/.config/mcp/config.json",
+        "5. 在 ChatGPT Settings → Connectors 中添加自定义连接器",
+        "6. 输入 MCP 服务器 URL 并完成认证"
+      ]
+    },
+    "chatgpt_plus_alternative": {
+      "description": "ChatGPT Plus 用户的替代方案 - GPT Actions",
+      "openapi_spec": {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "n8n API Integration",
+          "version": "1.0.0",
+          "description": "Direct n8n API access for ChatGPT Plus users"
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5678/api/v1",
+            "description": "Local n8n instance"
+          }
+        ],
+        "paths": {
+          "/workflows": {
+            "get": {
+              "summary": "List workflows",
+              "parameters": [
+                {
+                  "name": "X-N8N-API-KEY",
+                  "in": "header",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Successful response"
+                }
+              }
+            },
+            "post": {
+              "summary": "Create workflow",
+              "parameters": [
+                {
+                  "name": "X-N8N-API-KEY",
+                  "in": "header",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "nodes": {
+                          "type": "array"
+                        },
+                        "connections": {
+                          "type": "object"
+                        },
+                        "settings": {
+                          "type": "object"
+                        }
+                      },
+                      "required": ["name", "nodes", "connections", "settings"]
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "201": {
+                  "description": "Workflow created"
+                }
+              }
+            }
+          },
+          "/workflows/{id}": {
+            "get": {
+              "summary": "Get workflow details",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "X-N8N-API-KEY",
+                  "in": "header",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Workflow details"
+                }
+              }
+            }
+          },
+          "/executions": {
+            "get": {
+              "summary": "List executions",
+              "parameters": [
+                {
+                  "name": "X-N8N-API-KEY",
+                  "in": "header",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Execution list"
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "securitySchemes": {
+            "ApiKeyAuth": {
+              "type": "apiKey",
+              "in": "header",
+              "name": "X-N8N-API-KEY"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "troubleshooting": {
+    "common_issues": {
+      "api_key_invalid": {
+        "description": "API 密钥无效或过期",
+        "solution": "在 n8n 设置中重新生成 API 密钥",
+        "test_command": "curl -H 'X-N8N-API-KEY: 你的密钥' http://localhost:5678/api/v1/workflows"
+      },
+      "connection_refused": {
+        "description": "无法连接到 n8n 实例",
+        "solution": "确保 n8n 正在运行并监听正确端口",
+        "test_command": "curl -I http://localhost:5678/rest/settings"
+      },
+      "mcp_server_not_responding": {
+        "description": "MCP 服务器无响应",
+        "solution": "检查 Docker 容器状态和环境变量",
+        "test_command": "docker ps | grep n8n-mcp"
+      },
+      "chatgpt_connector_error": {
+        "description": "ChatGPT 连接器配置错误",
+        "solution": "验证 MCP 服务器 URL 和认证配置",
+        "check_steps": [
+          "确认 MCP 服务器正在运行",
+          "验证服务器 URL 可访问",
+          "检查认证配置是否正确",
+          "查看 ChatGPT 错误日志"
+        ]
+      }
+    }
+  },
+  "validation": {
+    "required_environment": {
+      "n8n_version": ">=1.0.0",
+      "docker_version": ">=20.0.0",
+      "node_version": ">=18.0.0",
+      "python_version": ">=3.8.0"
+    },
+    "test_endpoints": [
+      "http://localhost:5678/rest/settings",
+      "http://localhost:5678/api/v1/workflows",
+      "http://localhost:5678/mcp"
+    ],
+    "required_permissions": [
+      "API access enabled",
+      "Valid API key created",
+      "Network access to n8n instance",
+      "Docker permissions (for official MCP server)"
+    ]
+  }
+}

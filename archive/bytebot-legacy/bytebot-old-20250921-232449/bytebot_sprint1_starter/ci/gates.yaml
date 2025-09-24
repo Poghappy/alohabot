@@ -1,0 +1,12 @@
+# ci/gates.yaml
+logo:
+  success_rate: 0.80
+  deliverables: ["svg","png","pdf"]
+icon:
+  success_rate: 0.85
+  open_path: 0
+ui:
+  success_rate: 0.80
+  tokens_complete: true
+accessibility:
+  AA_pass_rate: 0.95

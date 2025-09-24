@@ -1,0 +1,5 @@
+# eval/ui.yaml - 示例 5 条，建议扩充至 20 条
+- input: { theme: "light", primary: "#6366f1" }
+  checks: [contrast:"AA", tokens:"complete"]
+- input: { component: "Button" }
+  checks: [preview:"ok", bind_tokens:"100%"]

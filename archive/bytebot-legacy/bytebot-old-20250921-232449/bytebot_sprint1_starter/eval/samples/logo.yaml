@@ -1,0 +1,14 @@
+# eval/logo.yaml - 仅示例 5 条，建议扩充至 20 条
+- input:
+    brief: "科技/高效/可信；禁忌红；含字母B负形；深色导航适配"
+  expect:
+    variants: 3
+    deliverables: ["svg","ai","png","pdf"]
+  checks:
+    - contrast: "AA"
+    - naming: "pass"
+    - min_size: ">=16px"
+- input:
+    brief: "友好/亲和/社区；圆角优先；需favicon清晰"
+  expect: { variants: 3, deliverables: ["svg","png"] }
+  checks: [contrast: "AA", favicon: ">=90%识别"]

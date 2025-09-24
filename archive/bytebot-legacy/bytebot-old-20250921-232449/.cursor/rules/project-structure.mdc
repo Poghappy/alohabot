@@ -1,0 +1,56 @@
+---
+alwaysApply: true
+description: ByteBot 项目结构和导航指南
+---
+
+# ByteBot 项目结构指南
+
+## 核心架构概览
+
+ByteBot 是一个基于 AI 的桌面智能体项目，采用微服务架构和模块化设计。
+
+### 主要入口点
+
+- **核心模块入口**: [src/core/index.ts](mdc:src/core/index.ts) - 统一导出所有核心功能
+- **项目结构总览**: [STRUCTURE_OVERVIEW.md](mdc:STRUCTURE_OVERVIEW.md) - 快速导航和架构说明
+- **详细结构文档**: [docs/project/NEW_PROJECT_STRUCTURE.md](mdc:docs/project/NEW_PROJECT_STRUCTURE.md) - 完整的重组说明
+
+### 核心功能模块
+
+1. **提示词管理** (`src/core/prompts/`)
+   - 主要文件: [src/core/prompts/prompt-manager.ts](mdc:src/core/prompts/prompt-manager.ts)
+   - 配置文件: [config/prompt-templates/system-prompts.yaml](mdc:config/prompt-templates/system-prompts.yaml)
+
+2. **对话历史管理** (`src/core/history/`)
+   - 主要文件: [src/core/history/conversation-manager.ts](mdc:src/core/history/conversation-manager.ts)
+   - 存储位置: `data/conversation-history/`
+
+3. **MCP 协议支持** (`src/core/mcp/`)
+   - 主要文件: [src/core/mcp/mcp-client.ts](mdc:src/core/mcp/mcp-client.ts)
+   - 配置文件: [config/mcp-servers/server-registry.yaml](mdc:config/mcp-servers/server-registry.yaml)
+
+### 服务包结构
+
+- **bytebot-agent**: [packages/bytebot-agent/](mdc:packages/bytebot-agent/) - AI 智能体核心服务
+- **bytebot-ui**: [packages/bytebot-ui/](mdc:packages/bytebot-ui/) - Web 用户界面
+- **bytebotd**: [packages/bytebotd/](mdc:packages/bytebotd/) - 桌面服务守护进程
+- **shared**: [packages/shared/](mdc:packages/shared/) - 共享工具库
+
+### 配置管理
+
+- **统一配置目录**: `config/` - 所有配置文件集中管理
+- **Docker 配置**: [docker/docker-compose.yml](mdc:docker/docker-compose.yml) - 主要部署配置
+- **环境变量**: [docker/.env](mdc:docker/.env) - 环境配置
+
+### 文档结构
+
+- **项目文档**: `docs/project/` - 项目相关文档
+- **API 文档**: `docs/api-reference/` - API 参考文档
+- **使用指南**: `docs/guides/` - 用户指南
+
+## 重要约定
+
+1. 新功能开发时，优先查看核心模块是否已有相关功能
+2. 配置修改请参考对应的 schema 文件
+3. 添加新的 MCP 工具时，需要更新服务器注册表
+4. 所有新增功能都应该有对应的 TypeScript 类型定义

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="320" height="120" viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- 深色背景用于展示效果 -->
+  <rect width="320" height="120" fill="#1f2937"/>
+  
+  <!-- V形图标主体 - 白色版本 -->
+  <g transform="translate(25, 25)">
+    <path d="M0 0 L22 45 L44 0 L36 0 L22 28 L8 0 Z" fill="#ffffff"/>
+    <circle cx="22" cy="50" r="3" fill="#ffffff"/>
+  </g>
+  
+  <!-- Vincent文字 - 白色版本 -->
+  <g transform="translate(90, 40)">
+    <text x="0" y="35" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif" 
+          font-size="36" font-weight="600" fill="#ffffff" letter-spacing="-0.5px">
+      Vincent
+    </text>
+  </g>
+  
+  <!-- 装饰线条 - 白色版本 -->
+  <g transform="translate(90, 85)">
+    <line x1="0" y1="0" x2="180" y2="0" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="0" cy="0" r="2" fill="#ffffff"/>
+    <circle cx="180" cy="0" r="2" fill="#ffffff"/>
+  </g>
+  
+  <!-- 品牌标识点 - 白色版本 -->
+  <g transform="translate(280, 45)">
+    <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+  </g>
+</svg>

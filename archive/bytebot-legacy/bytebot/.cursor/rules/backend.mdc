@@ -1,0 +1,332 @@
+---
+globs: packages/bytebot-agent/**,packages/bytebotd/**,packages/bytebot-llm-proxy/**,*.ts,*.js
+description: 后端开发和 API 服务规则
+---
+
+# 后端开发规则
+
+## 技术栈规范
+
+### 核心框架
+- **Node.js**: 20.x LTS 版本
+- **NestJS**: 10.x 版本，企业级 Node.js 框架
+- **TypeScript**: 5.x 版本，严格模式
+- **Prisma**: 5.x 版本，数据库 ORM
+- **PostgreSQL**: 15.x 版本，主数据库
+
+### 架构模式
+- 使用模块化架构
+- 依赖注入模式
+- 分层架构 (Controller → Service → Repository)
+- 事件驱动架构
+
+## 代码规范
+
+### 项目结构
+```
+src/
+├── app/                 # 应用入口
+├── modules/            # 业务模块
+│   ├── auth/          # 认证模块
+│   ├── tasks/         # 任务模块
+│   ├── models/        # 模型模块
+│   └── users/         # 用户模块
+├── common/            # 公共模块
+│   ├── decorators/    # 装饰器
+│   ├── guards/        # 守卫
+│   ├── interceptors/  # 拦截器
+│   └── pipes/         # 管道
+├── config/            # 配置
+├── database/          # 数据库相关
+└── utils/             # 工具函数
+```
+
+### 服务层规范
+```typescript
+// 服务类定义
+@Injectable()
+export class TaskService {
+  constructor(
+    private readonly taskRepository: TaskRepository,
+    private readonly logger: Logger,
+  ) {}
+
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    try {
+      this.logger.log('Creating new task', { userId: createTaskDto.userId });
+      
+      const task = await this.taskRepository.create(createTaskDto);
+      
+      this.logger.log('Task created successfully', { taskId: task.id });
+      return task;
+    } catch (error) {
+      this.logger.error('Failed to create task', error);
+      throw new InternalServerErrorException('Failed to create task');
+    }
+  }
+}
+```
+
+### 控制器规范
+```typescript
+// 控制器定义
+@Controller('tasks')
+@UseGuards(JwtAuthGuard)
+@ApiTags('tasks')
+export class TaskController {
+  constructor(private readonly taskService: TaskService) {}
+
+  @Post()
+  @ApiOperation({ summary: 'Create a new task' })
+  @ApiResponse({ status: 201, description: 'Task created successfully' })
+  async createTask(
+    @Body() createTaskDto: CreateTaskDto,
+    @Req() req: Request,
+  ): Promise<Task> {
+    return this.taskService.createTask({
+      ...createTaskDto,
+      userId: req.user.id,
+    });
+  }
+}
+```
+
+## API 设计规范
+
+### RESTful API
+- 使用标准 HTTP 方法 (GET, POST, PUT, DELETE)
+- 使用标准 HTTP 状态码
+- 使用复数名词作为资源名称
+- 使用查询参数进行过滤和分页
+
+### API 文档
+- 使用 Swagger/OpenAPI 3.0 规范
+- 所有接口必须有完整的文档
+- 包含请求/响应示例
+- 包含错误码说明
+
+### 请求验证
+```typescript
+// DTO 验证
+export class CreateTaskDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'Task title' })
+  title: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ description: 'Task description', required: false })
+  description?: string;
+
+  @IsEnum(TaskPriority)
+  @ApiProperty({ description: 'Task priority', enum: TaskPriority })
+  priority: TaskPriority;
+}
+```
+
+## 数据库规范
+
+### Prisma 模型定义
+```prisma
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  priority    TaskPriority
+  status      TaskStatus @default(PENDING)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("tasks")
+}
+```
+
+### 数据库操作
+- 使用事务处理复杂操作
+- 使用索引优化查询性能
+- 使用软删除而非硬删除
+- 定期备份数据库
+
+### 迁移管理
+- 使用 Prisma Migrate 管理数据库变更
+- 迁移文件必须可回滚
+- 生产环境迁移需要审批
+- 迁移前必须备份数据
+
+## 安全规范
+
+### 认证和授权
+- 使用 JWT 进行身份认证
+- 使用 RBAC 进行权限控制
+- 密码必须加密存储
+- 支持多因素认证
+
+### 输入验证
+- 所有输入必须验证
+- 使用白名单而非黑名单
+- 防止 SQL 注入攻击
+- 防止 XSS 攻击
+
+### 数据保护
+- 敏感数据加密存储
+- 使用 HTTPS 传输
+- 定期安全扫描
+- 日志不记录敏感信息
+
+## 错误处理
+
+### 异常处理
+```typescript
+// 自定义异常
+export class TaskNotFoundException extends NotFoundException {
+  constructor(taskId: string) {
+    super(`Task with ID ${taskId} not found`);
+  }
+}
+
+// 全局异常过滤器
+@Catch()
+export class GlobalExceptionFilter implements ExceptionFilter {
+  catch(exception: unknown, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse();
+    const request = ctx.getRequest();
+
+    const status = exception instanceof HttpException
+      ? exception.getStatus()
+      : HttpStatus.INTERNAL_SERVER_ERROR;
+
+    const message = exception instanceof HttpException
+      ? exception.getResponse()
+      : 'Internal server error';
+
+    this.logger.error(
+      `${request.method} ${request.url}`,
+      exception instanceof Error ? exception.stack : exception,
+    );
+
+    response.status(status).json({
+      statusCode: status,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+      message,
+    });
+  }
+}
+```
+
+### 日志记录
+- 使用结构化日志 (JSON 格式)
+- 包含 traceId 用于请求追踪
+- 记录关键业务操作
+- 日志级别合理设置
+
+## 性能优化
+
+### 数据库优化
+- 使用连接池管理数据库连接
+- 使用查询优化器分析慢查询
+- 使用缓存减少数据库访问
+- 使用分页避免大量数据查询
+
+### 缓存策略
+```typescript
+// Redis 缓存示例
+@Injectable()
+export class CacheService {
+  constructor(
+    @InjectRedis() private readonly redis: Redis,
+  ) {}
+
+  async get<T>(key: string): Promise<T | null> {
+    const value = await this.redis.get(key);
+    return value ? JSON.parse(value) : null;
+  }
+
+  async set(key: string, value: any, ttl = 3600): Promise<void> {
+    await this.redis.setex(key, ttl, JSON.stringify(value));
+  }
+}
+```
+
+### 异步处理
+- 使用队列处理耗时任务
+- 使用事件驱动架构
+- 使用流式处理大数据
+- 使用批处理优化性能
+
+## 监控和可观察性
+
+### 健康检查
+```typescript
+@Controller('health')
+export class HealthController {
+  constructor(
+    private readonly health: HealthCheckService,
+    private readonly db: TypeOrmHealthIndicator,
+  ) {}
+
+  @Get()
+  @HealthCheck()
+  check() {
+    return this.health.check([
+      () => this.db.pingCheck('database'),
+    ]);
+  }
+}
+```
+
+### 指标收集
+- 使用 Prometheus 收集指标
+- 监控 API 响应时间
+- 监控数据库性能
+- 监控系统资源使用
+
+### 链路追踪
+- 使用 OpenTelemetry 进行链路追踪
+- 记录请求处理时间
+- 记录外部服务调用
+- 记录错误和异常
+
+## 测试规范
+
+### 单元测试
+- 使用 Jest 进行单元测试
+- 测试覆盖率 ≥ 80%
+- 关键业务逻辑覆盖率 ≥ 90%
+- 使用 Mock 隔离依赖
+
+### 集成测试
+- 使用 Supertest 测试 API
+- 使用测试数据库
+- 测试数据库操作
+- 测试外部服务集成
+
+### E2E 测试
+- 使用 Playwright 进行端到端测试
+- 测试完整业务流程
+- 测试错误处理
+- 测试性能指标
+
+## 部署和运维
+
+### 容器化
+- 使用 Docker 容器化应用
+- 使用多阶段构建优化镜像
+- 使用健康检查
+- 使用资源限制
+
+### 配置管理
+- 使用环境变量管理配置
+- 使用配置中心管理敏感信息
+- 支持配置热更新
+- 配置版本管理
+
+### 部署策略
+- 使用蓝绿部署
+- 使用金丝雀发布
+- 支持快速回滚
+- 自动化部署流程

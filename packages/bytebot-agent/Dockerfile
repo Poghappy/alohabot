@@ -4,9 +4,9 @@ FROM node:20-alpine
 # Create app directory
 WORKDIR /app
 
-# Copy app source
-COPY ./shared ./shared
-COPY ./bytebot-agent/ ./bytebot-agent/
+# Copy app source from monorepo structure
+COPY packages/shared /app/shared
+COPY packages/bytebot-agent /app/bytebot-agent
 
 WORKDIR /app/bytebot-agent
 

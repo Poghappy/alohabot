@@ -1,0 +1,559 @@
+---
+globs: docker/**,helm/**,*.yml,*.yaml,Dockerfile*,docker-compose*
+description: 部署和运维规则
+---
+
+# 部署和运维规则
+
+## 容器化规范
+
+### Docker 最佳实践
+- 使用多阶段构建优化镜像大小
+- 使用非 root 用户运行容器
+- 使用健康检查确保服务可用性
+- 使用 .dockerignore 排除不必要的文件
+
+### Dockerfile 规范
+```dockerfile
+# 多阶段构建示例
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM node:20-alpine AS runtime
+
+# 创建非 root 用户
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+WORKDIR /app
+
+# 复制构建产物
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --chown=nextjs:nodejs . .
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+USER nextjs
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+```
+
+### Docker Compose 规范
+```yaml
+# docker-compose.yml 示例
+version: '3.8'
+
+services:
+  bytebot-ui:
+    build: ./packages/bytebot-ui
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - bytebot-agent
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  bytebot-agent:
+    build: ./packages/bytebot-agent
+    ports:
+      - "9991:9991"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9991/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+```
+
+## Kubernetes 部署
+
+### Helm Chart 结构
+```
+helm/
+├── Chart.yaml
+├── values.yaml
+├── values-prod.yaml
+├── values-staging.yaml
+└── templates/
+    ├── deployment.yaml
+    ├── service.yaml
+    ├── ingress.yaml
+    ├── configmap.yaml
+    └── secret.yaml
+```
+
+### 部署配置
+```yaml
+# values.yaml
+replicaCount: 3
+
+image:
+  repository: bytebot/bytebot-ui
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: bytebot.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: bytebot-tls
+      hosts:
+        - bytebot.example.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+```
+
+## 环境管理
+
+### 环境配置
+- **开发环境**: 本地开发，使用 Docker Compose
+- **测试环境**: 自动化测试，使用 Kubernetes
+- **预生产环境**: 生产前验证，使用 Kubernetes
+- **生产环境**: 正式运行，使用 Kubernetes + 高可用
+
+### 配置管理
+```typescript
+// 环境配置示例
+export const config = {
+  development: {
+    database: {
+      host: 'localhost',
+      port: 5432,
+      name: 'bytebot_dev',
+    },
+    redis: {
+      host: 'localhost',
+      port: 6379,
+    },
+    logging: {
+      level: 'debug',
+    },
+  },
+  production: {
+    database: {
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      name: process.env.DB_NAME,
+    },
+    redis: {
+      host: process.env.REDIS_HOST,
+      port: parseInt(process.env.REDIS_PORT),
+    },
+    logging: {
+      level: 'info',
+    },
+  },
+};
+```
+
+## 部署策略
+
+### 蓝绿部署
+```bash
+# 蓝绿部署脚本
+#!/bin/bash
+
+# 当前版本 (蓝色)
+CURRENT_VERSION="v1.0.0"
+# 新版本 (绿色)
+NEW_VERSION="v1.1.0"
+
+# 部署新版本到绿色环境
+kubectl apply -f k8s/green/
+
+# 等待绿色环境就绪
+kubectl wait --for=condition=available --timeout=300s deployment/bytebot-ui-green
+
+# 切换流量到绿色环境
+kubectl patch service bytebot-ui -p '{"spec":{"selector":{"version":"green"}}}'
+
+# 验证新版本
+curl -f http://bytebot.example.com/health
+
+# 如果验证失败，回滚到蓝色环境
+if [ $? -ne 0 ]; then
+  kubectl patch service bytebot-ui -p '{"spec":{"selector":{"version":"blue"}}}'
+  exit 1
+fi
+
+# 清理旧版本
+kubectl delete deployment bytebot-ui-blue
+```
+
+### 金丝雀发布
+```yaml
+# 金丝雀发布配置
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: bytebot-ui
+spec:
+  replicas: 5
+  strategy:
+    canary:
+      steps:
+      - setWeight: 20
+      - pause: {duration: 10m}
+      - setWeight: 40
+      - pause: {duration: 10m}
+      - setWeight: 60
+      - pause: {duration: 10m}
+      - setWeight: 80
+      - pause: {duration: 10m}
+  selector:
+    matchLabels:
+      app: bytebot-ui
+  template:
+    metadata:
+      labels:
+        app: bytebot-ui
+    spec:
+      containers:
+      - name: bytebot-ui
+        image: bytebot/bytebot-ui:v1.1.0
+        ports:
+        - containerPort: 3000
+```
+
+## 监控和可观察性
+
+### 指标收集
+```yaml
+# Prometheus 配置
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+    - job_name: 'bytebot-ui'
+      static_configs:
+      - targets: ['bytebot-ui:3000']
+      metrics_path: '/metrics'
+      scrape_interval: 5s
+```
+
+### 日志收集
+```yaml
+# Fluentd 配置
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+data:
+  fluent.conf: |
+    <source>
+      @type tail
+      path /var/log/containers/*bytebot*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      format json
+    </source>
+    
+    <match kubernetes.**>
+      @type elasticsearch
+      host elasticsearch.logging.svc.cluster.local
+      port 9200
+      index_name bytebot-logs
+    </match>
+```
+
+### 告警规则
+```yaml
+# 告警规则
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: bytebot-alerts
+spec:
+  groups:
+  - name: bytebot.rules
+    rules:
+    - alert: HighErrorRate
+      expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "High error rate detected"
+        description: "Error rate is {{ $value }} errors per second"
+    
+    - alert: HighMemoryUsage
+      expr: (container_memory_usage_bytes / container_spec_memory_limit_bytes) > 0.8
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High memory usage detected"
+        description: "Memory usage is {{ $value }}% of limit"
+```
+
+## 安全部署
+
+### 密钥管理
+```yaml
+# Kubernetes Secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bytebot-secrets
+type: Opaque
+data:
+  database-url: <base64-encoded-database-url>
+  api-key: <base64-encoded-api-key>
+  jwt-secret: <base64-encoded-jwt-secret>
+```
+
+### 网络策略
+```yaml
+# 网络策略
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: bytebot-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: bytebot-ui
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 3000
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: bytebot
+    ports:
+    - protocol: TCP
+      port: 9991
+```
+
+## 备份和恢复
+
+### 数据库备份
+```bash
+#!/bin/bash
+# 数据库备份脚本
+
+BACKUP_DIR="/backups"
+DATE=$(date +%Y%m%d_%H%M%S)
+BACKUP_FILE="bytebot_backup_${DATE}.sql"
+
+# 创建备份
+pg_dump -h $DB_HOST -U $DB_USER -d $DB_NAME > ${BACKUP_DIR}/${BACKUP_FILE}
+
+# 压缩备份
+gzip ${BACKUP_DIR}/${BACKUP_FILE}
+
+# 上传到云存储
+aws s3 cp ${BACKUP_DIR}/${BACKUP_FILE}.gz s3://bytebot-backups/
+
+# 清理本地备份 (保留7天)
+find ${BACKUP_DIR} -name "bytebot_backup_*.sql.gz" -mtime +7 -delete
+```
+
+### 应用备份
+```bash
+#!/bin/bash
+# 应用备份脚本
+
+# 备份配置文件
+kubectl get configmap bytebot-config -o yaml > backup/configmap_${DATE}.yaml
+kubectl get secret bytebot-secrets -o yaml > backup/secret_${DATE}.yaml
+
+# 备份 PVC 数据
+kubectl exec -it postgres-0 -- pg_dump -U postgres bytebot > backup/postgres_${DATE}.sql
+```
+
+## 回滚策略
+
+### 快速回滚
+```bash
+#!/bin/bash
+# 快速回滚脚本
+
+# 回滚到上一个版本
+kubectl rollout undo deployment/bytebot-ui
+
+# 验证回滚成功
+kubectl rollout status deployment/bytebot-ui
+
+# 检查服务状态
+kubectl get pods -l app=bytebot-ui
+kubectl get services bytebot-ui
+```
+
+### 数据库回滚
+```bash
+#!/bin/bash
+# 数据库回滚脚本
+
+# 停止应用
+kubectl scale deployment bytebot-ui --replicas=0
+
+# 恢复数据库
+kubectl exec -it postgres-0 -- psql -U postgres -d bytebot -f /backup/postgres_${BACKUP_DATE}.sql
+
+# 重启应用
+kubectl scale deployment bytebot-ui --replicas=3
+```
+
+## 性能优化
+
+### 资源优化
+```yaml
+# 资源限制和请求
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+```
+
+### 缓存策略
+```yaml
+# Redis 缓存配置
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 250m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+```
+
+## 健康检查
+
+### 应用健康检查
+```typescript
+// 健康检查端点
+@Controller('health')
+export class HealthController {
+  constructor(
+    private readonly health: HealthCheckService,
+    private readonly db: TypeOrmHealthIndicator,
+    private readonly redis: RedisHealthIndicator,
+  ) {}
+
+  @Get()
+  @HealthCheck()
+  check() {
+    return this.health.check([
+      () => this.db.pingCheck('database'),
+      () => this.redis.pingCheck('redis'),
+    ]);
+  }
+}
+```
+
+### 容器健康检查
+```yaml
+# 容器健康检查
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health/ready
+    port: 3000
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+```

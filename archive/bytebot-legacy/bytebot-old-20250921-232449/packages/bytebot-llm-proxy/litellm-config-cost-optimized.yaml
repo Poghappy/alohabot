@@ -1,0 +1,172 @@
+# ByteBot 成本优化配置
+# 最大化使用本地模型，最小化 API 调用成本
+
+model_list:
+  # ==================== 本地模型 (免费) ====================
+  # 优先使用本地模型，零成本
+  - model_name: local-qwen2.5vl-7b
+    litellm_params:
+      model: ollama/qwen2.5vl:7b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+      cost_per_token: 0.0 # 免费
+
+  - model_name: local-llama3.2-3b
+    litellm_params:
+      model: ollama/llama3.2:3b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 16384
+      temperature: 0.8
+      cost_per_token: 0.0 # 免费
+
+  - model_name: local-gpt-oss-20b
+    litellm_params:
+      model: ollama/gpt-oss:20b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 4096
+      temperature: 0.6
+      cost_per_token: 0.0 # 免费
+
+  - model_name: local-qwen3-1.7b
+    litellm_params:
+      model: ollama/kiwi_kiwi/qwen3_a:1.7b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      cost_per_token: 0.0 # 免费
+
+  # ==================== 云端模型 (按需使用) ====================
+  # 仅在本地模型无法满足时使用
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      max_tokens: 16384
+      temperature: 0.7
+      supports_vision: true
+      cost_per_token: 0.00015 # $0.15 per 1K tokens
+
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+      cost_per_token: 0.005 # $5 per 1K tokens
+
+# ==================== 成本优化路由配置 ====================
+router_settings:
+  # 路由策略 - 优先本地模型
+  routing_strategy: "cost-based" # 基于成本的路由
+  cooldown_time: 30
+  num_retries: 2
+  request_timeout: 300
+
+  # 模型组别名 - 成本优化策略
+  model_group_alias:
+    # 免费模型组 - 仅使用本地模型
+    "free-model":
+      [
+        "local-qwen2.5vl-7b",
+        "local-llama3.2-3b",
+        "local-gpt-oss-20b",
+        "local-qwen3-1.7b",
+      ]
+
+    # 低成本模型组 - 本地优先，云端备选
+    "low-cost-model": [
+        "local-qwen2.5vl-7b",
+        "local-llama3.2-3b",
+        "gpt-4o-mini", # 最便宜的云端模型
+      ]
+
+    # 智能模型组 - 平衡成本与性能
+    "smart-model":
+      ["local-qwen2.5vl-7b", "local-gpt-oss-20b", "gpt-4o-mini", "gpt-4o"]
+
+    # 视觉模型组 - 本地优先
+    "vision-model": [
+        "local-qwen2.5vl-7b", # 本地视觉模型
+        "gpt-4o-mini", # 低成本云端视觉模型
+        "gpt-4o", # 高质量云端视觉模型
+      ]
+
+    # 快速模型组 - 本地优先
+    "fast-model": ["local-llama3.2-3b", "local-qwen3-1.7b", "gpt-4o-mini"]
+
+  # 负载均衡配置
+  load_balancing:
+    enabled: true
+    strategy: "cost-based" # 基于成本的负载均衡
+
+  # 缓存配置 - 减少 API 调用
+  cache:
+    enabled: true
+    ttl: 7200 # 2小时缓存
+    max_size: "4GB"
+
+# ==================== 成本控制设置 ====================
+general_settings:
+  # 主密钥
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+  # 严格的成本控制
+  max_budget: 20 # $20 月度限制
+  budget_duration: "30d"
+
+  # 并发控制 - 减少 API 调用
+  max_concurrent_requests: 5
+
+  # 超时设置
+  request_timeout: 300
+  read_timeout: 300
+
+  # 日志配置
+  log_level: "INFO"
+
+  # 健康检查
+  health_check_interval: 30
+
+  # 成本监控
+  store_model_in_db: true
+
+  # 安全设置
+  allowed_ips: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+
+  # 加密设置
+  encrypt_keys: true
+
+# ==================== 成本优化设置 ====================
+litellm_settings:
+  # 调试模式
+  debug: false
+  detailed_debug: false
+
+  # 成本监控回调
+  callbacks: ["langfuse"]
+
+  # 重试设置 - 减少失败成本
+  num_retries: 1
+  retry_delay: 2
+
+  # 速率限制 - 控制 API 调用频率
+  default_max_requests_per_minute: 100
+  default_max_tokens_per_minute: 10000
+
+  # 成本优化参数
+  cost_per_token:
+    "local-qwen2.5vl-7b": 0.0
+    "local-llama3.2-3b": 0.0
+    "local-gpt-oss-20b": 0.0
+    "local-qwen3-1.7b": 0.0
+    "gpt-4o-mini": 0.00015
+    "gpt-4o": 0.005

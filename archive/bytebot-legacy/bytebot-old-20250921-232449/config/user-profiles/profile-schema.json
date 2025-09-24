@@ -1,0 +1,171 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ByteBot 用户配置文件模式",
+    "description": "定义 ByteBot 用户配置文件的结构和验证规则",
+    "type": "object",
+    "properties": {
+        "user_id": {
+            "type": "string",
+            "description": "用户唯一标识符",
+            "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "profile": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "用户显示名称",
+                    "minLength": 1,
+                    "maxLength": 100
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "用户邮箱地址"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "admin",
+                        "developer",
+                        "user",
+                        "guest"
+                    ],
+                    "description": "用户角色"
+                },
+                "language": {
+                    "type": "string",
+                    "enum": [
+                        "zh-CN",
+                        "en-US",
+                        "ja-JP",
+                        "ko-KR"
+                    ],
+                    "default": "zh-CN",
+                    "description": "首选语言"
+                },
+                "timezone": {
+                    "type": "string",
+                    "default": "Asia/Shanghai",
+                    "description": "用户时区"
+                }
+            },
+            "required": [
+                "name",
+                "role"
+            ]
+        },
+        "preferences": {
+            "type": "object",
+            "properties": {
+                "default_prompt_style": {
+                    "type": "string",
+                    "enum": [
+                        "formal",
+                        "casual",
+                        "technical",
+                        "creative"
+                    ],
+                    "default": "technical",
+                    "description": "默认提示词风格"
+                },
+                "response_format": {
+                    "type": "string",
+                    "enum": [
+                        "markdown",
+                        "plain",
+                        "html"
+                    ],
+                    "default": "markdown",
+                    "description": "响应格式偏好"
+                },
+                "auto_save_history": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否自动保存对话历史"
+                },
+                "max_history_days": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 365,
+                    "default": 30,
+                    "description": "历史记录保留天数"
+                }
+            }
+        },
+        "mcp_access": {
+            "type": "object",
+            "properties": {
+                "enabled_servers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "用户可访问的 MCP 服务器列表"
+                },
+                "allowed_tools": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "用户可使用的工具列表"
+                },
+                "rate_limits": {
+                    "type": "object",
+                    "properties": {
+                        "requests_per_minute": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 60
+                        },
+                        "requests_per_hour": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "default": 1000
+                        }
+                    }
+                }
+            }
+        },
+        "session_config": {
+            "type": "object",
+            "properties": {
+                "max_context_length": {
+                    "type": "integer",
+                    "minimum": 1000,
+                    "maximum": 100000,
+                    "default": 10000,
+                    "description": "最大上下文长度"
+                },
+                "auto_cleanup": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否自动清理过期会话"
+                },
+                "session_timeout_minutes": {
+                    "type": "integer",
+                    "minimum": 5,
+                    "maximum": 1440,
+                    "default": 60,
+                    "description": "会话超时时间（分钟）"
+                }
+            }
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "配置文件创建时间"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "配置文件最后更新时间"
+        }
+    },
+    "required": [
+        "user_id",
+        "profile",
+        "created_at"
+    ],
+    "additionalProperties": false
+}

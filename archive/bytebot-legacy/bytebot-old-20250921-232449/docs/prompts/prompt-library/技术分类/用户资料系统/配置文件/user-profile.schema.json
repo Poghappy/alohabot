@@ -1,0 +1,360 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Trae IDE Agent用户资料收集表格",
+  "description": "用于辅助Trae IDE Agent在做决策时的用户资料数据结构",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string",
+      "description": "用户唯一标识",
+      "pattern": "^user_[0-9]{3,}$",
+      "examples": ["user_001", "user_123"]
+    },
+    "basicInfo": {
+      "type": "object",
+      "description": "用户基础信息",
+      "properties": {
+        "userRole": {
+          "type": "array",
+          "description": "用户角色（支持多选标签）",
+          "items": {
+            "type": "string",
+            "enum": ["开发者", "产品经理", "设计师", "运营", "学生", "企业用户", "个人用户"]
+          },
+          "minItems": 1
+        },
+        "usagePurpose": {
+          "type": "array",
+          "description": "使用目的（支持多选标签）",
+          "items": {
+            "type": "string",
+            "enum": ["搭建自动化流程", "产品集成", "学习编程", "提升效率", "团队协作", "原型开发"]
+          },
+          "minItems": 1
+        },
+        "industryScenario": {
+          "type": "array",
+          "description": "行业场景（支持多选标签）",
+          "items": {
+            "type": "string",
+            "enum": ["SaaS", "教育", "电商", "金融", "医疗", "制造业", "媒体", "个人效率", "其他"]
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["userRole", "usagePurpose", "industryScenario"]
+    },
+    "technicalInfo": {
+      "type": "object",
+      "description": "技术信息",
+      "properties": {
+        "techStack": {
+          "type": "array",
+          "description": "技术栈（多选标签）",
+          "items": {
+            "type": "string",
+            "enum": ["n8n", "Python", "Node.js", "JavaScript", "TypeScript", "React", "Vue", "Docker", "Kubernetes", "API", "数据库", "云服务"]
+          }
+        },
+        "techLevel": {
+          "type": "string",
+          "description": "技术水平",
+          "enum": ["初学者", "中级", "高级", "专家"]
+        },
+        "toolFamiliarity": {
+          "type": "object",
+          "description": "工具熟悉度（动态更新）",
+          "properties": {
+            "n8n": {
+              "type": "string",
+              "enum": ["未接触", "基础", "熟练", "精通"]
+            },
+            "traeIDE": {
+              "type": "string",
+              "enum": ["未接触", "入门", "熟练", "精通"]
+            },
+            "docker": {
+              "type": "string",
+              "enum": ["未接触", "基础", "熟练", "精通"]
+            }
+          }
+        },
+        "systemEnvironment": {
+          "type": "array",
+          "description": "系统环境（自动化填充）",
+          "items": {
+            "type": "string",
+            "enum": ["Docker", "Kubernetes", "AWS", "Azure", "GCP", "本地开发", "云服务"]
+          }
+        },
+        "dataSource": {
+          "type": "array",
+          "description": "数据来源（多选标签）",
+          "items": {
+            "type": "string",
+            "enum": ["MySQL", "PostgreSQL", "MongoDB", "Redis", "Google Sheets", "Excel", "API", "CSV", "JSON"]
+          }
+        }
+      },
+      "required": ["techLevel"]
+    },
+    "teamInfo": {
+      "type": "object",
+      "description": "团队信息",
+      "properties": {
+        "teamSize": {
+          "type": "string",
+          "description": "团队规模（动态更新）",
+          "enum": ["个人", "小团队(2-5人)", "中型团队(6-20人)", "大型团队(20+人)"]
+        },
+        "teamRoles": {
+          "type": "array",
+          "description": "团队角色（标签化字段）",
+          "items": {
+            "type": "string",
+            "enum": ["开发者", "设计师", "产品经理", "运营", "测试", "DevOps", "数据分析师", "Agent助手"]
+          }
+        },
+        "collaborationTools": {
+          "type": "array",
+          "description": "协作方式（自动化填充）",
+          "items": {
+            "type": "string",
+            "enum": ["GitHub", "GitLab", "Notion", "Confluence", "Slack", "Teams", "钉钉", "飞书", "Google Drive", "OneDrive"]
+          }
+        },
+        "userGroups": {
+          "type": "array",
+          "description": "用户群组（新增字段）",
+          "items": {
+            "type": "string",
+            "enum": ["Dev组", "Ops组", "设计组", "产品组", "管理层", "实习生组"]
+          }
+        },
+        "permissions": {
+          "type": "array",
+          "description": "权限（新增字段）",
+          "items": {
+            "type": "string",
+            "enum": ["只读", "编辑", "管理", "部署", "删除"]
+          }
+        }
+      },
+      "required": ["teamSize"]
+    },
+    "goalRequirements": {
+      "type": "object",
+      "description": "目标需求",
+      "properties": {
+        "shortTermGoals": {
+          "type": "array",
+          "description": "短期目标（动态更新）",
+          "items": {
+            "type": "string"
+          },
+          "examples": ["快速上线一个自动化demo", "集成现有系统", "学习n8n基础操作"]
+        },
+        "longTermGoals": {
+          "type": "array",
+          "description": "中长期目标（标签化字段）",
+          "items": {
+            "type": "string"
+          },
+          "examples": ["一年内发布30个AI产品", "建立完整的自动化体系", "成为技术专家"]
+        },
+        "kpis": {
+          "type": "array",
+          "description": "KPI指标（自动更新）",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "examples": ["成功部署次数", "注册用户量", "系统稳定性"]
+              },
+              "target": {
+                "type": "string",
+                "examples": ["10次/月", "1000用户", "99.9%"]
+              },
+              "current": {
+                "type": "string",
+                "examples": ["5次/月", "500用户", "99.5%"]
+              }
+            },
+            "required": ["name", "target"]
+          }
+        },
+        "expectedOutcomes": {
+          "type": "array",
+          "description": "预期成果（标签化字段）",
+          "items": {
+            "type": "string",
+            "enum": ["SaaS MVP", "自动化脚本", "数据分析报告", "API集成", "工作流优化", "团队效率提升"]
+          }
+        }
+      }
+    },
+    "resourcesConstraints": {
+      "type": "object",
+      "description": "资源与限制",
+      "properties": {
+        "availableResources": {
+          "type": "array",
+          "description": "可用资源（自动化填充）",
+          "items": {
+            "type": "string"
+          },
+          "examples": ["服务器1台", "云服务API", "开发团队3人", "预算充足"]
+        },
+        "budgetConstraints": {
+          "type": "string",
+          "description": "预算限制（标签化字段）",
+          "enum": ["无限制", "$50/月以下", "$50-200/月", "$200-1000/月", "$1000+/月", "企业预算"]
+        },
+        "timeConstraints": {
+          "type": "object",
+          "description": "时间限制（动态更新）",
+          "properties": {
+            "dailyHours": {
+              "type": "number",
+              "minimum": 0.5,
+              "maximum": 24,
+              "examples": [2, 4, 8]
+            },
+            "projectDeadline": {
+              "type": "string",
+              "format": "date",
+              "examples": ["2025-03-01"]
+            }
+          }
+        },
+        "riskTolerance": {
+          "type": "string",
+          "description": "风险容忍度（标签化字段）",
+          "enum": ["容忍试错", "谨慎稳妥", "必须稳定", "创新优先"]
+        }
+      }
+    },
+    "aiAgentInfo": {
+      "type": "object",
+      "description": "AI/Agent信息",
+      "properties": {
+        "expectedRoles": {
+          "type": "array",
+          "description": "预期角色（标签化字段）",
+          "items": {
+            "type": "string",
+            "enum": ["开发助理", "自动运维", "创意生成", "数据分析", "测试助手", "文档生成", "代码审查"]
+          }
+        },
+        "interactionMethods": {
+          "type": "array",
+          "description": "交互方式（动态更新）",
+          "items": {
+            "type": "string",
+            "enum": ["Prompt对话", "Workflow自动化", "脚本调用", "API集成", "定时任务", "事件触发"]
+          }
+        },
+        "decisionPriority": {
+          "type": "string",
+          "description": "决策优先级（标签化字段）",
+          "enum": ["成本优先", "效率优先", "学习优先", "质量优先", "速度优先"]
+        },
+        "autonomyLevel": {
+          "type": "string",
+          "description": "自主程度（标签化字段）",
+          "enum": ["全自动", "半自动", "提示建议", "人工确认"]
+        },
+        "securityCompliance": {
+          "type": "array",
+          "description": "安全合规（自动化检测）",
+          "items": {
+            "type": "string",
+            "enum": ["GDPR", "HIPAA", "SOC2", "ISO27001", "内部规范", "无特殊要求"]
+          }
+        }
+      }
+    },
+    "projectSource": {
+      "type": "object",
+      "description": "项目来源",
+      "properties": {
+        "sourceChannel": {
+          "type": "array",
+          "description": "来源渠道（标签化字段）",
+          "items": {
+            "type": "string",
+            "enum": ["GitHub", "开源社区", "内部需求", "客户需求", "市场调研", "技术探索"]
+          }
+        },
+        "sourceType": {
+          "type": "array",
+          "description": "来源类型（标签化字段）",
+          "items": {
+            "type": "string",
+            "enum": ["外部项目", "内部孵化", "客户定制", "开源贡献", "学习项目"]
+          }
+        }
+      }
+    },
+    "versionManagement": {
+      "type": "object",
+      "description": "版本管理",
+      "properties": {
+        "updateTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间戳（自动生成）",
+          "examples": ["2025-01-14T15:32:00Z"]
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^v\\d+\\.\\d+\\.\\d+$",
+          "description": "版本号",
+          "examples": ["v1.0.0", "v1.2.3"]
+        },
+        "historyVersions": {
+          "type": "array",
+          "description": "历史版本（数据版本化）",
+          "items": {
+            "type": "object",
+            "properties": {
+              "version": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "changes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": ["version", "timestamp"]
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "lastModifiedBy": {
+          "type": "string",
+          "description": "最后修改人"
+        }
+      },
+      "required": ["updateTimestamp", "version", "createdAt"]
+    }
+  },
+  "required": [
+    "userId",
+    "basicInfo",
+    "technicalInfo",
+    "teamInfo",
+    "versionManagement"
+  ],
+  "additionalProperties": false
+}

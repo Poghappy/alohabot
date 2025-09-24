@@ -1,0 +1,46 @@
+# Sprint 工作流配置
+workflows:
+  sprint_planning:
+    name: "Sprint Planning"
+    duration: "2h"
+    participants:
+      - "A0_product_owner"
+      - "A1_brand_strategist"
+      - "A2_design_director"
+    steps:
+      - name: "需求分析"
+        duration: "30m"
+        owner: "A0_product_owner"
+      - name: "任务拆解"
+        duration: "60m"
+        owner: "A2_design_director"
+      - name: "工作量估算"
+        duration: "30m"
+        owner: "团队协作"
+  
+  daily_standup:
+    name: "Daily Standup"
+    duration: "15m"
+    participants: "all_agents"
+    steps:
+      - name: "昨日完成"
+        duration: "5m"
+      - name: "今日计划"
+        duration: "5m"
+      - name: "遇到阻塞"
+        duration: "5m"
+  
+  design_review:
+    name: "Design Review"
+    duration: "1h"
+    participants:
+      - "A2_design_director"
+      - "A8_a11y_qa_agent"
+      - "A10_design_qa_agent"
+    steps:
+      - name: "设计展示"
+        duration: "20m"
+      - name: "反馈收集"
+        duration: "20m"
+      - name: "改进计划"
+        duration: "20m"

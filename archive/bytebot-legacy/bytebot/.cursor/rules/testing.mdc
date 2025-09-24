@@ -1,0 +1,461 @@
+---
+globs: *.test.ts,*.spec.ts,*.test.tsx,*.spec.tsx,__tests__/**,tests/**
+description: 测试开发和质量保证规则
+---
+
+# 测试开发规则
+
+## 测试策略
+
+### 测试金字塔
+- **单元测试**: 70% - 测试单个函数和组件
+- **集成测试**: 20% - 测试模块间交互
+- **E2E 测试**: 10% - 测试完整用户流程
+
+### 测试覆盖率要求
+- **整体覆盖率**: ≥ 80%
+- **关键模块覆盖率**: ≥ 90%
+- **公共 API 覆盖率**: 100%
+- **业务逻辑覆盖率**: ≥ 85%
+
+## 单元测试规范
+
+### 测试文件组织
+```
+src/
+├── components/
+│   ├── Button.tsx
+│   └── Button.test.tsx
+├── services/
+│   ├── api.service.ts
+│   └── api.service.test.ts
+└── utils/
+    ├── helpers.ts
+    └── helpers.test.ts
+```
+
+### 测试命名规范
+```typescript
+// 测试套件命名
+describe('Button Component', () => {
+  // 测试用例命名
+  describe('when rendered', () => {
+    it('should display the correct text', () => {
+      // 测试实现
+    });
+    
+    it('should call onClick when clicked', () => {
+      // 测试实现
+    });
+  });
+  
+  describe('when disabled', () => {
+    it('should not call onClick when clicked', () => {
+      // 测试实现
+    });
+  });
+});
+```
+
+### 测试结构 (AAA 模式)
+```typescript
+it('should calculate total price correctly', () => {
+  // Arrange - 准备测试数据
+  const items = [
+    { price: 10, quantity: 2 },
+    { price: 5, quantity: 3 },
+  ];
+  
+  // Act - 执行被测试的功能
+  const total = calculateTotal(items);
+  
+  // Assert - 验证结果
+  expect(total).toBe(35);
+});
+```
+
+## 前端测试规范
+
+### React 组件测试
+```typescript
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Button } from './Button';
+
+describe('Button Component', () => {
+  it('should render with correct text', () => {
+    render(<Button>Click me</Button>);
+    
+    expect(screen.getByRole('button', { name: 'Click me' })).toBeInTheDocument();
+  });
+  
+  it('should call onClick when clicked', () => {
+    const handleClick = jest.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+    
+    fireEvent.click(screen.getByRole('button'));
+    
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+  
+  it('should be disabled when disabled prop is true', () => {
+    render(<Button disabled>Click me</Button>);
+    
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+});
+```
+
+### Hook 测试
+```typescript
+import { renderHook, act } from '@testing-library/react';
+import { useCounter } from './useCounter';
+
+describe('useCounter Hook', () => {
+  it('should initialize with default value', () => {
+    const { result } = renderHook(() => useCounter());
+    
+    expect(result.current.count).toBe(0);
+  });
+  
+  it('should increment count when increment is called', () => {
+    const { result } = renderHook(() => useCounter());
+    
+    act(() => {
+      result.current.increment();
+    });
+    
+    expect(result.current.count).toBe(1);
+  });
+});
+```
+
+### API 集成测试
+```typescript
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import { render, screen, waitFor } from '@testing-library/react';
+import { UserList } from './UserList';
+
+// Mock API 服务器
+const server = setupServer(
+  rest.get('/api/users', (req, res, ctx) => {
+    return res(
+      ctx.json([
+        { id: 1, name: 'John Doe' },
+        { id: 2, name: 'Jane Smith' },
+      ])
+    );
+  })
+);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+describe('UserList Component', () => {
+  it('should display users from API', async () => {
+    render(<UserList />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(screen.getByText('Jane Smith')).toBeInTheDocument();
+    });
+  });
+});
+```
+
+## 后端测试规范
+
+### 服务层测试
+```typescript
+import { Test, TestingModule } from '@nestjs/testing';
+import { TaskService } from './task.service';
+import { TaskRepository } from './task.repository';
+
+describe('TaskService', () => {
+  let service: TaskService;
+  let repository: jest.Mocked<TaskRepository>;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        TaskService,
+        {
+          provide: TaskRepository,
+          useValue: {
+            create: jest.fn(),
+            findById: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+
+    service = module.get<TaskService>(TaskService);
+    repository = module.get(TaskRepository);
+  });
+
+  describe('createTask', () => {
+    it('should create a task successfully', async () => {
+      const createTaskDto = {
+        title: 'Test Task',
+        description: 'Test Description',
+        priority: 'HIGH',
+      };
+      
+      const expectedTask = {
+        id: '1',
+        ...createTaskDto,
+        status: 'PENDING',
+        createdAt: new Date(),
+      };
+      
+      repository.create.mockResolvedValue(expectedTask);
+      
+      const result = await service.createTask(createTaskDto);
+      
+      expect(repository.create).toHaveBeenCalledWith(createTaskDto);
+      expect(result).toEqual(expectedTask);
+    });
+  });
+});
+```
+
+### 控制器测试
+```typescript
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import * as request from 'supertest';
+import { AppModule } from './app.module';
+
+describe('TaskController (e2e)', () => {
+  let app: INestApplication;
+
+  beforeEach(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  it('/tasks (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/tasks')
+      .send({
+        title: 'Test Task',
+        description: 'Test Description',
+        priority: 'HIGH',
+      })
+      .expect(201)
+      .expect((res) => {
+        expect(res.body.title).toBe('Test Task');
+        expect(res.body.id).toBeDefined();
+      });
+  });
+});
+```
+
+## E2E 测试规范
+
+### Playwright 测试
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('ByteBot Desktop App', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('should create a new task', async ({ page }) => {
+    // 点击创建任务按钮
+    await page.click('[data-testid="create-task-button"]');
+    
+    // 填写任务信息
+    await page.fill('[data-testid="task-title"]', 'Test Task');
+    await page.fill('[data-testid="task-description"]', 'Test Description');
+    
+    // 选择模型
+    await page.selectOption('[data-testid="model-select"]', 'gpt-4o');
+    
+    // 提交任务
+    await page.click('[data-testid="submit-task"]');
+    
+    // 验证任务创建成功
+    await expect(page.locator('[data-testid="task-list"]')).toContainText('Test Task');
+  });
+
+  test('should display task execution progress', async ({ page }) => {
+    // 创建任务
+    await page.click('[data-testid="create-task-button"]');
+    await page.fill('[data-testid="task-title"]', 'Progress Test');
+    await page.click('[data-testid="submit-task"]');
+    
+    // 验证进度条显示
+    await expect(page.locator('[data-testid="progress-bar"]')).toBeVisible();
+    
+    // 等待任务完成
+    await expect(page.locator('[data-testid="task-completed"]')).toBeVisible({ timeout: 30000 });
+  });
+});
+```
+
+## 测试数据管理
+
+### 测试数据工厂
+```typescript
+// 测试数据工厂
+export class TaskFactory {
+  static create(overrides: Partial<Task> = {}): Task {
+    return {
+      id: 'test-id',
+      title: 'Test Task',
+      description: 'Test Description',
+      priority: 'MEDIUM',
+      status: 'PENDING',
+      userId: 'test-user-id',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      ...overrides,
+    };
+  }
+  
+  static createMany(count: number, overrides: Partial<Task> = {}): Task[] {
+    return Array.from({ length: count }, (_, index) =>
+      this.create({
+        id: `test-id-${index}`,
+        title: `Test Task ${index}`,
+        ...overrides,
+      })
+    );
+  }
+}
+```
+
+### 测试数据库
+```typescript
+// 测试数据库设置
+beforeEach(async () => {
+  await prisma.task.deleteMany();
+  await prisma.user.deleteMany();
+});
+
+afterEach(async () => {
+  await prisma.task.deleteMany();
+  await prisma.user.deleteMany();
+});
+```
+
+## 性能测试
+
+### 负载测试
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('Performance Tests', () => {
+  test('should handle multiple concurrent tasks', async ({ page }) => {
+    const startTime = Date.now();
+    
+    // 创建多个并发任务
+    const promises = Array.from({ length: 10 }, (_, index) =>
+      page.evaluate((taskIndex) => {
+        return fetch('/api/tasks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: `Concurrent Task ${taskIndex}`,
+            description: 'Performance test task',
+          }),
+        });
+      }, index)
+    );
+    
+    await Promise.all(promises);
+    
+    const endTime = Date.now();
+    const duration = endTime - startTime;
+    
+    // 验证性能要求
+    expect(duration).toBeLessThan(5000); // 5秒内完成
+  });
+});
+```
+
+## 测试工具配置
+
+### Jest 配置
+```javascript
+// jest.config.js
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  coverageDirectory: 'coverage',
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/**/*.stories.{ts,tsx}',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
+  setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.{ts,tsx}',
+    '<rootDir>/src/**/*.{test,spec}.{ts,tsx}',
+  ],
+};
+```
+
+### Playwright 配置
+```typescript
+// playwright.config.ts
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
+  use: {
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+  ],
+});
+```
+
+## 测试报告
+
+### 覆盖率报告
+- 使用 Istanbul 生成覆盖率报告
+- 生成 HTML 和 JSON 格式报告
+- 集成到 CI/CD 流程
+- 覆盖率趋势分析
+
+### 测试结果报告
+- 使用 Allure 生成测试报告
+- 包含测试步骤截图
+- 包含性能指标
+- 包含错误分析

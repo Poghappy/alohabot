@@ -1,0 +1,206 @@
+---
+title: 介绍
+description: "开源AI桌面智能体，自动化任何计算机任务"
+---
+
+<p align="center">
+  <img
+    className="block dark:hidden"
+    src="/logo/bytebot_transparent_logo_dark.svg"
+    alt="Bytebot Logo"
+    width="500"
+  />
+  <img
+    className="hidden dark:block"
+    src="/logo/bytebot_transparent_logo_white.svg"
+    alt="Bytebot Logo"
+    width="500"
+  />
+</p>
+
+## 什么是Bytebot？
+
+Bytebot是一个开源AI智能体，可以控制计算机桌面为您完成任务。它在您自己的基础设施上的Docker容器中运行，为您提供一个虚拟助手，可以：
+
+- 使用任何桌面应用程序（浏览器、邮件、办公工具等）
+- 处理上传的文件，包括PDF、电子表格和文档
+- 将整个文件直接读入LLM上下文进行快速分析
+- 自动化重复性任务，如数据录入和表单填写
+- 处理跨多个应用程序的复杂工作流程
+- 24/7工作，无需人工监督
+
+只需用简单的中文描述您需要完成的任务，Bytebot就会找出如何完成它——点击按钮、输入文本、导航网站、阅读文档，并像人类一样完成任务。
+
+## 为什么选择Bytebot而不是传统RPA？
+
+<CardGroup cols={2}>
+  <Card title="无需复杂脚本" icon="code-branch">
+    与UiPath或类似工具不同，无需设计流程图或编写脚本——只需自然地描述任务
+  </Card>
+  <Card title="自适应智能" icon="brain">
+    AI驱动的理解意味着Bytebot能够适应UI变化而不会中断
+  </Card>
+  <Card title="视觉理解" icon="eye">
+    可以读取和理解任何界面，而不仅仅是预映射的元素
+  </Card>
+  <Card title="类人问题解决" icon="lightbulb">
+    自动处理意外弹窗、错误和变化
+  </Card>
+</CardGroup>
+
+## 为什么选择自托管Bytebot？
+
+<CardGroup cols={2}>
+  <Card title="完全隐私" icon="shield">
+    您的任务和数据永远不会离开您的基础设施。一切都在您的服务器上本地运行。
+  </Card>
+  <Card title="完全控制" icon="sliders">
+    自定义桌面环境，安装任何应用程序，并根据您的确切需求进行配置。
+  </Card>
+  <Card title="无使用限制" icon="infinity">
+    使用您自己的LLM API密钥，无平台限制或额外费用。
+  </Card>
+  <Card title="安全隔离" icon="lock">
+    每个桌面都在自己的容器中运行，与您的主机系统完全隔离。
+  </Card>
+</CardGroup>
+
+## 真实世界使用场景
+
+### 企业自动化（RPA替代）
+Bytebot是下一代RPA（机器人流程自动化）。它处理与UiPath等传统工具相同的复杂工作流程，但具有AI驱动的适应性和自动身份验证：
+
+- **金融操作**：自动化银行门户访问（包括配置密码管理器扩展时的2FA），下载交易文件，并通过多个系统处理它们
+- **合规工作流程**：导航政府网站，下载监管文档，提取数据，并更新合规跟踪系统
+- **多系统集成**：通过自动化UI交互来桥接缺乏API的遗留系统
+- **供应商管理**：登录供应商门户，下载发票，与内部系统对账，并处理付款
+
+### 业务流程自动化
+- **数据对账**：从多个SaaS平台提取报告，交叉引用数据，并生成综合报告
+- **客户入职**：在CRM、银行和验证系统之间导航，完成新客户设置
+- **采购订单处理**：从网络邮件门户提取采购订单，输入ERP系统，并更新库存数据库
+- **人力资源操作**：从各种系统收集员工数据，更新记录，并确保跨平台的一致性
+
+### 开发与QA集成
+当与编码智能体结合使用时，Bytebot变得更加强大：
+
+- **全栈测试**：使用编码智能体生成代码，然后让Bytebot可视化测试和验证输出
+- **自动化调试**：让Bytebot重现用户报告的问题，同时编码智能体分析和修复代码
+- **端到端开发**：编码智能体编写功能，Bytebot测试它们，创建完整的开发循环
+- **视觉回归测试**：通过截图比较自动检测部署间的UI变化
+
+## 工作原理
+
+<Steps>
+  <Step title="描述您的任务">
+    只需通过任务界面用自然语言告诉Bytebot您想要完成什么
+  </Step>
+  <Step title="AI规划操作">
+    AI分析任务并规划在虚拟桌面上执行的步骤序列
+  </Step>
+  <Step title="执行操作">
+    Bytebot使用键盘和鼠标在其虚拟桌面上执行任务
+  </Step>
+  <Step title="观看或离开">
+    通过任务详情视图实时监控其工作，或让它独立完成任务。
+  </Step>
+  <Step title="获取结果">
+    接收完成的任务输出、截图或完成确认
+  </Step>
+</Steps>
+
+## 架构概览
+
+Bytebot由四个集成组件协同工作：
+
+<img src="/images/agent-architecture.png" alt="Bytebot智能体架构" />
+
+<CardGroup cols={2}>
+  <Card
+    title="Bytebot桌面"
+    icon="desktop"
+    href="/core-concepts/desktop-environment"
+  >
+    Ubuntu 22.04配备XFCE4、VSCode、Firefox、Thunderbird邮件客户端和自动化守护进程（bytebotd）
+  </Card>
+  <Card title="AI智能体" icon="brain" href="/core-concepts/agent-system">
+    使用LLM（Anthropic Claude、OpenAI GPT、Google Gemini）规划和执行任务的NestJS服务
+  </Card>
+  <Card
+    title="任务界面"
+    icon="window"
+    href="/api-reference/agent/ui"
+  >
+    用于创建和管理任务的Next.js网络应用
+  </Card>
+  <Card title="REST API" icon="code" href="/api-reference/introduction">
+    对任务管理和直接桌面控制的程序化访问
+  </Card>
+</CardGroup>
+
+## 开始使用
+
+<CardGroup cols={3}>
+  <Card title="快速开始" icon="rocket" href="/quickstart">
+    在2分钟内运行Bytebot
+  </Card>
+  <Card title="架构" icon="sitemap" href="/core-concepts/architecture">
+    了解Bytebot的工作原理
+  </Card>
+  <Card title="API参考" icon="code" href="/api-reference/introduction">
+    与您的应用程序集成
+  </Card>
+</CardGroup>
+
+## 主要功能
+
+### 🤖 自然语言控制
+只需告诉Bytebot您需要完成什么。无需编码或复杂的自动化工具。
+
+### 🖥️ 完整桌面访问
+Bytebot可以使用您能安装的任何应用程序——浏览器、办公工具、自定义软件。
+
+### 🔒 完全隐私
+完全在您的基础设施上运行。您的数据永远不会离开您的服务器。
+
+### 🔄 两种操作模式
+- **自主模式**：Bytebot独立完成任务
+- **接管模式**：需要时您可以介入并控制
+
+### 🖱️ 直接桌面访问
+- **桌面标签**：自由访问虚拟桌面进行设置、安装程序或手动操作
+- **任务视图**：在任务执行期间观看并与Bytebot交互
+
+### 🚀 简易部署
+- Railway上的一键部署
+- 用于自托管的Docker Compose
+- 用于Kubernetes的Helm图表
+
+### 🔌 开发者友好
+- 用于程序化控制的REST API
+- 任务管理API
+- 可扩展架构
+- MCP（模型上下文协议）支持
+
+## 社区与支持
+
+<CardGroup cols={2}>
+  <Card
+    title="Discord社区"
+    icon="discord"
+    href="https://discord.com/invite/d9ewZkWPTP"
+  >
+    加入我们的社区获取帮助、技巧和讨论
+  </Card>
+  <Card
+    title="GitHub"
+    icon="github"
+    href="https://github.com/bytebot-ai/bytebot"
+  >
+    报告问题、贡献代码或为项目点星
+  </Card>
+</CardGroup>
+
+<Note>
+  **准备好给您的AI一台自己的计算机了吗？** 从我们的[快速开始指南](/quickstart)开始，在几分钟内运行您自己的AI桌面智能体。
+</Note>

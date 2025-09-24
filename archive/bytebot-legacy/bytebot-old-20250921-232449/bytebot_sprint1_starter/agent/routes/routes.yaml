@@ -1,0 +1,9 @@
+# 工具路由规则（伪 YAML）
+- when: brief received
+  do: brand_brief_parse -> generate_logo -> asset_lint
+
+- when: "request: icon pack"
+  do: icon_pack_gen -> asset_lint
+
+- when: "request: ui theme"
+  do: ui_theme_compile -> ui_components_export -> accessibility_check -> asset_lint

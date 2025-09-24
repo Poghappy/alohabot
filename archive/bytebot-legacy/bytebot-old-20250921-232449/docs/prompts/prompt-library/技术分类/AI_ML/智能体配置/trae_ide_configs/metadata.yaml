@@ -1,0 +1,84 @@
+# Trae IDE智能体配置元数据
+
+file_id: "ai_config_001"
+original_path: "trae-ide-agents/trae_agent_configs.yaml"
+migrated_path: "技术分类/AI_ML/智能体配置/trae_ide_configs/"
+file_type: "配置文件"
+category: "智能体配置"
+tags: ["trae-ide", "智能体", "配置", "YAML", "视觉设计", "团队协作"]
+description: "Bytebot视觉设计智能体团队配置文件，包含完整的多角色智能体定义、设计规范和协作流程"
+
+# 文件详情
+file_details:
+  size: "903行"
+  format: "YAML"
+  encoding: "UTF-8"
+  version: "1.0.0"
+  
+# 功能模块
+modules:
+  - name: "全局配置"
+    description: "默认模型、令牌数、温度等全局设置"
+  - name: "设计令牌"
+    description: "颜色、字体、间距等设计系统基础规范"
+  - name: "智能体定义"
+    description: "包含管理层、策略层、生产层、质检层等多角色智能体"
+  - name: "协作流程"
+    description: "智能体间的协作机制和输出规范"
+
+# 智能体角色
+agent_roles:
+  management:
+    - "PO-Brand": "产品负责人"
+    - "Release-Manager": "发布经理"
+  strategy:
+    - "Brand-Strategist": "品牌策略策划"
+    - "Design-Director": "视觉总监"
+  production:
+    - "Logo-Agent": "Logo设计师"
+    - "Iconography-Agent": "图标系统设计师"
+    - "Illustration-Agent": "插画与营销图设计师"
+    - "System-UI-Agent": "UI系统设计师"
+    - "Motion-Agent": "动效设计师"
+  quality_assurance:
+    - "A11y-QA-Agent": "可访问性质检师"
+    - "Design-QA-Agent": "设计质检师"
+
+# 依赖关系
+dependencies: []
+related_files:
+  - "visual_design_agent_squad_design.md"
+  - "initial_backlog_sprint_plan.md"
+  - "智能体.md"
+
+# 使用场景
+use_cases:
+  - "Trae IDE智能体团队配置"
+  - "视觉设计项目自动化"
+  - "多角色协作流程标准化"
+  - "品牌一致性管理"
+
+# 技术要求
+technical_requirements:
+  - "支持YAML格式解析"
+  - "兼容Trae IDE智能体系统"
+  - "支持Claude-3-Sonnet模型"
+  - "需要相关工具插件支持"
+
+# 时间信息
+created_at: "2024-01-XX"
+migrated_at: "2024-01-XX"
+last_updated: "2024-01-XX"
+version: "1.0"
+
+# 维护信息
+maintainer: "敏捷项目团队"
+status: "active"
+license: "项目内部使用"
+
+# 质量评估
+quality_metrics:
+  completeness: "100%"
+  documentation: "95%"
+  reusability: "90%"
+  maintainability: "85%"

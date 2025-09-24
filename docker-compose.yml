@@ -12,7 +12,9 @@ services:
       - redis
 
   bytebot-agent:
-    build: ./packages/bytebot-agent
+    build:
+      context: .
+      dockerfile: packages/bytebot-agent/Dockerfile
     ports:
       - "9991:9991"
     environment:

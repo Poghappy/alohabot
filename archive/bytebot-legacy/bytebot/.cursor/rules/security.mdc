@@ -1,0 +1,645 @@
+---
+globs: *.ts,*.js,*.json,*.yaml,*.yml,Dockerfile*,docker-compose*
+description: 安全开发和运维规则
+---
+
+# 安全开发规则
+
+## 安全开发生命周期 (SDL)
+
+### 安全需求分析
+- 识别敏感数据和功能
+- 定义安全边界和威胁模型
+- 制定安全验收标准
+- 建立安全测试计划
+
+### 威胁建模
+- 使用 STRIDE 模型分析威胁
+- 识别攻击面和攻击向量
+- 评估风险等级和影响
+- 制定缓解措施
+
+## 代码安全规范
+
+### 输入验证
+```typescript
+// 输入验证示例
+import { IsString, IsNotEmpty, IsEmail, MinLength, MaxLength } from 'class-validator';
+
+export class CreateUserDto {
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(50)
+  username: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @MinLength(8)
+  @MaxLength(128)
+  password: string;
+}
+
+// 服务层验证
+@Injectable()
+export class UserService {
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    // 额外的业务逻辑验证
+    if (await this.userRepository.findByEmail(createUserDto.email)) {
+      throw new ConflictException('Email already exists');
+    }
+    
+    // 密码哈希
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
+    
+    return this.userRepository.create({
+      ...createUserDto,
+      password: hashedPassword,
+    });
+  }
+}
+```
+
+### SQL 注入防护
+```typescript
+// 使用 Prisma ORM 防止 SQL 注入
+@Injectable()
+export class TaskService {
+  async getTasksByUser(userId: string, filters: TaskFilters): Promise<Task[]> {
+    // 使用参数化查询
+    return this.prisma.task.findMany({
+      where: {
+        userId: userId, // 自动转义
+        status: filters.status,
+        priority: filters.priority,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+}
+```
+
+### XSS 防护
+```typescript
+// 前端 XSS 防护
+import DOMPurify from 'dompurify';
+
+export const sanitizeHtml = (html: string): string => {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'p', 'br'],
+    ALLOWED_ATTR: [],
+  });
+};
+
+// React 组件中使用
+const TaskDescription: React.FC<{ description: string }> = ({ description }) => {
+  const sanitizedDescription = sanitizeHtml(description);
+  
+  return (
+    <div 
+      dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+    />
+  );
+};
+```
+
+### CSRF 防护
+```typescript
+// CSRF 防护中间件
+import { Request, Response, NextFunction } from 'express';
+import { verify } from 'jsonwebtoken';
+
+export const csrfProtection = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.headers['x-csrf-token'] as string;
+  const sessionToken = req.session?.csrfToken;
+  
+  if (!token || !sessionToken || token !== sessionToken) {
+    return res.status(403).json({ error: 'Invalid CSRF token' });
+  }
+  
+  next();
+};
+```
+
+## 身份认证和授权
+
+### JWT 认证
+```typescript
+// JWT 认证服务
+@Injectable()
+export class AuthService {
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly userService: UserService,
+  ) {}
+
+  async validateUser(email: string, password: string): Promise<User | null> {
+    const user = await this.userService.findByEmail(email);
+    
+    if (user && await bcrypt.compare(password, user.password)) {
+      return user;
+    }
+    
+    return null;
+  }
+
+  async login(user: User): Promise<{ access_token: string; refresh_token: string }> {
+    const payload = { 
+      sub: user.id, 
+      email: user.email,
+      roles: user.roles 
+    };
+    
+    return {
+      access_token: this.jwtService.sign(payload, { expiresIn: '15m' }),
+      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
+    };
+  }
+
+  async refreshToken(refreshToken: string): Promise<{ access_token: string }> {
+    try {
+      const payload = this.jwtService.verify(refreshToken);
+      const user = await this.userService.findById(payload.sub);
+      
+      if (!user) {
+        throw new UnauthorizedException('Invalid refresh token');
+      }
+      
+      return {
+        access_token: this.jwtService.sign(
+          { sub: user.id, email: user.email, roles: user.roles },
+          { expiresIn: '15m' }
+        ),
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+  }
+}
+```
+
+### RBAC 授权
+```typescript
+// 角色定义
+export enum Role {
+  ADMIN = 'admin',
+  USER = 'user',
+  GUEST = 'guest',
+}
+
+// 权限定义
+export enum Permission {
+  TASK_CREATE = 'task:create',
+  TASK_READ = 'task:read',
+  TASK_UPDATE = 'task:update',
+  TASK_DELETE = 'task:delete',
+  USER_MANAGE = 'user:manage',
+}
+
+// 权限守卫
+@Injectable()
+export class PermissionsGuard implements CanActivate {
+  constructor(private readonly reflector: Reflector) {}
+
+  canActivate(context: ExecutionContext): boolean {
+    const requiredPermissions = this.reflector.getAllAndOverride<Permission[]>(
+      'permissions',
+      [context.getHandler(), context.getClass()],
+    );
+
+    if (!requiredPermissions) {
+      return true;
+    }
+
+    const { user } = context.switchToHttp().getRequest();
+    const userPermissions = this.getUserPermissions(user.roles);
+
+    return requiredPermissions.every(permission => 
+      userPermissions.includes(permission)
+    );
+  }
+
+  private getUserPermissions(roles: Role[]): Permission[] {
+    const rolePermissions: Record<Role, Permission[]> = {
+      [Role.ADMIN]: Object.values(Permission),
+      [Role.USER]: [
+        Permission.TASK_CREATE,
+        Permission.TASK_READ,
+        Permission.TASK_UPDATE,
+        Permission.TASK_DELETE,
+      ],
+      [Role.GUEST]: [Permission.TASK_READ],
+    };
+
+    return roles.flatMap(role => rolePermissions[role] || []);
+  }
+}
+
+// 使用权限守卫
+@Controller('tasks')
+@UseGuards(JwtAuthGuard, PermissionsGuard)
+export class TaskController {
+  @Post()
+  @RequirePermissions(Permission.TASK_CREATE)
+  async createTask(@Body() createTaskDto: CreateTaskDto) {
+    // 创建任务逻辑
+  }
+}
+```
+
+## 数据保护
+
+### 敏感数据加密
+```typescript
+// 数据加密服务
+@Injectable()
+export class EncryptionService {
+  private readonly algorithm = 'aes-256-gcm';
+  private readonly key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
+
+  encrypt(text: string): { encrypted: string; iv: string; tag: string } {
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipher(this.algorithm, this.key);
+    cipher.setAAD(Buffer.from('bytebot', 'utf8'));
+    
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    
+    const tag = cipher.getAuthTag();
+    
+    return {
+      encrypted,
+      iv: iv.toString('hex'),
+      tag: tag.toString('hex'),
+    };
+  }
+
+  decrypt(encryptedData: { encrypted: string; iv: string; tag: string }): string {
+    const decipher = crypto.createDecipher(
+      this.algorithm, 
+      this.key
+    );
+    
+    decipher.setAAD(Buffer.from('bytebot', 'utf8'));
+    decipher.setAuthTag(Buffer.from(encryptedData.tag, 'hex'));
+    
+    let decrypted = decipher.update(encryptedData.encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    
+    return decrypted;
+  }
+}
+```
+
+### 数据脱敏
+```typescript
+// 数据脱敏服务
+@Injectable()
+export class DataMaskingService {
+  maskEmail(email: string): string {
+    const [local, domain] = email.split('@');
+    const maskedLocal = local.length > 2 
+      ? local[0] + '*'.repeat(local.length - 2) + local[local.length - 1]
+      : local;
+    return `${maskedLocal}@${domain}`;
+  }
+
+  maskPhone(phone: string): string {
+    return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  }
+
+  maskCreditCard(cardNumber: string): string {
+    return cardNumber.replace(/\d(?=\d{4})/g, '*');
+  }
+}
+```
+
+## 网络安全
+
+### HTTPS 配置
+```typescript
+// HTTPS 配置
+import * as https from 'https';
+import * as fs from 'fs';
+
+const httpsOptions = {
+  key: fs.readFileSync('path/to/private-key.pem'),
+  cert: fs.readFileSync('path/to/certificate.pem'),
+  ca: fs.readFileSync('path/to/ca-bundle.pem'),
+};
+
+const server = https.createServer(httpsOptions, app);
+```
+
+### 安全头设置
+```typescript
+// 安全头中间件
+import helmet from 'helmet';
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true,
+  },
+  noSniff: true,
+  xssFilter: true,
+}));
+```
+
+### 速率限制
+```typescript
+// 速率限制
+import rateLimit from 'express-rate-limit';
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 分钟
+  max: 100, // 限制每个 IP 15 分钟内最多 100 个请求
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use('/api/', limiter);
+
+// 登录接口特殊限制
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5, // 15 分钟内最多 5 次登录尝试
+  skipSuccessfulRequests: true,
+});
+
+app.use('/api/auth/login', loginLimiter);
+```
+
+## 日志和监控
+
+### 安全日志
+```typescript
+// 安全日志服务
+@Injectable()
+export class SecurityLoggerService {
+  private readonly logger = new Logger(SecurityLoggerService.name);
+
+  logLoginAttempt(email: string, success: boolean, ip: string) {
+    this.logger.log({
+      event: 'login_attempt',
+      email,
+      success,
+      ip,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  logSuspiciousActivity(activity: string, userId: string, details: any) {
+    this.logger.warn({
+      event: 'suspicious_activity',
+      activity,
+      userId,
+      details,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  logDataAccess(resource: string, userId: string, action: string) {
+    this.logger.log({
+      event: 'data_access',
+      resource,
+      userId,
+      action,
+      timestamp: new Date().toISOString(),
+    });
+  }
+}
+```
+
+### 安全监控
+```typescript
+// 安全监控服务
+@Injectable()
+export class SecurityMonitoringService {
+  private readonly suspiciousActivities = new Map<string, number>();
+
+  async monitorLoginAttempts(email: string, ip: string): Promise<void> {
+    const key = `${email}:${ip}`;
+    const attempts = this.suspiciousActivities.get(key) || 0;
+    
+    if (attempts >= 5) {
+      await this.alertSecurityTeam(email, ip, 'Multiple failed login attempts');
+      await this.blockIP(ip);
+    }
+    
+    this.suspiciousActivities.set(key, attempts + 1);
+  }
+
+  async monitorDataAccess(userId: string, resource: string): Promise<void> {
+    // 监控异常数据访问模式
+    const accessPattern = await this.getUserAccessPattern(userId);
+    
+    if (this.isSuspiciousPattern(accessPattern)) {
+      await this.alertSecurityTeam(userId, resource, 'Suspicious data access pattern');
+    }
+  }
+}
+```
+
+## 依赖安全
+
+### 依赖扫描
+```json
+// package.json 安全脚本
+{
+  "scripts": {
+    "audit": "npm audit",
+    "audit:fix": "npm audit fix",
+    "security:check": "npm audit --audit-level moderate",
+    "security:scan": "snyk test",
+    "security:monitor": "snyk monitor"
+  },
+  "devDependencies": {
+    "snyk": "^1.1240.0"
+  }
+}
+```
+
+### 容器安全
+```dockerfile
+# 安全的基础镜像
+FROM node:20-alpine
+
+# 创建非 root 用户
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+
+# 安装安全更新
+RUN apk update && apk upgrade && \
+    apk add --no-cache dumb-init
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制 package 文件
+COPY package*.json ./
+
+# 安装依赖
+RUN npm ci --only=production && \
+    npm cache clean --force
+
+# 复制应用代码
+COPY --chown=nextjs:nodejs . .
+
+# 切换到非 root 用户
+USER nextjs
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+# 暴露端口
+EXPOSE 3000
+
+# 使用 dumb-init 作为 PID 1
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["npm", "start"]
+```
+
+## 合规性
+
+### GDPR 合规
+```typescript
+// 数据主体权利实现
+@Injectable()
+export class GDPRService {
+  async getDataSubjectData(userId: string): Promise<any> {
+    // 返回用户的所有数据
+    return {
+      personalData: await this.getPersonalData(userId),
+      usageData: await this.getUsageData(userId),
+      preferences: await this.getUserPreferences(userId),
+    };
+  }
+
+  async deleteDataSubjectData(userId: string): Promise<void> {
+    // 删除用户的所有数据
+    await this.userService.delete(userId);
+    await this.taskService.deleteByUserId(userId);
+    await this.auditLogService.deleteByUserId(userId);
+  }
+
+  async exportDataSubjectData(userId: string): Promise<Buffer> {
+    // 导出用户数据
+    const data = await this.getDataSubjectData(userId);
+    return Buffer.from(JSON.stringify(data, null, 2));
+  }
+}
+```
+
+### 审计日志
+```typescript
+// 审计日志服务
+@Injectable()
+export class AuditLogService {
+  async logDataAccess(
+    userId: string,
+    resource: string,
+    action: string,
+    details: any
+  ): Promise<void> {
+    await this.auditLogRepository.create({
+      userId,
+      resource,
+      action,
+      details,
+      timestamp: new Date(),
+      ip: this.getClientIP(),
+      userAgent: this.getUserAgent(),
+    });
+  }
+
+  async getAuditLogs(
+    userId: string,
+    startDate: Date,
+    endDate: Date
+  ): Promise<AuditLog[]> {
+    return this.auditLogRepository.findByUserAndDateRange(
+      userId,
+      startDate,
+      endDate
+    );
+  }
+}
+```
+
+## 安全测试
+
+### 安全测试用例
+```typescript
+// 安全测试示例
+describe('Security Tests', () => {
+  describe('Authentication', () => {
+    it('should reject invalid credentials', async () => {
+      const response = await request(app)
+        .post('/api/auth/login')
+        .send({
+          email: 'invalid@example.com',
+          password: 'wrongpassword',
+        });
+      
+      expect(response.status).toBe(401);
+    });
+
+    it('should rate limit login attempts', async () => {
+      const promises = Array.from({ length: 6 }, () =>
+        request(app)
+          .post('/api/auth/login')
+          .send({
+            email: 'test@example.com',
+            password: 'wrongpassword',
+          })
+      );
+      
+      const responses = await Promise.all(promises);
+      const rateLimitedResponses = responses.filter(r => r.status === 429);
+      
+      expect(rateLimitedResponses.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Authorization', () => {
+    it('should reject unauthorized access', async () => {
+      const response = await request(app)
+        .get('/api/tasks')
+        .expect(401);
+    });
+
+    it('should enforce role-based access', async () => {
+      const userToken = await getTestUserToken('user');
+      const adminToken = await getTestUserToken('admin');
+      
+      // 普通用户不能访问管理接口
+      await request(app)
+        .get('/api/admin/users')
+        .set('Authorization', `Bearer ${userToken}`)
+        .expect(403);
+      
+      // 管理员可以访问
+      await request(app)
+        .get('/api/admin/users')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(200);
+    });
+  });
+});
+```

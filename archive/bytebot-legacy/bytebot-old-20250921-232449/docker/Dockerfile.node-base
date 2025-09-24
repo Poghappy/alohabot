@@ -1,0 +1,58 @@
+# ByteBot Node.js 基础镜像
+# 优化依赖管理和构建缓存
+
+FROM node:20-alpine AS base
+
+# 设置工作目录
+WORKDIR /app
+
+# 安装系统依赖
+RUN apk add --no-cache \
+    libc6-compat \
+    curl \
+    && rm -rf /var/cache/apk/*
+
+# 设置 npm 配置
+COPY .npmrc ./
+RUN npm config set cache /app/.npm-cache
+
+# 复制 package.json 和 package-lock.json
+COPY package*.json ./
+COPY packages/shared/package*.json ./packages/shared/
+
+# 安装共享依赖
+RUN npm ci --only=production --workspace=packages/shared
+
+# 构建共享包
+RUN npm run build --workspace=packages/shared
+
+# 开发阶段
+FROM base AS development
+
+# 安装所有依赖
+COPY packages/*/package*.json ./packages/*/
+RUN npm ci
+
+# 复制源代码
+COPY packages/ ./packages/
+
+# 生产阶段
+FROM base AS production
+
+# 复制构建好的共享包
+COPY --from=base /app/packages/shared/dist ./packages/shared/dist
+
+# 设置环境变量
+ENV NODE_ENV=production
+
+# 创建非 root 用户
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S bytebot -u 1001
+
+# 设置权限
+RUN chown -R bytebot:nodejs /app
+USER bytebot
+
+# 健康检查
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3000/health || exit 1

@@ -1,0 +1,522 @@
+---
+description: API 设计标准和最佳实践
+---
+
+# API 设计标准
+
+## RESTful API 设计原则
+
+### URL 设计规范
+- 使用名词而非动词
+- 使用复数形式表示资源集合
+- 使用 kebab-case 命名
+
+```
+GET    /api/conversations           # 获取对话列表
+POST   /api/conversations           # 创建新对话
+GET    /api/conversations/{id}      # 获取特定对话
+PUT    /api/conversations/{id}      # 更新对话
+DELETE /api/conversations/{id}      # 删除对话
+
+GET    /api/conversations/{id}/messages    # 获取对话消息
+POST   /api/conversations/{id}/messages    # 发送消息
+
+GET    /api/mcp-servers             # 获取 MCP 服务器列表
+POST   /api/mcp-servers/{id}/tools  # 调用 MCP 工具
+```
+
+### HTTP 状态码使用
+```typescript
+// 成功响应
+200 OK          // 请求成功
+201 Created     // 资源创建成功
+204 No Content  // 删除成功
+
+// 客户端错误
+400 Bad Request     // 请求参数错误
+401 Unauthorized    // 未授权
+403 Forbidden       // 禁止访问
+404 Not Found       // 资源不存在
+422 Unprocessable Entity  // 验证失败
+
+// 服务器错误
+500 Internal Server Error  // 服务器内部错误
+502 Bad Gateway           // 网关错误
+503 Service Unavailable   // 服务不可用
+```
+
+## API 响应格式
+
+### 标准响应结构
+```typescript
+interface APIResponse<T = any> {
+    success: boolean;
+    data?: T;
+    error?: {
+        code: string;
+        message: string;
+        details?: any;
+    };
+    meta?: {
+        timestamp: string;
+        requestId: string;
+        version: string;
+    };
+}
+
+// 成功响应示例
+{
+    "success": true,
+    "data": {
+        "id": "conv_123",
+        "title": "代码优化讨论",
+        "messages": []
+    },
+    "meta": {
+        "timestamp": "2025-09-20T10:00:00Z",
+        "requestId": "req_abc123",
+        "version": "1.0.0"
+    }
+}
+
+// 错误响应示例
+{
+    "success": false,
+    "error": {
+        "code": "VALIDATION_ERROR",
+        "message": "请求参数验证失败",
+        "details": {
+            "field": "message",
+            "reason": "消息内容不能为空"
+        }
+    },
+    "meta": {
+        "timestamp": "2025-09-20T10:00:00Z",
+        "requestId": "req_abc123",
+        "version": "1.0.0"
+    }
+}
+```
+
+### 分页响应
+```typescript
+interface PaginatedResponse<T> extends APIResponse<T[]> {
+    pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+        hasNext: boolean;
+        hasPrev: boolean;
+    };
+}
+
+// 示例
+{
+    "success": true,
+    "data": [...],
+    "pagination": {
+        "page": 1,
+        "limit": 20,
+        "total": 156,
+        "totalPages": 8,
+        "hasNext": true,
+        "hasPrev": false
+    }
+}
+```
+
+## Next.js API 路由实现
+
+### 基础 API 路由
+```typescript
+// pages/api/conversations/index.ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { conversationManager } from '@/core';
+
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<APIResponse>
+) {
+    const { method } = req;
+    
+    try {
+        switch (method) {
+            case 'GET':
+                return await handleGetConversations(req, res);
+            case 'POST':
+                return await handleCreateConversation(req, res);
+            default:
+                return res.status(405).json({
+                    success: false,
+                    error: {
+                        code: 'METHOD_NOT_ALLOWED',
+                        message: `Method ${method} not allowed`
+                    }
+                });
+        }
+    } catch (error) {
+        console.error('API Error:', error);
+        return res.status(500).json({
+            success: false,
+            error: {
+                code: 'INTERNAL_ERROR',
+                message: '服务器内部错误'
+            }
+        });
+    }
+}
+```
+
+### 参数验证
+```typescript
+import Joi from 'joi';
+
+const createConversationSchema = Joi.object({
+    title: Joi.string().min(1).max(100).required(),
+    userId: Joi.string().required(),
+    initialMessage: Joi.string().optional()
+});
+
+async function handleCreateConversation(
+    req: NextApiRequest,
+    res: NextApiResponse<APIResponse>
+) {
+    // 验证请求体
+    const { error, value } = createConversationSchema.validate(req.body);
+    
+    if (error) {
+        return res.status(400).json({
+            success: false,
+            error: {
+                code: 'VALIDATION_ERROR',
+                message: '请求参数验证失败',
+                details: error.details
+            }
+        });
+    }
+    
+    // 创建对话
+    const conversation = conversationManager.createSession(
+        value.userId,
+        value.title
+    );
+    
+    return res.status(201).json({
+        success: true,
+        data: conversation
+    });
+}
+```
+
+### 中间件使用
+```typescript
+// middleware/auth.ts
+export function withAuth(handler: NextApiHandler) {
+    return async (req: NextApiRequest, res: NextApiResponse) => {
+        const token = req.headers.authorization?.replace('Bearer ', '');
+        
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                error: {
+                    code: 'UNAUTHORIZED',
+                    message: '缺少认证令牌'
+                }
+            });
+        }
+        
+        try {
+            // 验证令牌
+            const user = await validateToken(token);
+            req.user = user;
+            
+            return handler(req, res);
+        } catch (error) {
+            return res.status(401).json({
+                success: false,
+                error: {
+                    code: 'INVALID_TOKEN',
+                    message: '无效的认证令牌'
+                }
+            });
+        }
+    };
+}
+
+// 使用中间件
+export default withAuth(async function handler(req, res) {
+    // 处理需要认证的请求
+});
+```
+
+## WebSocket API 设计
+
+### 实时通信
+```typescript
+// lib/websocket.ts
+import { Server as SocketIOServer } from 'socket.io';
+import { conversationManager } from '@/core';
+
+export function initializeWebSocket(server: any) {
+    const io = new SocketIOServer(server, {
+        cors: {
+            origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
+            methods: ['GET', 'POST']
+        }
+    });
+    
+    io.on('connection', (socket) => {
+        console.log('Client connected:', socket.id);
+        
+        // 加入对话房间
+        socket.on('join_conversation', (conversationId: string) => {
+            socket.join(`conversation_${conversationId}`);
+        });
+        
+        // 处理消息发送
+        socket.on('send_message', async (data) => {
+            try {
+                const { conversationId, message } = data;
+                
+                // 保存消息
+                const savedMessage = conversationManager.addMessage(conversationId, {
+                    role: 'user',
+                    content: message
+                });
+                
+                // 广播给房间内的其他用户
+                socket.to(`conversation_${conversationId}`).emit('new_message', savedMessage);
+                
+                // 处理 AI 响应
+                const aiResponse = await processAIResponse(message);
+                const aiMessage = conversationManager.addMessage(conversationId, {
+                    role: 'assistant',
+                    content: aiResponse
+                });
+                
+                // 发送 AI 响应
+                io.to(`conversation_${conversationId}`).emit('new_message', aiMessage);
+                
+            } catch (error) {
+                socket.emit('error', {
+                    code: 'MESSAGE_ERROR',
+                    message: '消息发送失败'
+                });
+            }
+        });
+        
+        socket.on('disconnect', () => {
+            console.log('Client disconnected:', socket.id);
+        });
+    });
+    
+    return io;
+}
+```
+
+## MCP API 集成
+
+### MCP 工具调用 API
+```typescript
+// pages/api/mcp/tools/[toolName].ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { mcpClient } from '@/core';
+
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<APIResponse>
+) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({
+            success: false,
+            error: {
+                code: 'METHOD_NOT_ALLOWED',
+                message: 'Only POST method allowed'
+            }
+        });
+    }
+    
+    const { toolName } = req.query;
+    const { parameters } = req.body;
+    
+    try {
+        // 调用 MCP 工具
+        const result = await mcpClient.callTool(
+            toolName as string,
+            parameters
+        );
+        
+        return res.status(200).json({
+            success: result.success,
+            data: result.result,
+            error: result.error ? {
+                code: 'MCP_TOOL_ERROR',
+                message: result.error
+            } : undefined
+        });
+        
+    } catch (error) {
+        console.error('MCP Tool Error:', error);
+        return res.status(500).json({
+            success: false,
+            error: {
+                code: 'MCP_ERROR',
+                message: 'MCP 工具调用失败'
+            }
+        });
+    }
+}
+```
+
+### MCP 服务器状态 API
+```typescript
+// pages/api/mcp/servers/status.ts
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<APIResponse>
+) {
+    if (req.method !== 'GET') {
+        return res.status(405).json({
+            success: false,
+            error: {
+                code: 'METHOD_NOT_ALLOWED',
+                message: 'Only GET method allowed'
+            }
+        });
+    }
+    
+    try {
+        const connectionStatus = mcpClient.getConnectionStatus();
+        const availableTools = mcpClient.getAvailableTools();
+        
+        return res.status(200).json({
+            success: true,
+            data: {
+                servers: connectionStatus,
+                tools: availableTools.map(tool => ({
+                    name: tool.name,
+                    description: tool.description,
+                    server: tool.server
+                }))
+            }
+        });
+        
+    } catch (error) {
+        console.error('MCP Status Error:', error);
+        return res.status(500).json({
+            success: false,
+            error: {
+                code: 'MCP_STATUS_ERROR',
+                message: 'MCP 状态获取失败'
+            }
+        });
+    }
+}
+```
+
+## API 文档生成
+
+### OpenAPI 规范
+```typescript
+// docs/api/openapi.yaml
+openapi: 3.0.0
+info:
+  title: ByteBot API
+  version: 1.0.0
+  description: ByteBot AI 助手 API 文档
+
+paths:
+  /api/conversations:
+    get:
+      summary: 获取对话列表
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: 成功获取对话列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedConversationResponse'
+```
+
+### Swagger UI 集成
+```typescript
+// pages/api-docs.tsx
+import SwaggerUI from 'swagger-ui-react';
+import 'swagger-ui-react/swagger-ui.css';
+
+export default function ApiDocs() {
+    return (
+        <div>
+            <h1>ByteBot API 文档</h1>
+            <SwaggerUI url="/api/openapi.json" />
+        </div>
+    );
+}
+```
+
+## API 性能优化
+
+### 响应缓存
+```typescript
+import { NextApiRequest, NextApiResponse } from 'next';
+import NodeCache from 'node-cache';
+
+const cache = new NodeCache({ stdTTL: 300 }); // 5分钟缓存
+
+export function withCache(key: string, ttl?: number) {
+    return function (handler: NextApiHandler) {
+        return async (req: NextApiRequest, res: NextApiResponse) => {
+            const cacheKey = `${key}_${JSON.stringify(req.query)}`;
+            
+            // 检查缓存
+            const cached = cache.get(cacheKey);
+            if (cached) {
+                return res.status(200).json(cached);
+            }
+            
+            // 执行处理器
+            const result = await handler(req, res);
+            
+            // 缓存结果
+            if (res.statusCode === 200) {
+                cache.set(cacheKey, result, ttl);
+            }
+            
+            return result;
+        };
+    };
+}
+```
+
+### 请求限流
+```typescript
+import rateLimit from 'express-rate-limit';
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15分钟
+    max: 100, // 限制每个IP最多100个请求
+    message: {
+        success: false,
+        error: {
+            code: 'RATE_LIMIT_EXCEEDED',
+            message: '请求过于频繁，请稍后再试'
+        }
+    }
+});
+
+export default limiter(async function handler(req, res) {
+    // API 处理逻辑
+});
+```

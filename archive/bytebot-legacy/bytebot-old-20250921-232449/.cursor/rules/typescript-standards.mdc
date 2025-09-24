@@ -1,0 +1,202 @@
+---
+globs: *.ts,*.tsx
+description: TypeScript 编码标准和最佳实践
+---
+
+# TypeScript 编码标准
+
+## 代码格式化
+
+- **缩进**: 使用 4 个空格，不使用制表符
+- **分号**: 所有语句必须以分号结尾
+- **引号**: 优先使用单引号，字符串插值时使用模板字符串
+- **导入顺序**: 按字母顺序排列导入语句
+
+### 导入规范
+
+```typescript
+// 1. Node.js 内置模块
+import { readFileSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+
+// 2. 第三方库
+import * as yaml from 'js-yaml';
+import { EventEmitter } from 'events';
+
+// 3. 本地模块
+import { promptManager } from './prompts/prompt-manager';
+```
+
+## 类型定义
+
+### 接口命名
+- 导出的接口使用 PascalCase
+- 内部接口可以使用描述性命名
+
+```typescript
+export interface SystemPrompt {
+    name: string;
+    description: string;
+    content: string;
+    version?: string;
+    tags?: string[];
+}
+```
+
+### 类型导出
+- 所有公共类型都应该在模块的 index.ts 中导出
+- 按字母顺序排列类型导出
+
+```typescript
+export type {
+    ConversationSession,
+    ConversationStorage,
+    Message
+} from './history/conversation-manager';
+```
+
+## 错误处理
+
+### 异步函数错误处理
+```typescript
+public async loadConfig(): Promise<void> {
+    try {
+        // 实现逻辑
+        console.log('✅ 操作成功');
+    } catch (error) {
+        console.error('❌ 操作失败:', error);
+        throw error;
+    }
+}
+```
+
+### 参数验证
+```typescript
+public getSystemPrompt(promptId: string): SystemPrompt | null {
+    if (!this.config) {
+        throw new Error('配置未加载，请先调用 loadConfig()');
+    }
+    
+    return this.config.core_prompts[promptId] || null;
+}
+```
+
+## 类设计原则
+
+### 单例模式
+- 对于管理器类，导出单例实例
+- 同时导出类定义以支持自定义实例化
+
+```typescript
+export class PromptManager {
+    // 类实现
+}
+
+// 导出单例实例
+export const promptManager = new PromptManager();
+```
+
+### 方法可见性
+- `public`: 对外 API 方法
+- `private`: 内部实现方法
+- 避免使用 `protected`，优先组合而非继承
+
+### 日志规范
+- 使用表情符号增强可读性
+- 成功: `✅`，失败: `❌`，进行中: `🔄`，信息: `📋`
+- 包含足够的上下文信息
+
+```typescript
+console.log(`✅ 提示词配置加载成功，版本: ${this.config.version}`);
+console.error('❌ 加载提示词配置失败:', error);
+```
+
+## 异步编程
+
+### Promise 使用
+- 优先使用 async/await 而非 Promise.then()
+- 使用 Promise.allSettled() 处理并发操作
+
+```typescript
+const connectionPromises = Object.entries(this.registry.servers).map(
+    ([serverId, server]) => this.connectToServer(serverId, server)
+);
+
+await Promise.allSettled(connectionPromises);
+```
+
+### 事件处理
+- 继承 EventEmitter 实现事件驱动架构
+- 使用描述性的事件名称
+
+```typescript
+export class MCPClient extends EventEmitter {
+    public async initialize(): Promise<void> {
+        // 实现逻辑
+        this.emit('initialized');
+    }
+}
+```
+
+## 配置和数据处理
+
+### 文件路径处理
+```typescript
+constructor(configPath?: string) {
+    this.configPath = configPath || join(process.cwd(), 'config/prompt-templates/system-prompts.yaml');
+}
+```
+
+### JSON 日期处理
+```typescript
+this.storage = JSON.parse(data, (key, value) => {
+    if (key === 'timestamp' || key === 'createdAt' || key === 'updatedAt') {
+        return new Date(value);
+    }
+    return value;
+});
+```
+
+## 注释规范
+
+### JSDoc 注释
+- 所有公共方法都必须有 JSDoc 注释
+- 使用中文描述，便于团队理解
+
+```typescript
+/**
+ * 加载提示词配置
+ */
+public async loadConfig(): Promise<void> {
+    // 实现
+}
+
+/**
+ * 渲染动态提示词模板
+ * @param templateId 模板ID
+ * @param variables 模板变量
+ * @returns 渲染后的内容
+ */
+public renderTemplate(templateId: string, variables: Record<string, any>): string {
+    // 实现
+}
+```
+
+## 性能优化
+
+### 延迟初始化
+- 配置文件按需加载
+- 重资源对象使用单例模式
+
+### 内存管理
+- 及时清理事件监听器
+- 实现适当的缓存策略
+
+```typescript
+public async disconnect(): Promise<void> {
+    // 清理资源
+    this.connectedServers.clear();
+    this.availableTools.clear();
+    this.emit('disconnected');
+}
+```

@@ -1,0 +1,291 @@
+---
+globs: *.tsx,*.ts,*.css,*.scss,packages/bytebot-ui/**
+description: 前端开发和 UI 设计规则
+---
+
+# 前端开发规则
+
+## 技术栈规范
+
+### 核心框架
+- **React**: 18.x 版本，使用函数组件和 Hooks
+- **Next.js**: 14.x 版本，App Router 架构
+- **TypeScript**: 5.x 版本，严格模式
+- **Tailwind CSS**: 3.x 版本，原子化 CSS
+
+### 状态管理
+- 使用 React Context + useReducer 进行全局状态管理
+- 使用 SWR 进行服务端状态管理
+- 使用 Zustand 进行复杂状态管理
+
+### UI 组件库
+- 基于 shadcn/ui 组件库
+- 自定义组件位于 `src/components/`
+- 组件必须支持 TypeScript 类型定义
+- 组件必须支持无障碍访问
+
+## 代码规范
+
+### 组件开发
+```typescript
+// 组件定义规范
+interface ComponentProps {
+  title: string;
+  onAction?: () => void;
+  children?: React.ReactNode;
+}
+
+export const Component: React.FC<ComponentProps> = ({
+  title,
+  onAction,
+  children
+}) => {
+  // 组件逻辑
+  return (
+    <div className="component-container">
+      <h2>{title}</h2>
+      {children}
+    </div>
+  );
+};
+```
+
+### 样式规范
+- 优先使用 Tailwind CSS 类名
+- 自定义样式使用 CSS Modules
+- 响应式设计使用 Tailwind 断点
+- 深色模式使用 `dark:` 前缀
+
+### 文件组织
+```
+src/
+├── app/                 # Next.js App Router 页面
+├── components/          # 可复用组件
+│   ├── ui/             # 基础 UI 组件
+│   ├── forms/          # 表单组件
+│   └── layout/         # 布局组件
+├── hooks/              # 自定义 Hooks
+├── lib/                # 工具函数
+├── types/              # TypeScript 类型定义
+└── utils/              # 工具函数
+```
+
+## 桌面应用特殊要求
+
+### 窗口管理
+- 支持窗口最小化到系统托盘
+- 支持窗口大小调整和记忆
+- 支持多显示器适配
+- 支持全屏模式
+
+### 系统集成
+- 全局快捷键支持
+- 文件拖拽支持
+- 原生菜单集成
+- 系统通知支持
+
+### 性能优化
+- 使用 React.memo 优化重渲染
+- 使用 useMemo 和 useCallback 优化计算
+- 代码分割和懒加载
+- 图片和资源优化
+
+## UI/UX 设计规范
+
+### 设计系统
+- 遵循 Material Design 3.0 原则
+- 使用一致的颜色、字体、间距
+- 支持深色和浅色主题
+- 响应式设计适配不同屏幕
+
+### 组件设计
+```typescript
+// 主题配置
+const theme = {
+  colors: {
+    primary: 'hsl(210 40% 50%)',
+    secondary: 'hsl(210 40% 90%)',
+    accent: 'hsl(210 40% 70%)',
+  },
+  spacing: {
+    xs: '0.25rem',
+    sm: '0.5rem',
+    md: '1rem',
+    lg: '1.5rem',
+    xl: '2rem',
+  },
+  typography: {
+    fontFamily: 'Inter, system-ui, sans-serif',
+    fontSize: {
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+    },
+  },
+};
+```
+
+### 交互设计
+- 所有交互元素必须有视觉反馈
+- 加载状态使用骨架屏或进度条
+- 错误状态提供清晰的错误信息
+- 成功状态提供确认反馈
+
+## 状态管理规范
+
+### 全局状态
+```typescript
+// 应用状态类型定义
+interface AppState {
+  user: User | null;
+  settings: Settings;
+  models: Model[];
+  tasks: Task[];
+  ui: {
+    theme: 'light' | 'dark';
+    sidebarOpen: boolean;
+    loading: boolean;
+  };
+}
+
+// 状态管理 Hook
+export const useAppState = () => {
+  const [state, dispatch] = useReducer(appReducer, initialState);
+  
+  const actions = useMemo(() => ({
+    setUser: (user: User) => dispatch({ type: 'SET_USER', payload: user }),
+    setTheme: (theme: 'light' | 'dark') => dispatch({ type: 'SET_THEME', payload: theme }),
+    // ... 其他 actions
+  }), []);
+  
+  return { state, ...actions };
+};
+```
+
+### 服务端状态
+```typescript
+// 使用 SWR 进行数据获取
+export const useModels = () => {
+  const { data, error, mutate } = useSWR('/api/models', fetcher, {
+    refreshInterval: 30000, // 30秒刷新一次
+    revalidateOnFocus: true,
+  });
+  
+  return {
+    models: data,
+    isLoading: !error && !data,
+    isError: error,
+    refresh: mutate,
+  };
+};
+```
+
+## 测试规范
+
+### 单元测试
+- 使用 Jest + React Testing Library
+- 测试组件渲染和交互
+- 测试自定义 Hooks
+- 测试工具函数
+
+### 集成测试
+- 测试组件间交互
+- 测试 API 集成
+- 测试路由导航
+- 测试状态管理
+
+### E2E 测试
+- 使用 Playwright 进行端到端测试
+- 测试完整用户流程
+- 测试跨浏览器兼容性
+- 测试性能指标
+
+## 性能要求
+
+### 加载性能
+- 首屏加载时间 < 2 秒
+- 交互响应时间 < 100ms
+- 资源加载优化
+- 代码分割合理
+
+### 运行时性能
+- 内存使用 < 200MB
+- CPU 使用率 < 10%
+- 渲染帧率 > 60fps
+- 无内存泄漏
+
+### 网络优化
+- API 请求缓存
+- 图片懒加载
+- 资源压缩
+- CDN 使用
+
+## 无障碍访问
+
+### 键盘导航
+- 所有交互元素支持键盘访问
+- Tab 顺序合理
+- 焦点状态清晰
+- 快捷键支持
+
+### 屏幕阅读器
+- 语义化 HTML 标签
+- ARIA 属性完整
+- 替代文本提供
+- 状态变化通知
+
+### 视觉辅助
+- 颜色对比度符合标准
+- 字体大小可调整
+- 动画可禁用
+- 高对比度模式支持
+
+## 国际化支持
+
+### 多语言
+- 支持中文、英文
+- 使用 react-i18next
+- 语言包管理
+- 动态语言切换
+
+### 本地化
+- 日期时间格式
+- 数字格式
+- 货币格式
+- 时区处理
+
+## 错误处理
+
+### 错误边界
+```typescript
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return <ErrorFallback />;
+    }
+    
+    return this.props.children;
+  }
+}
+```
+
+### 错误处理策略
+- 网络错误重试机制
+- 用户友好的错误信息
+- 错误日志记录
+- 错误恢复建议

@@ -1,0 +1,10 @@
+:root {
+  --color-primary-500: #6366f1;
+  --color-neutral-900: #111827;
+  --radius-md: 10px;
+  --shadow-md: 0 4px 10px rgba(0,0,0,.08);
+  --space-4: 16px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto;
+}
+.btn-primary{ background: var(--color-primary-500); color:#fff; border-radius: var(--radius-md); padding: 0.5rem 1rem; box-shadow: var(--shadow-md); }
+.card{ border-radius: 16px; box-shadow: 0 10px 24px rgba(0,0,0,.12); padding: var(--space-4); background:#fff; }

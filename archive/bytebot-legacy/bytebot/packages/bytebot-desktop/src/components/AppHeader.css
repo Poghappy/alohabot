@@ -1,0 +1,203 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: var(--color-bg-elevated);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-border-primary);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all var(--transition-normal);
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  animation: logo-float 3s ease-in-out infinite;
+}
+
+.logo-text h1 {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  background: var(--color-gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.logo-subtitle {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.app-header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 var(--spacing-xl);
+}
+
+.model-selector-wrapper {
+  width: 100%;
+  max-width: 300px;
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.header-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  backdrop-filter: blur(10px);
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left var(--transition-slow);
+}
+
+.header-button:hover {
+  background: var(--color-bg-tertiary);
+  border-color: var(--color-border-focus);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.header-button:hover::before {
+  left: 100%;
+}
+
+.header-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-button:focus {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
+/* 动画 */
+@keyframes logo-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .app-header {
+    padding: var(--spacing-md);
+  }
+  
+  .app-header-center {
+    margin: 0 var(--spacing-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .logo-text h1 {
+    font-size: var(--text-lg);
+  }
+  
+  .logo-subtitle {
+    display: none;
+  }
+  
+  .app-header-center {
+    margin: 0 var(--spacing-sm);
+  }
+  
+  .model-selector-wrapper {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+  
+  .app-header-center {
+    order: 3;
+    flex: 1 1 100%;
+    margin: 0;
+    max-width: none;
+  }
+  
+  .model-selector-wrapper {
+    max-width: none;
+  }
+}
+
+/* 深色模式特定样式 */
+.dark .app-header {
+  background: rgba(15, 15, 35, 0.8);
+}
+
+.light .app-header {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* 滚动时效果 */
+.app-header.scrolled {
+  background: var(--color-bg-primary);
+  border-bottom-color: var(--color-border-secondary);
+}

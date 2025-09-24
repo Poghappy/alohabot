@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+</defs>
+<rect width="512" height="512" fill="#111827"/>
+<g transform="translate(96,96)">
+<path d="M64,0 l64,0 32,56 -32,56 -64,0 -32,-56z" fill="url(#g)"/>
+<path d="M64,120 l64,0 32,56 -32,56 -64,0 -32,-56z" fill="url(#g)"/>
+<path d="M160,60 l64,0 32,56 -32,56 -64,0 -32,-56z" fill="url(#g)"/>
+</g>
+<text x="256" y="460" font-size="56" fill="#e5e7eb" text-anchor="middle" font-family="Inter, Arial">bytebot</text>
+</svg>

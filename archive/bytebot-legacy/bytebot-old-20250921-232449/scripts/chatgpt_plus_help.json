@@ -1,0 +1,2378 @@
+{
+  "collection_title": "ChatGPT",
+  "collection_url": "https://help.openai.com/en/collections/3742473-chatgpt",
+  "crawled_at": "2025-09-14T22:19:28.435743+00:00",
+  "items_count": 144,
+  "items": [
+    {
+      "title": "1-800-ChatGPT - Calling and Messaging ChatGPT with your phone",
+      "url": "https://help.openai.com/en/articles/10193193-1-800-chatgpt-calling-and-messaging-chatgpt-with-your-phone",
+      "last_updated": null,
+      "brief_summary": "By communicating with 1-800-ChatGPT, you agree to our Terms of Use and have read our Privacy Policy . Remember, ChatGPT can make mistakes, so please check important info. This service is for 13+.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "1-800-ChatGPT - Calling and Messaging ChatGPT with your phone"
+      ]
+    },
+    {
+      "title": "CAPTCHAs in ChatGPT",
+      "url": "https://help.openai.com/en/articles/8184038-captchas-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "How CAPTCHAs are used by ChatGPT, and common troubleshooting suggestions OpenAI uses CAPTCHAs in ChatGPT to help minimize bot activity and spam, ensuring the platform remains fast and available for all users. CAPTCHAs verify you're human by presenting game-like puzzles, which you may encounter when using ChatGPT on web, iOS, and Android. While encountering CAPTCHAs occasionally is normal, you shouldn't constantly encounter them.",
+      "plus_relevance": [
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "CAPTCHAs in ChatGPT"
+      ]
+    },
+    {
+      "title": "Can I access my ChatGPT subscription from another device?",
+      "url": "https://help.openai.com/en/articles/8980438-can-i-access-my-chatgpt-subscription-from-another-device",
+      "last_updated": null,
+      "brief_summary": "Yes, you can access your subscription on another device by logging in with the same OpenAI account that made the original purchase. If you purchased your subscription via iOS or Android, you'll need to manage your subscription via Apple subscriptions or Google Play subscriptions .",
+      "plus_relevance": [
+        "subscription-upgrade-downgrade",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Can I access my ChatGPT subscription from another device?"
+      ]
+    },
+    {
+      "title": "ChatGPT Capabilities Overview Core Capabilities Tools and Special Modes Custom GPTs",
+      "url": "https://help.openai.com/en/articles/9260256-chatgpt-capabilities-overview",
+      "last_updated": null,
+      "brief_summary": "Learn about ChatGPT's capabilities and features ChatGPT is a conversational AI assistant that can help with a wide variety of tasks, including: Answering questions and explaining concepts",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Capabilities Overview"
+      ]
+    },
+    {
+      "title": "ChatGPT Custom Instructions FAQ How your data is used Enabling Custom Instructions Disable Frequently asked questions",
+      "url": "https://help.openai.com/en/articles/8096356-chatgpt-custom-instructions-faq",
+      "last_updated": null,
+      "brief_summary": "FAQ about ChatGPT Custom Instructions Custom instructions allow you to share anything you'd like ChatGPT to consider in its response. Your custom instructions will be added to new conversations going forward. Custom instructions are available on all plans on Web, Desktop, iOS, and Android.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Custom Instructions FAQ"
+      ]
+    },
+    {
+      "title": "ChatGPT Edu at OpenAI",
+      "url": "https://help.openai.com/en/articles/9377311-chatgpt-edu-at-openai",
+      "last_updated": null,
+      "brief_summary": "Learn how ChatGPT Edu helps educational institutions deploy AI safely and effectively across campuses. ChatGPT Edu is made for schools that want to deploy AI more broadly to students and their campus communities. Reach out to our team to learn more.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Edu at OpenAI"
+      ]
+    },
+    {
+      "title": "ChatGPT Free Tier FAQ",
+      "url": "https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq",
+      "last_updated": null,
+      "brief_summary": "ChatGPT is free to use, and Free tier users now have access to a large range of capabilities with GPT-4o, including access to a series of tools and access to GPTs in our GPT store. In addition to advanced intelligence capabilities, Free tier users can now: Search the web and obtain up-to-date information",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Free Tier FAQ"
+      ]
+    },
+    {
+      "title": "ChatGPT Image Inputs FAQ",
+      "url": "https://help.openai.com/en/articles/8400551-chatgpt-image-inputs-faq",
+      "last_updated": null,
+      "brief_summary": "Your guide to navigating ChatGPT's new image input feature, from how to use it effectively to understanding its limitations ChatGPT now has image capabilities to understand and interpret images you add to conversations as image inputs. Basic Use : Upload a photo to start. Ask about objects in images, analyze documents, or explore visual content.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Image Inputs FAQ"
+      ]
+    },
+    {
+      "title": "ChatGPT Image Library",
+      "url": "https://help.openai.com/en/articles/11084440-chatgpt-image-library",
+      "last_updated": null,
+      "brief_summary": "This is currently available to all ChatGPT users on Web and Android/iOS. All images you create with ChatGPT are automatically saved to your Library , giving you a single place to browse, revisit, and reuse your work without having to sift through past conversations. Learn more about creating images with ChatGPT.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Image Library"
+      ]
+    },
+    {
+      "title": "ChatGPT Plus promotions and referrals",
+      "url": "https://help.openai.com/en/articles/10492689-chatgpt-plus-promotions-and-referrals",
+      "last_updated": null,
+      "brief_summary": "Terms for our ChatGPT Plus promotions Filipino translation / Pagsasalin sa Filipino French translation / Traduction française",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Plus promotions and referrals"
+      ]
+    },
+    {
+      "title": "ChatGPT Record Overview How to use ChatGPT record mode Limits & Pricing FAQs Reference record history How do I enable or disable “Reference record history”? What happens if I delete canvases from past recordings? Troubleshooting",
+      "url": "https://help.openai.com/en/articles/11487532-chatgpt-record",
+      "last_updated": null,
+      "brief_summary": "Capture and summarize meetings & voice notes Note: Currently, ChatGPT record is available for Plus, Enterprise, Edu, Business, and Pro workspaces, and only available for the macOS desktop app ChatGPT may make mistakes, including in its transcriptions, so please check important information. You can learn more about ChatGPT and accuracy here .",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Record"
+      ]
+    },
+    {
+      "title": "ChatGPT Shared Links FAQ",
+      "url": "https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq",
+      "last_updated": null,
+      "brief_summary": "Generate a unique URL to be able share a link to one of your ChatGPT conversations Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. Call 1-888-GPT-0090 to help answer your general questions about ChatGPT and other OpenAI products. Calls may be used to improve OpenAI's services.",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Shared Links FAQ"
+      ]
+    },
+    {
+      "title": "ChatGPT Study Mode - FAQ",
+      "url": "https://help.openai.com/en/articles/11780217-chatgpt-study-mode-faq",
+      "last_updated": null,
+      "brief_summary": "Study mode is currently available to users in all ChatGPT plans globally. Study mode works with any model available in ChatGPT on iOS, Android, and web. Study mode is a learning experience in ChatGPT designed to help you build a deeper understanding of any topic.",
+      "plus_relevance": [
+        "benefits-features",
+        "account-management",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Study Mode - FAQ"
+      ]
+    },
+    {
+      "title": "ChatGPT Supported Countries",
+      "url": "https://help.openai.com/en/articles/7947663-chatgpt-supported-countries",
+      "last_updated": null,
+      "brief_summary": "Countries, regions, and territories we can currently support access from. We provide below a list of the countries and territories in which we currently support access to ChatGPT. Accessing or offering access to our services outside of the countries and territories listed below may result in your account being blocked or suspended.",
+      "plus_relevance": [
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT Supported Countries"
+      ]
+    },
+    {
+      "title": "ChatGPT agent Overview Getting started Usage & limits Connectors Task scheduling & management Safety & privacy Workspace controls (Enterprise & Edu) Allowing agent mode to access your website Operator FAQs",
+      "url": "https://help.openai.com/en/articles/11752874-chatgpt-agent",
+      "last_updated": null,
+      "brief_summary": "Learn about the features of ChatGPT agent mode and how to get started Looking to contact OpenAI support? Please visit here: How can I contact support? ChatGPT agent helps you accomplish complex online tasks by reasoning, researching, and taking actions on your behalf.",
+      "plus_relevance": [
+        "benefits-features",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT agent"
+      ]
+    },
+    {
+      "title": "ChatGPT agent - release notes August 8th, 2025 July 17, 2025",
+      "url": "https://help.openai.com/en/articles/11794368-chatgpt-agent-release-notes",
+      "last_updated": null,
+      "brief_summary": "ChatGPT agent is now available for Enterprise and Edu plans. ChatGPT agent allows ChatGPT to complete complex online tasks on your behalf. It seamlessly switches between reasoning and action—conducting in-depth research across public websites, uploaded files, and connected third-party sources (like email and document repositories), and performing actions such as filling out forms and editing spreadsheets—all while keeping you in control.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT agent - release notes"
+      ]
+    },
+    {
+      "title": "ChatGPT agent allowlisting Overview How message signatures work Allowlisting with Cloudflare Allowlisting with Vercel Allowlisting with HUMAN Allowlisting with other CDNs Troubleshooting tips",
+      "url": "https://help.openai.com/en/articles/11845367-chatgpt-agent-allowlisting",
+      "last_updated": null,
+      "brief_summary": "Allow ChatGPT agent traffic to reach your site securely and reliably ChatGPT agent signs every outbound HTTP request so you can confidently identify authentic traffic from ChatGPT. By allowlisting the agent in your CDN or firewall, you avoid false positives and ensure a smooth experience for your site visitors. ChatGPT agent uses the HTTP Message Signatures standard ( RFC 9421 ).",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT agent allowlisting"
+      ]
+    },
+    {
+      "title": "ChatGPT generated links",
+      "url": "https://help.openai.com/en/articles/10984597-chatgpt-generated-links",
+      "last_updated": null,
+      "brief_summary": "Assessing links that ChatGPT generates for you Call 1-888-GPT-0090 to help answer your general questions about ChatGPT and other OpenAI products. Calls may be used to improve OpenAI's services. Learn more .",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT generated links"
+      ]
+    },
+    {
+      "title": "ChatGPT — Release Notes September 9, 2025 September 4, 2025 September 3, 2025 August 27, 2025 August 22, 2025 August 18, 2025 August 15, 2025 August 13, 2025 August 12, 2025 August 11, 2025 August 8, 2025 August 7, 2025 July 29, 2025 July 24, 2025 July 17, 2025 July 16, 2025 June 24, 2025 June 18, 2025 June 16, 2025 June 13, 2025 June 12, 2025 June 10, 2025 June 7, 2025 June 4, 2025 June 3, 2025 May 15, 2025 May 14, 2025 May 12, 2025 May 8, 2025 May 6, 2025 May 1, 2025 April 29, 2025 April 25, 2025 April 16, 2025 April 15, 2025 April 10, 2025 March 27, 2025 March 18, 2025 February 28, 2025 February 21, 2025 February 14, 2025 January 15, 2025 January 14, 2025 December 13, 2024 Dec 12, 2024 Dec 10, 2024 Nov 22, 2024 Nov 19, 2024 Aug 8, 2024 July 18, 2024 May 16, 2024 May 13, 2024 Apr 29, 2024 Apr 1, 2024 Feb 13, 2024 Jan 10, 2024 November 21, 2023 November 6, 2023 October 17, 2023 October 16, 2023 September 27, 2023 September 25, 2023 September 11, 2023 August 28, 2023 August 21, 2023 August 9, 2023 August 3, 2023 July 25, 2023 July 20, 2023 July 19, 2023 July 6, 2023 July 3, 2023 June 22, 2023 May 24, 2023 May 12, 2023 May 3, 2023 March 23, 2023 March 14, 2023 Feb 13, 2023 Feb 9 2023 Jan 30, 2023 Jan 9, 2023 Dec 15, 2022",
+      "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+      "last_updated": null,
+      "brief_summary": "A changelog of the latest updates for ChatGPT Last month we announced that everyone now has access to Advanced Voice Mode, with usage expanded from minutes per day to hours for Free users, and near-unlimited use for Plus. We also shared that Standard Voice Mode would be retired following a 30-day sunset period. We’ve heard feedback that Standard Voice is special to some folks, and we want to make sure the transition feels right.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "ChatGPT — Release Notes"
+      ]
+    },
+    {
+      "title": "Creating images in ChatGPT FAQs",
+      "url": "https://help.openai.com/en/articles/8932459-creating-images-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "You can generate images with ChatGPT by simply asking the model to create an image with the details you want, or by selecting the 'View all tools' option beside the microphone icon, and then selecting the 'Create image' option. Once you enter your prompt, ChatGPT Images will generate the image as you’ve described it. Depending on the complexity of your instructions, ChatGPT may take up to two minutes to generate an image.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Creating images in ChatGPT"
+      ]
+    },
+    {
+      "title": "Customizing Your ChatGPT Personality Overview of ChatGPT Personalities Example Responses by Personality",
+      "url": "https://help.openai.com/en/articles/11899719-customizing-your-chatgpt-personality",
+      "last_updated": null,
+      "brief_summary": "Personalities are available to ChatGPT Plus, Pro, and Team users. A personality is the style and tone ChatGPT uses when responding to you. It is a combination of traits, voice, and behavior that shapes how answers feel, whether that is friendly and casual, concise and professional, or something else entirely.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Customizing Your ChatGPT Personality"
+      ]
+    },
+    {
+      "title": "Data Export: Are my shared links included when I export my data from ChatGPT?",
+      "url": "https://help.openai.com/en/articles/7943616-data-export-are-my-shared-links-included-when-i-export-my-data-from-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Are my shared links from ChatGPT included in my ChatGPT data export? Yes, shared conversations are included in ChatGPT data export.",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Export: Are my shared links included when I export my data from ChatGPT?"
+      ]
+    },
+    {
+      "title": "Data analysis with ChatGPT",
+      "url": "https://help.openai.com/en/articles/8437071-data-analysis-with-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Feature and capabilities used when working with data in ChatGPT When analyzing data with ChatGPT, you can create static and interactive tables and charts from your uploaded data. ChatGPT will automatically create an interactive table view, allowing you to scroll through your data and view all of your rows and columns.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data analysis with ChatGPT"
+      ]
+    },
+    {
+      "title": "Deep Research Overview Getting started When to use Deep Research Search vs Deep Research FAQs",
+      "url": "https://help.openai.com/en/articles/10500283-deep-research",
+      "last_updated": null,
+      "brief_summary": "In-depth, multi-step research for complex questions Deep Research helps you accomplish complex online tasks by reasoning, researching, and synthesizing information into a documented report. It can search the public web, work with uploaded files, and connect to certain third-party data sources you’ve enabled—while ensuring you remain in control. To start a Deep Research task, select Deep research from the tools menu.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Deep Research"
+      ]
+    },
+    {
+      "title": "Delete / invalidate a shared link",
+      "url": "https://help.openai.com/en/articles/7943629-delete-invalidate-a-shared-link",
+      "last_updated": null,
+      "brief_summary": "Delete a shared link / shared conversation in ChatGPT 1 - You can click the trashcan icon on the conversation itself in chatgpt.com to delete a single chat 2 - You can also open up the shared link modal and click the delete icon then click “Delete link” which will delete the shared link",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Delete / invalidate a shared link"
+      ]
+    },
+    {
+      "title": "Editing your images with ChatGPT Images",
+      "url": "https://help.openai.com/en/articles/9055440-editing-your-images-with-chatgpt-images",
+      "last_updated": null,
+      "brief_summary": "You can now edit images you create with ChatGPT Call 1-888-GPT-0090 to help answer your general questions about ChatGPT and other OpenAI products. Calls may be used to improve OpenAI's services. Learn more .",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Editing your images with ChatGPT Images"
+      ]
+    },
+    {
+      "title": "Extracting Insights with ChatGPT Data Analysis Common types of analysis",
+      "url": "https://help.openai.com/en/articles/9213685-extracting-insights-with-chatgpt-data-analysis",
+      "last_updated": null,
+      "brief_summary": "A personal AI analyst for business users and experienced data professionals When you upload a file, ChatGPT will automatically create an interactive table view that allows you to scroll through your data and view all of your rows and columns. Once the file is uploaded, you can follow up with questions pertaining to the dataset. The prompts do not need to specify specific operations - natural language commands like “analyze” or “compare” are sufficient for producing results from ChatGPT.",
+      "plus_relevance": [
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Extracting Insights with ChatGPT Data Analysis"
+      ]
+    },
+    {
+      "title": "Free Trial Invites FAQ",
+      "url": "https://help.openai.com/en/articles/8381046-free-trial-invites-faq",
+      "last_updated": null,
+      "brief_summary": "Common questions about the free trial invites feature to generate unique links for others to free trial a ChatGPT Plus subscription. Eligible ChatGPT Plus users can generate a limited number of unique referral codes to offer free trials of the Plus plan. An email with a referral link gets sent to anyone you invite.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Free Trial Invites FAQ"
+      ]
+    },
+    {
+      "title": "GPT-5 in ChatGPT",
+      "url": "https://help.openai.com/en/articles/11909943-gpt-5-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "GPT-5 in ChatGPT is our next flagship model and the new default for all logged-in users. It simplifies ChatGPT to a single auto-switching system that brings together the best of our previous models into a smart, fast model. Breakthrough reasoning is built in: GPT-5 can “think” more deeply when a problem benefits from careful analysis, especially for complex work like coding, science questions, information synthesis, and data or financial analysis.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPT-5 in ChatGPT"
+      ]
+    },
+    {
+      "title": "How do I report harmful or illegal content in a shared link?",
+      "url": "https://help.openai.com/en/articles/7943618-how-do-i-report-harmful-or-illegal-content-in-a-shared-link",
+      "last_updated": null,
+      "brief_summary": "Reporting a problematic shared link from ChatGPT Shared Links is GA on Web and iOS. Android is coming soon!",
+      "plus_relevance": [
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "How do I report harmful or illegal content in a shared link?"
+      ]
+    },
+    {
+      "title": "How do I resolve a billing issue?",
+      "url": "https://help.openai.com/en/articles/7232934-how-do-i-resolve-a-billing-issue",
+      "last_updated": null,
+      "brief_summary": "Please refer to our billing issues section for further guidance. If you're unable to identify the issue affecting you, please contact our support team .",
+      "plus_relevance": [
+        "pricing-billing-refunds",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "How do I resolve a billing issue?"
+      ]
+    },
+    {
+      "title": "How do I restrict my GPT's share settings?",
+      "url": "https://help.openai.com/en/articles/9119070-how-do-i-restrict-my-gpts-share-settings",
+      "last_updated": null,
+      "brief_summary": "About the default and lowest sharing setting option for GPTs GPTs support multiple levels of sharing: Invite-only: Share directly with specific users or groups within your workspace.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "How do I restrict my GPT's share settings?"
+      ]
+    },
+    {
+      "title": "How do I search my chat history in ChatGPT? Older Chat History in the Sidebar",
+      "url": "https://help.openai.com/en/articles/10056348-how-do-i-search-my-chat-history-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Users on ChatGPT have the ability to search through your chat history quickly and efficiently. This feature is designed to help you find past conversations with ease, whether you're referencing specific details or picking up a conversation where you left off. To start searching your chat history: Log in to ChatGPT on your web browser.",
+      "plus_relevance": [
+        "benefits-features",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "How do I search my chat history in ChatGPT?"
+      ]
+    },
+    {
+      "title": "How to Delete and Archive Chats in ChatGPT Deleting Chats Archiving Chats Retention Overview",
+      "url": "https://help.openai.com/en/articles/8809935-how-to-delete-and-archive-chats-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Manage your ChatGPT conversation history by either deleting or archiving chats. Here’s how each option works and what to expect. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details.",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "How to Delete and Archive Chats in ChatGPT"
+      ]
+    },
+    {
+      "title": "How to Update a Shared Link Where can I update a shared link? What can I update? How to update the link Notes",
+      "url": "https://help.openai.com/en/articles/7943614-how-to-update-a-shared-link",
+      "last_updated": null,
+      "brief_summary": "Learn how to modify visibility and settings for a previously created ChatGPT shared link. You can update a shared link from the same conversation where it was originally created. This is supported on Web , iOS , and Android .",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "How to Update a Shared Link"
+      ]
+    },
+    {
+      "title": "How to change your language setting in ChatGPT How do I use ChatGPT in a different language? What languages do you support?",
+      "url": "https://help.openai.com/en/articles/8357869-how-to-change-your-language-setting-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Set your browser language to one of our supported languages When you access ChatGPT on a browser or mobile device, we automatically detect your browser or mobile device’s language and update ChatGPT’s language to match for supported languages . In our recommended browser, Google Chrome, you can find your browser’s preferred language by going to chrome://settings/languages. If you want to use ChatGPT in a different language, you can update your browser’s preferred language or update your settings in ChatGPT.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "How to change your language setting in ChatGPT"
+      ]
+    },
+    {
+      "title": "I'm seeing unrecognized activity on my OpenAI account.",
+      "url": "https://help.openai.com/en/articles/8485685-im-seeing-unrecognized-activity-on-my-openai-account",
+      "last_updated": null,
+      "brief_summary": "What to do if you think your ChatGPT account was hacked / accessed by someone else. First of all, we're sorry to hear that this has happened. To stop unauthorized usage, you'll need to change your password as soon as possible.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "I'm seeing unrecognized activity on my OpenAI account."
+      ]
+    },
+    {
+      "title": "Model Release Notes",
+      "url": "https://help.openai.com/en/articles/9624314-model-release-notes",
+      "last_updated": null,
+      "brief_summary": "We’ve made a few updates to the Model Spec , a living document that outlines intended behavior for OpenAI’s models, to better reflect how our systems are evolving. The changes focus on strengthening clarity and guardrails as our models move beyond chat into more agentic use cases, refining authority levels and priorities, expanding guidance on personalities and safety, and incorporating public feedback. Updated authority levels The top authority level has been renamed from Platform to Root and elevated above System, making clear which parts of the Model Spec cannot be overridden in any conversation (previously, Platform and System were assigned the same authority).",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Model Release Notes"
+      ]
+    },
+    {
+      "title": "Network recommendations for ChatGPT errors on web and apps",
+      "url": "https://help.openai.com/en/articles/9247338-network-recommendations-for-chatgpt-errors-on-web-and-apps",
+      "last_updated": null,
+      "brief_summary": "Guidance on general tips for handling network configuration issues related to errors seen in ChatGPT on the web. Audience : IT departments that admin the network for a company's WiFi -- and -- user's of a company WiFi network. Call 1-888-GPT-0090 to help answer your general questions about ChatGPT and other OpenAI products.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Network recommendations for ChatGPT errors on web and apps"
+      ]
+    },
+    {
+      "title": "OpenAI o3 and o4-mini Usage Limits on ChatGPT and the API ChatGPT API",
+      "url": "https://help.openai.com/en/articles/9824962-openai-o3-and-o4-mini-usage-limits-on-chatgpt-and-the-api",
+      "last_updated": null,
+      "brief_summary": "If you have a ChatGPT Plus, Pro, Team, or Enterprise account, you can select OpenAI o3, o3-pro or o4-mini in the model selector at the top of the page. With a ChatGPT Plus, Team or Enterprise account, you have access to 100 messages a week with o3, 100 messages a day with o4-mini-high, and 300 messages a day with o4-mini. When you hit that limit, you'll see a pop-up and no longer be able to select the model from the drop-down menu.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "OpenAI o3 and o4-mini Usage Limits on ChatGPT and the API"
+      ]
+    },
+    {
+      "title": "Projects in ChatGPT Overview Getting started Memory in projects Plans and limits Admin controls, data, and compliance API FAQ",
+      "url": "https://help.openai.com/en/articles/10169521-projects-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Organize, revisit, and continue your work—all in one place Projects are smart workspaces that keep everything related to a long‑running effort in one place. Group together chats, upload reference files, and add custom instructions so ChatGPT remembers what matters and stays on‑topic. With memory, context, and flexible tools, they’re ideal for repeated and evolving work such as writing, research, planning, and more.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Projects in ChatGPT"
+      ]
+    },
+    {
+      "title": "Prompt engineering best practices for ChatGPT What is a prompt? What is prompt engineering? General best practices Additional Resources",
+      "url": "https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Learn how to craft effective prompts to get the best out of ChatGPT This guide provides resources to help ChatGPT users craft effective prompts for high-quality responses. A prompt for a Large Language Model (LLM) is a text input that initiates a conversation or triggers a response from the model. However, it can be in other forms such as an image or audio.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Prompt engineering best practices for ChatGPT"
+      ]
+    },
+    {
+      "title": "Resolving Access Issues for ChatGPT Mac or iOS Apps with Cloudflare Zero Trust General information FAQs",
+      "url": "https://help.openai.com/en/articles/10496569-resolving-access-issues-for-chatgpt-mac-or-ios-apps-with-cloudflare-zero-trust",
+      "last_updated": null,
+      "brief_summary": "A recent Cloudflare update has introduced new certificate requirements that may impact access to ChatGPT Mac or iOS apps for Enterprise and Edu customers using Cloudflare Zero Trust with TLS Decryption enabled. If your organization falls into this category, you may experience service disruptions starting Sunday, February 2 unless corrective action is taken. This article provides step-by-step instructions for Cloudflare administrators to update settings and ensure uninterrupted access.",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Resolving Access Issues for ChatGPT Mac or iOS Apps with Cloudflare Zero Trust"
+      ]
+    },
+    {
+      "title": "Student Plus referral program  (Australia/Colombia) Australia Colombia",
+      "url": "https://help.openai.com/en/articles/10845652-student-plus-referral-program-australiacolombia",
+      "last_updated": null,
+      "brief_summary": "Details about our ChatGPT Plus student discount referrals program for Australian and Colombian students. We are offering a Plus discount for students on a limited-time basis in select countries. This is an experimental program and we may or may not expand this to more schools and countries over time.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Student Plus referral program  (Australia/Colombia)"
+      ]
+    },
+    {
+      "title": "Student discounts for ChatGPT Plus (US/Canada)",
+      "url": "https://help.openai.com/en/articles/10968654-student-discounts-for-chatgpt-plus-uscanada",
+      "last_updated": null,
+      "brief_summary": "Details about our ChatGPT Plus student discount program See our landing page for students at https://chatgpt.com/students to claim your offer. Offer valid for students in the US and Canada We are offering a Plus discount for students on a limited-time basis in the US and Canada. This is an experimental consumer program and we may or may not expand this to more schools and countries over time.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Student discounts for ChatGPT Plus (US/Canada)"
+      ]
+    },
+    {
+      "title": "Tasks in ChatGPT Setting up a task Viewing all tasks Editing a task Updating your task’s schedule and notifications Usage limitations for Tasks Are tasks included in the Compliance API?",
+      "url": "https://help.openai.com/en/articles/10291617-tasks-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Automate your work with tasks in ChatGPT. You can create tasks that enable ChatGPT to run automated prompts and proactively reach out to you. For example, you can ask ChatGPT to create tasks for the following: “Can you give me a briefing on AI news each afternoon?”",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Tasks in ChatGPT"
+      ]
+    },
+    {
+      "title": "Temporary Chat FAQ",
+      "url": "https://help.openai.com/en/articles/8914046-temporary-chat-faq",
+      "last_updated": null,
+      "brief_summary": "Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. With Temporary Chat, you can have a conversation with a blank slate. ChatGPT won't be aware of previous conversations or access memories.",
+      "plus_relevance": [
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Temporary Chat FAQ"
+      ]
+    },
+    {
+      "title": "The ChatGPT home page",
+      "url": "https://help.openai.com/en/articles/9125172-the-chatgpt-home-page",
+      "last_updated": null,
+      "brief_summary": "Try ChatGPT before creating an account. ChatGPT is free to use, and can now be accessed before creating an account at chatgpt.com. Simply enter your prompt in the text box to get started.",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "The ChatGPT home page"
+      ]
+    },
+    {
+      "title": "Troubleshooting ChatGPT Error Messages",
+      "url": "https://help.openai.com/en/articles/7996703-troubleshooting-chatgpt-error-messages",
+      "last_updated": null,
+      "brief_summary": "Common error messages in ChatGPT and how to resolve them ChatGPT may occasionally encounter technical issues due to factors like network configuration, browser extensions, or transient server-side problems. This guide outlines common error messages and actionable steps to troubleshoot them. This is a general error that may indicate a temporary server issue or a problem with your local setup.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Troubleshooting ChatGPT Error Messages"
+      ]
+    },
+    {
+      "title": "Troubleshooting Model Feature Access Issues",
+      "url": "https://help.openai.com/en/articles/10258669-troubleshooting-model-feature-access-issues",
+      "last_updated": null,
+      "brief_summary": "Users have lost access to model versions Why Am I Getting This Message? You may receive a notification that your model access or capabilities have been temporarily limited if our systems detect unusual activity or account issues. This can occur for several reasons:",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Troubleshooting Model Feature Access Issues"
+      ]
+    },
+    {
+      "title": "Updating your visual experience on ChatGPT",
+      "url": "https://help.openai.com/en/articles/11958281-updating-your-visual-experience-on-chatgpt",
+      "last_updated": null,
+      "brief_summary": "On ChatGPT web, you can update your Theme to one of the following: System - matches your device’s current appearance settings. Dark - uses a light background with dark text.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Updating your visual experience on ChatGPT"
+      ]
+    },
+    {
+      "title": "Using ChatGPT with Vision Pro",
+      "url": "https://help.openai.com/en/articles/8901169-using-chatgpt-with-vision-pro",
+      "last_updated": null,
+      "brief_summary": "As of February 2, 2024, users can use the ChatGPT app on Vision Pro, available on the visionOS App Store.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Using ChatGPT with Vision Pro"
+      ]
+    },
+    {
+      "title": "Using GPTs FAQ (Free Version)",
+      "url": "https://help.openai.com/en/articles/9300383-using-gpts-faq-free-version",
+      "last_updated": null,
+      "brief_summary": "An overview of the capabilities and limitations of using GPTs on our Free tier. ChatGPT is free to use, and Free tier users now have limited access to GPTs in our GPT store , as capacity permits. GPTs are custom versions of ChatGPT that users can tailor for specific tasks or topics by combining instructions, knowledge, and capabilities.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Using GPTs FAQ (Free Version)"
+      ]
+    },
+    {
+      "title": "What is ChatGPT Go? What's included Pricing How do I sign up? Usage Limits Billing and Invoices Refunds and Cancellations VAT/GST Exemption Requests Data Privacy FAQ",
+      "url": "https://help.openai.com/en/articles/11989085-what-is-chatgpt-go",
+      "last_updated": null,
+      "brief_summary": "Information about our paid subscription plan, Go. Note: This subscription is initially available in India only. Other countries and regions may be eligible in the future.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "What is ChatGPT Go?"
+      ]
+    },
+    {
+      "title": "What is ChatGPT Plus?",
+      "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+      "last_updated": null,
+      "brief_summary": "Information about our paid subscription plan, Plus. ChatGPT Plus is a subscription plan that provides enhanced access to the ChatGPT web app for $20/month. Priority access during high-traffic periods : Fewer interruptions even when demand is high.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "What is ChatGPT Plus?"
+      ]
+    },
+    {
+      "title": "What is ChatGPT Pro?",
+      "url": "https://help.openai.com/en/articles/9793128-what-is-chatgpt-pro",
+      "last_updated": null,
+      "brief_summary": "Information about our paid subscription plan, Pro. Everything included in ChatGPT Plus : Faster responses, priority access, voice mode, custom GPTs, image generation, deep research, ChatGPT agent, and more",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "What is ChatGPT Pro?"
+      ]
+    },
+    {
+      "title": "What is ChatGPT?",
+      "url": "https://help.openai.com/en/articles/6783457-what-is-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Commonly asked questions about ChatGPT ChatGPT is free to use, though we do have subscription plans available, available on our pricing page . ChatGPT is fine-tuned from GPT-3.5, a language model trained to produce text. ChatGPT was optimized for dialogue by using Reinforcement Learning with Human Feedback (RLHF) – a method that uses human demonstrations and preference comparisons to guide the model toward desired behavior.",
+      "plus_relevance": [
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "What is ChatGPT?"
+      ]
+    },
+    {
+      "title": "What is the ChatGPT model selector? Models Accessing GPT-4o with ChatGPT",
+      "url": "https://help.openai.com/en/articles/7864572-what-is-the-chatgpt-model-selector",
+      "last_updated": null,
+      "brief_summary": "Switch between different models in ChatGPT depending on your plan and your needs Note: This article contains information that is now outdated following the release of GPT-5. The legacy models described here will remain available for Pro, Business, and Enterprise workspaces. Plus users will continue to have access to GPT-4o, while other legacy models will no longer be available.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "What is the ChatGPT model selector?"
+      ]
+    },
+    {
+      "title": "What is the canvas feature in ChatGPT and how do I use it?",
+      "url": "https://help.openai.com/en/articles/9930697-what-is-the-canvas-feature-in-chatgpt-and-how-do-i-use-it",
+      "last_updated": null,
+      "brief_summary": "Common questions about using the canvas feature in ChatGPT Please note that canvas is available on Web, Windows, and MacOS. Coming soon to mobile platforms (iOS, Android, mobile web). Canvas is a new interface for working with ChatGPT on writing and coding projects that require editing and revisions.",
+      "plus_relevance": [
+        "benefits-features",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "What is the canvas feature in ChatGPT and how do I use it?"
+      ]
+    },
+    {
+      "title": "Where do I access my settings to see my shared links?",
+      "url": "https://help.openai.com/en/articles/7943621-where-do-i-access-my-settings-to-see-my-shared-links",
+      "last_updated": null,
+      "brief_summary": "How to access the Data Controls setting in ChatGPT to view shared links Shared Links is GA on Web and iOS. Android is coming soon!",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Where do I access my settings to see my shared links?"
+      ]
+    },
+    {
+      "title": "Why can't I log in to ChatGPT?",
+      "url": "https://help.openai.com/en/articles/7426629-why-cant-i-log-in-to-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Troubleshooting login issues If you’re having trouble logging into ChatGPT after previously being able to log in: Clear your browser’s cache and cookies .",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Why can't I log in to ChatGPT?"
+      ]
+    },
+    {
+      "title": "Why is my ChatGPT taking so long to respond?",
+      "url": "https://help.openai.com/en/articles/9047779-why-is-my-chatgpt-taking-so-long-to-respond",
+      "last_updated": null,
+      "brief_summary": "Experiencing slow responses from ChatGPT can be frustrating, especially when you're looking for quick insights or answers. Here are some immediate troubleshooting steps to get you back to using ChatGPT. Clear your browser cache and cookies : Most often, if your experience was normal previously and you are suddenly seeing a delay with your ChatGPT performance, it is due to outdated cache data.",
+      "plus_relevance": [
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Why is my ChatGPT taking so long to respond?"
+      ]
+    },
+    {
+      "title": "ChatGPT Android App FAQ",
+      "url": "https://help.openai.com/en/articles/8142208-chatgpt-android-app-faq",
+      "last_updated": null,
+      "brief_summary": "Frequently asked questions about the ChatGPT Android app You can find and install the official ChatGPT Android app in two ways: Search : Open the Google Play Store and search for \"openai chatgpt\" to ensure you're downloading the official app published by OpenAI.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "ChatGPT Android App FAQ"
+      ]
+    },
+    {
+      "title": "Google Chrome as the Default Browser for the ChatGPT Android App",
+      "url": "https://help.openai.com/en/articles/8194942-google-chrome-as-the-default-browser-for-the-chatgpt-android-app",
+      "last_updated": null,
+      "brief_summary": "Learn why Chrome is required for logging in to the ChatGPT Android app and how to set Chrome as your default browser. The ChatGPT Android app relies on a supported browser (Chrome or Brave) to securely complete the login process. If neither browser is installed or set as default, you may encounter login errors or be unable to sign in.",
+      "plus_relevance": [
+        "account-management",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "Google Chrome as the Default Browser for the ChatGPT Android App"
+      ]
+    },
+    {
+      "title": "Haptic feedback in the ChatGPT Android app",
+      "url": "https://help.openai.com/en/articles/8144762-haptic-feedback-in-the-chatgpt-android-app",
+      "last_updated": null,
+      "brief_summary": "Understanding haptic feedback support in the ChatGPT Android app Haptic feedback can be toggled on and off in the Setting page of the app. Open the sidebar",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "Haptic feedback in the ChatGPT Android app"
+      ]
+    },
+    {
+      "title": "How can I access my chat history in the ChatGPT Android app?",
+      "url": "https://help.openai.com/en/articles/8167621-how-can-i-access-my-chat-history-in-the-chatgpt-android-app",
+      "last_updated": null,
+      "brief_summary": "To see your past chats, press the two line menu in the top-left corner of the app. You'll see the titles of your previous chats, starting with the newest chat at the top.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "How can I access my chat history in the ChatGPT Android app?"
+      ]
+    },
+    {
+      "title": "How can I delete a chat conversation in the ChatGPT Android app?",
+      "url": "https://help.openai.com/en/articles/8167835-how-can-i-delete-a-chat-conversation-in-the-chatgpt-android-app",
+      "last_updated": null,
+      "brief_summary": "Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. First, open the menu (via the two lines in the top-left corner). Find the chat in your history, then press and hold the conversation title.",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "How can I delete a chat conversation in the ChatGPT Android app?"
+      ]
+    },
+    {
+      "title": "How can I delete my OpenAI account in the ChatGPT Android app?",
+      "url": "https://help.openai.com/en/articles/8167878-how-can-i-delete-my-openai-account-in-the-chatgpt-android-app",
+      "last_updated": null,
+      "brief_summary": "How to delete your OpenAI account from the ChatGPT Android app Deleting your account is permanent and can not be undone. Deleting your account will prevent you from using the account to access OpenAI services, including ChatGPT and API. You will NOT be able to create a new account using the same email address.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "How can I delete my OpenAI account in the ChatGPT Android app?"
+      ]
+    },
+    {
+      "title": "How to cancel a subscription in the  ChatGPT Android app Cancel via Google Play Store app Cancel via Google Play website Subscription Billing and Cancellation Information Refunds",
+      "url": "https://help.openai.com/en/articles/8258076-how-to-cancel-a-subscription-in-the-chatgpt-android-app",
+      "last_updated": null,
+      "brief_summary": "Details for Android about cancelling your ChatGPT subscription in the Google Play Store. Important points Uninstalling the ChatGPT Android app will not cancel your ChatGPT subscription.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "How to cancel a subscription in the  ChatGPT Android app"
+      ]
+    },
+    {
+      "title": "How to export your data from the ChatGPT Android app",
+      "url": "https://help.openai.com/en/articles/8167885-how-to-export-your-data-from-the-chatgpt-android-app",
+      "last_updated": null,
+      "brief_summary": "Export all of your ChatGPT history and data from our Android app If you wish to export your chat conversation data, you can navigate to Data Controls and click Export Data . Please note that the downloadable zip file will be sent to your registered email address and the link will expire after 24 hours. The export process may take some time, depending on the amount of data that is being requested.",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "How to export your data from the ChatGPT Android app"
+      ]
+    },
+    {
+      "title": "How to find and install the ChatGPT Android app on the Google Play Store",
+      "url": "https://help.openai.com/en/articles/8167604-how-to-find-and-install-the-chatgpt-android-app-on-the-google-play-store",
+      "last_updated": null,
+      "brief_summary": "Link and guidance to find and install the ChatGPT Android app on the Google Play Store You can find and install the official ChatGPT Android app in two ways: Search : Open the Google Play Store and search for \"openai chatgpt\" to ensure you're downloading the official app published by OpenAI.",
+      "plus_relevance": [
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "How to find and install the ChatGPT Android app on the Google Play Store"
+      ]
+    },
+    {
+      "title": "How to login to the Android app with Microsoft authentication",
+      "url": "https://help.openai.com/en/articles/8174106-how-to-login-to-the-android-app-with-microsoft-authentication",
+      "last_updated": null,
+      "brief_summary": "How to access the 'Continue with Microsoft Account' in the Android app. Requires app version 1.0.0022+. See How to check the ChatGPT Android app version",
+      "plus_relevance": [
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Android app",
+        "How to login to the Android app with Microsoft authentication"
+      ]
+    },
+    {
+      "title": "Add files from connected apps in ChatGPT",
+      "url": "https://help.openai.com/en/articles/9309188-add-files-from-connected-apps-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Load files directly into conversations Users on ChatGPT can load files directly from their cloud storage services accounts into conversations with ChatGPT. Currently, we support the following connected apps: Google Drive",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Add files from connected apps in ChatGPT"
+      ]
+    },
+    {
+      "title": "Admin Controls, Security, and Compliance in Connectors (Enterprise, Edu, and Business) Admin controls Security & compliance",
+      "url": "https://help.openai.com/en/articles/11509118-admin-controls-security-and-compliance-in-connectors-enterprise-edu-and-business",
+      "last_updated": null,
+      "brief_summary": "Learn how your organization can manage connector usage with admin settings, help ensure secure data flows, and meet compliance needs. Note: As of August 29th, 2025, we've renamed ChatGPT Team to ChatGPT Business. For more information and questions related to the name change, please refer to our article: ChatGPT Business Rename FAQ All connectors are disabled by default.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Admin Controls, Security, and Compliance in Connectors (Enterprise, Edu, and Business)"
+      ]
+    },
+    {
+      "title": "ChatGPT synced connectors Overview Using Synced Connectors Enabling synced connectors Supported Data Types FAQ",
+      "url": "https://help.openai.com/en/articles/10847137-chatgpt-synced-connectors",
+      "last_updated": null,
+      "brief_summary": "Index select knowledge sources in advance, to speed up and help improve ChatGPT’s answers. Note : Synced connectors are solely available for select paid plans. To check your plan's eligibility, please refer to this article: Connectors in ChatGPT Synced connectors enable you to find answers faster, reduce context-switching between tools, and make more informed decisions by bringing the most relevant internal information from connectors, or connected apps, into ChatGPT’s response.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "ChatGPT synced connectors"
+      ]
+    },
+    {
+      "title": "Connecting GitHub to ChatGPT Overview Connecting GitHub to ChatGPT Data and Privacy FAQ",
+      "url": "https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Access your GitHub repositories directly in ChatGPT to analyze, search, and cite code. You can connect your GitHub repositories to ChatGPT connectors, as well as ChatGPT agent, to ask questions based on your own code. When you connect to GitHub, ChatGPT can pull live data from your repositories—code, README files, and other docs—and reason over it in real time, either with a synced connector or chat/deep research connector.",
+      "plus_relevance": [
+        "subscription-upgrade-downgrade",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Connecting GitHub to ChatGPT"
+      ]
+    },
+    {
+      "title": "Connector use cases and prompts Overview Communication and Writing Meetings and Collaboration Organization and Productivity Analysis and Reporting Coding and Technical Tasks",
+      "url": "https://help.openai.com/en/articles/12084614-connector-use-cases-and-prompts",
+      "last_updated": null,
+      "brief_summary": "A library of ready-to-use prompts for writing, coding and analysis. Using connectors, ChatGPT can reference your internal knowledge. Certain connectors are available in deep research mode, in regular chat, or both.",
+      "plus_relevance": [
+        "benefits-features",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Connector use cases and prompts"
+      ]
+    },
+    {
+      "title": "Connectors in ChatGPT Overview How to connect to a new application How to use connectors Types of connectors Use Cases Connector availability by plan Admin controls, security, and compliance FAQ Troubleshooting",
+      "url": "https://help.openai.com/en/articles/11487775-connectors-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Bring your tools and data into ChatGPT so you can search, reference, and work faster — all without leaving the conversation. Make ChatGPT more actionable and personalized with your own data sources or company knowledge, now available on demand. Connectors let ChatGPT securely connect to third‑party applications—like Google Drive, GitHub, or SharePoint—so you can search files, pull live data, and reference content right in the chat.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Connectors in ChatGPT"
+      ]
+    },
+    {
+      "title": "Google Connector for ChatGPT – Data Controls FAQ",
+      "url": "https://help.openai.com/en/articles/10408842-google-connector-for-chatgpt-data-controls-faq",
+      "last_updated": null,
+      "brief_summary": "Learn how your data is accessed and used when you connect Google services to ChatGPT The content retrieved from the Google connector is used to provide you with a response from ChatGPT, and not used to train our generalized models. Please note that if you manually add, copy, or screenshot content from your Google Connector into your conversations with ChatGPT, then that content will be handled according to our standard policies for ChatGPT conversations. For more information, please see this article and our Privacy Policy .",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Google Connector for ChatGPT – Data Controls FAQ"
+      ]
+    },
+    {
+      "title": "Google Drive Synced Connectors - Self-Service Setup Overview Pro Business and Enterprise Syncing in progress",
+      "url": "https://help.openai.com/en/articles/10948259-google-drive-synced-connectors-self-service-setup",
+      "last_updated": null,
+      "brief_summary": "Learn how ChatGPT Pro users, as well as Enterprise and Business admins can configure this experience for their workspace. ChatGPT Pro users, as well as Enterprise and Business workspace owners and admins can set up Google Drive synced connectors in their ChatGPT Admin Connections settings , which enables workspace members to use ChatGPT to use up-to-date information from their internal sources. Connections can be created, deleted, or modified at any time.",
+      "plus_relevance": [
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Google Drive Synced Connectors - Self-Service Setup"
+      ]
+    },
+    {
+      "title": "Google Workspace - Admin-Managed Setup Setting up a Service Account Setting up the Admin Account Completing setup on the ChatGPT Admin Console Enabling service account key creation Becoming an Organization Policy Administrator ​ Using a Google Email Alias to Maintain Different Email Accounts for Google Workspace and ChatGPT",
+      "url": "https://help.openai.com/en/articles/10929079-google-workspace-admin-managed-setup",
+      "last_updated": null,
+      "brief_summary": "To connect your Google Workspace to ChatGPT using admin-managed setup, you'll first configure access in Google’s admin consoles: Create a service account with read-only access to Google Drive, users, and groups. This service account is strongly recommended to be created under the same Google account that is associated with your ChatGPT Workspace . If the accounts in the ChatGPT workspace have a different email domain than that used in Google Workspace, there are additional steps you have to follow to enable this connector for your users.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Google Workspace - Admin-Managed Setup"
+      ]
+    },
+    {
+      "title": "Sharepoint Synced Connectors - Setup",
+      "url": "https://help.openai.com/en/articles/12143177-sharepoint-synced-connectors-setup",
+      "last_updated": null,
+      "brief_summary": "The Sharepoint synced connector enables ChatGPT users and workspace members to securely ask questions and get answers directly from their OneDrive and SharePoint files. Connections can be created, deleted, or modified at any time. Once enabled, ChatGPT will automatically reference your SharePoint content when relevant.",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Connected apps",
+        "Sharepoint Synced Connectors - Setup"
+      ]
+    },
+    {
+      "title": "Data Controls FAQ",
+      "url": "https://help.openai.com/en/articles/7730893-data-controls-faq",
+      "last_updated": null,
+      "brief_summary": "Learn how to manage your ChatGPT data settings Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. Data Controls let you decide how ChatGPT uses your conversations and interactions. They specifically allow you to choose whether your conversations help improve our models.",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "Data Controls FAQ"
+      ]
+    },
+    {
+      "title": "Does the \"Improve the model for everyone\" setting sync between web and mobile devices?",
+      "url": "https://help.openai.com/en/articles/8983099-does-the-improve-the-model-for-everyone-setting-sync-between-web-and-mobile-devices",
+      "last_updated": null,
+      "brief_summary": "Yes, turning “improve the model for everyone” off means that new conversations will not be used to improve our models. This setting applies to your account and is not tied to a specific device.",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "Does the \"Improve the model for everyone\" setting sync between web and mobile devices?"
+      ]
+    },
+    {
+      "title": "How do I export my ChatGPT history and data?",
+      "url": "https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data",
+      "last_updated": null,
+      "brief_summary": "Data Export You can obtain a copy of your data and exercise other privacy rights through visiting our Privacy Portal . If you'd like to get a copy of your data:",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "How do I export my ChatGPT history and data?"
+      ]
+    },
+    {
+      "title": "How do I turn off model training to stop OpenAI training models on my conversations?",
+      "url": "https://help.openai.com/en/articles/8983082-how-do-i-turn-off-model-training-to-stop-openai-training-models-on-my-conversations",
+      "last_updated": null,
+      "brief_summary": "See our article on Data Controls to learn more about the options to customize how ChatGPT uses your conversations and interactions.",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "How do I turn off model training to stop OpenAI training models on my conversations?"
+      ]
+    },
+    {
+      "title": "How to delete your account How to delete your OpenAI account Common issues",
+      "url": "https://help.openai.com/en/articles/6378407-how-to-delete-your-account",
+      "last_updated": null,
+      "brief_summary": "Delete your account by submitting a request to our Privacy Portal or within ChatGPT directly. Deleting your account will prevent you from using the account to access OpenAI services, including ChatGPT and API. If you delete your account, we will delete your data within 30 days, except we may retain a limited set of data for longer where required or permitted by law.",
+      "plus_relevance": [
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "How to delete your account"
+      ]
+    },
+    {
+      "title": "If I disable history, what happens when the conversation closes?",
+      "url": "https://help.openai.com/en/articles/8982990-if-i-disable-history-what-happens-when-the-conversation-closes",
+      "last_updated": null,
+      "brief_summary": "When history is disabled, the conversation will not appear in your history (on the left-hand side of the screen) and cannot be recovered. When chat history is disabled, we will retain new conversations for 30 days and review them only when needed to monitor for abuse, before permanently deleting.",
+      "plus_relevance": [
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "If I disable history, what happens when the conversation closes?"
+      ]
+    },
+    {
+      "title": "Transferring Conversations from 1 ChatGPT account to another ChatGPT account",
+      "url": "https://help.openai.com/en/articles/9106926-transferring-conversations-from-1-chatgpt-account-to-another-chatgpt-account",
+      "last_updated": null,
+      "brief_summary": "How to migrate chats from a ChatGPT account to different ChatGPT account. Note: This workaround involves exporting the JSON file with all your chats from one account and uploading it into a new conversation in your primary account. Depending on the file size, you may need to split the JSON into smaller files before uploading.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "Transferring Conversations from 1 ChatGPT account to another ChatGPT account"
+      ]
+    },
+    {
+      "title": "Voice Dictation - FAQ",
+      "url": "https://help.openai.com/en/articles/12168547-voice-dictation-faq",
+      "last_updated": null,
+      "brief_summary": "Learn what happens when you use dictation (the microphone icon) in ChatGPT to record an audio message. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details When you press the microphone icon to record an audio message, the recorded audio is sent to our models to be transcribed. The transcription is returned as text, which you can edit before sending as a user message.",
+      "plus_relevance": [
+        "benefits-features",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "Voice Dictation - FAQ"
+      ]
+    },
+    {
+      "title": "What are the Data Controls settings?",
+      "url": "https://help.openai.com/en/articles/8983077-what-are-the-data-controls-settings",
+      "last_updated": null,
+      "brief_summary": "Data Controls offer you the ability to turn off chat history and easily choose whether your conversations will be used to train our models. They also give you the option to export your ChatGPT data and permanently delete your account. Find out more in our Data Controls FAQ article.",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "What are the Data Controls settings?"
+      ]
+    },
+    {
+      "title": "What if I want to keep my history on but disable model training?",
+      "url": "https://help.openai.com/en/articles/8983130-what-if-i-want-to-keep-my-history-on-but-disable-model-training",
+      "last_updated": null,
+      "brief_summary": "Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. With ChatGPT Business, ChatGPT Enterprise, ChatGPT Edu and our API Platform offerings, by default, we don’t use provided inputs and outputs to train our models. Please see our Enterprise Privacy page for information on how we handle business data.",
+      "plus_relevance": [
+        "benefits-features",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Data Controls",
+        "What if I want to keep my history on but disable model training?"
+      ]
+    },
+    {
+      "title": "Are you able to handle images embedded in docs/presentations?",
+      "url": "https://help.openai.com/en/articles/8983779-are-you-able-to-handle-images-embedded-in-docspresentations",
+      "last_updated": null,
+      "brief_summary": "Images embedded in documents/presentations (i.e. in image in the slide of a slide deck) are not supported yet. We plan to add support for this in the future.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "File uploads",
+        "Are you able to handle images embedded in docs/presentations?"
+      ]
+    },
+    {
+      "title": "Chat and File Retention Policies in ChatGPT Chats Files Compliance API Considerations (Enterprise Only)",
+      "url": "https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt",
+      "last_updated": null,
+      "brief_summary": "Understand how your chats and files are stored, how long they are retained, and how you can manage or delete them when needed. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. Chats are saved to your account until you delete them manually.",
+      "plus_relevance": [
+        "benefits-features",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "File uploads",
+        "Chat and File Retention Policies in ChatGPT"
+      ]
+    },
+    {
+      "title": "File Uploads FAQ",
+      "url": "https://help.openai.com/en/articles/8555545-file-uploads-faq",
+      "last_updated": null,
+      "brief_summary": "File Uploads FAQ We’re adding a new capability to upload and work with different types of documents inside ChatGPT. This capability builds on our existing Advanced Data Analysis model (formerly known as Code Interpreter) to improve performance on text-rich documents including PDFs, Microsoft Word documents, and presentations. Available now to all ChatGPT Plus and ChatGPT Enterprise users on the web at chatgpt.com, our iOS/Android mobile apps, and coming soon via API.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "File uploads",
+        "File Uploads FAQ"
+      ]
+    },
+    {
+      "title": "How do I delete files I upload? Manually deleting files What happens to file content brought into a conversation? How long are uploaded files stored?",
+      "url": "https://help.openai.com/en/articles/8983762-how-do-i-delete-files-i-upload",
+      "last_updated": null,
+      "brief_summary": "Understand how uploaded files are stored, retained in conversations, and how to free up space if you hit your file usage cap. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. Deleting the chat where the file was uploaded",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "File uploads",
+        "How do I delete files I upload?"
+      ]
+    },
+    {
+      "title": "How does the new file uploads capability work?",
+      "url": "https://help.openai.com/en/articles/8982896-how-does-the-new-file-uploads-capability-work",
+      "last_updated": null,
+      "brief_summary": "How does file uploading help? What can I do with it? See our File uploads FAQ for more details.",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "File uploads",
+        "How does the new file uploads capability work?"
+      ]
+    },
+    {
+      "title": "What types of files are supported?",
+      "url": "https://help.openai.com/en/articles/8983675-what-types-of-files-are-supported",
+      "last_updated": null,
+      "brief_summary": "File uploads for ChatGPT All common file extensions for text files, spreadsheets, presentations, and documents. Note - we do not currently support .gdoc ! Our recommendation instead would be to export these files as a .pdf , .docx , etc.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "File uploads",
+        "What types of files are supported?"
+      ]
+    },
+    {
+      "title": "GPT Actions - Domain Settings [ChatGPT Enterprise]",
+      "url": "https://help.openai.com/en/articles/9442513-gpt-actions-domain-settings-chatgpt-enterprise",
+      "last_updated": null,
+      "brief_summary": "ChatGPT Enterprise customers can limit the domains that can be used by GPT builders in their workspaces in the Workspace settings. Actions allow GPTs to call third-party APIs to accomplish tasks, such as retrieving data from a third party, modifying data in an external source, or triggering an action in an external system. ChatGPT Enterprise customers can limit the domains that can be used by GPT builders in their workspaces in the Workspace settings.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "GPT Actions - Domain Settings [ChatGPT Enterprise]"
+      ]
+    },
+    {
+      "title": "GPTs Data Privacy FAQ Can OpenAI train on my conversation with a GPT? What kind of actions can GPTs perform? Will builders see conversations with their GPTs?",
+      "url": "https://help.openai.com/en/articles/8554402-gpts-data-privacy-faq",
+      "last_updated": null,
+      "brief_summary": "Understand how your data is handled when interacting with or building GPTs. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. If you’re using a consumer product like ChatGPT Free or Plus, your conversations with GPTs may be used to improve OpenAI’s models.",
+      "plus_relevance": [
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "GPTs Data Privacy FAQ"
+      ]
+    },
+    {
+      "title": "GPTs FAQ",
+      "url": "https://help.openai.com/en/articles/8554407-gpts-faq",
+      "last_updated": null,
+      "brief_summary": "GPTs are custom versions of ChatGPT that users can tailor for specific tasks or topics by combining instructions, knowledge, and capabilities. They can be as simple or as complex as needed, addressing anything from language learning to technical support. Plus, Team, and Enterprise users can create GPTs through the GPT Builder .",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "GPTs FAQ"
+      ]
+    },
+    {
+      "title": "GPTs vs Assistants GPTs vs Assistants Feature comparison table",
+      "url": "https://help.openai.com/en/articles/8673914-gpts-vs-assistants",
+      "last_updated": null,
+      "brief_summary": "Comparison of GPTs in ChatGPT to Assistants in the OpenAI API. As of March 11, 2025, we’ve released the building blocks of our new Agents platform. For details, see our API docs for our Responses API , Tools including Web Search , File Search , and Computer Use , and our Agents SDK with Tracing .",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "GPTs vs Assistants"
+      ]
+    },
+    {
+      "title": "How can I use GPTs?",
+      "url": "https://help.openai.com/en/articles/8798889-how-can-i-use-gpts",
+      "last_updated": null,
+      "brief_summary": "If you have a ChatGPT account, you can discover and use versions of ChatGPT (called GPTs) that are customized by the community. These GPTs may combine instructions, extra knowledge, and skills/tools. In the Store , you’ll find unique GPTs that showcase the innovative work of the builder community.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "account-management",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "How can I use GPTs?"
+      ]
+    },
+    {
+      "title": "How do I rate a GPT?",
+      "url": "https://help.openai.com/en/articles/8984195-how-do-i-rate-a-gpt",
+      "last_updated": null,
+      "brief_summary": "Learn how to rate and review GPTs to help builders and the ChatGPT community. ⚠️ Currently, only paid ChatGPT users can rate GPTs. Free users do not have access to the rating feature at this time.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "How do I rate a GPT?"
+      ]
+    },
+    {
+      "title": "Key Guidelines for Writing Instructions for Custom GPTs This is Heading 1 Context Instructions Additional Information",
+      "url": "https://help.openai.com/en/articles/9358033-key-guidelines-for-writing-instructions-for-custom-gpts",
+      "last_updated": null,
+      "brief_summary": "As you transition to writing Custom GPTs, implementing effective prompt engineering practices within your instructions is crucial to ensure your GPTs perform reliably and accurately. Here’s a concise guide to help you navigate smoothly with your Custom GPTs. Simplify Complex Instructions: Break down multi-step instructions into simpler, more manageable steps to ensure the model can follow them accurately.",
+      "plus_relevance": [
+        "availability-rate-limits",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "Key Guidelines for Writing Instructions for Custom GPTs",
+        "Trigger: Themes analyzed Instruction: Leverage themes analyzed to provide summary in bullet point form of the recommendations you’d give"
+      ]
+    },
+    {
+      "title": "Shared edit access for custom GPTs General questions Example usage",
+      "url": "https://help.openai.com/en/articles/10658904-shared-edit-access-for-custom-gpts",
+      "last_updated": null,
+      "brief_summary": "Available for users in all countries on the Team, Enterprise, and Edu plans in ChatGPT. This enables multiple users or administrators to collaboratively manage, and enhance GPTs within an organization in ChatGPT. This should eliminate single-user dependencies in managing GPTs.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "Shared edit access for custom GPTs"
+      ]
+    },
+    {
+      "title": "What happens to my GPTs if I cancel my subscription?",
+      "url": "https://help.openai.com/en/articles/9280126-what-happens-to-my-gpts-if-i-cancel-my-subscription",
+      "last_updated": null,
+      "brief_summary": "Users on paid subscriptions have access to the GPT Store and the GPT Builder , which allows users to create custom GPTs for specialized tasks. When your paid subscription is canceled, you are downgraded to the free plan and you will lose access to both the GPT Builder and any GPTs you’ve created. You can regain access to any GPTs you created with your previous paid subscription by upgrading your plan again.",
+      "plus_relevance": [
+        "subscription-upgrade-downgrade",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "What happens to my GPTs if I cancel my subscription?"
+      ]
+    },
+    {
+      "title": "What is the @mentions feature for GPTs?",
+      "url": "https://help.openai.com/en/articles/8908924-what-is-the-mentions-feature-for-gpts",
+      "last_updated": null,
+      "brief_summary": "Use the @mentions feature to switch between different GPTs in the same conversation while keeping your context. When you're chatting: Type @ to open an inline menu showing your recent and pinned GPTs .",
+      "plus_relevance": [
+        "availability-rate-limits"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "GPTs",
+        "What is the @mentions feature for GPTs?"
+      ]
+    },
+    {
+      "title": "Does memory function with GPTs? Is memory available for custom GPTs?",
+      "url": "https://help.openai.com/en/articles/8983148-does-memory-function-with-gpts",
+      "last_updated": null,
+      "brief_summary": "Understand how memory works in ChatGPT and why it’s not yet available for custom GPTs. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. No — memory is not currently supported in custom GPTs created with the GPT Builder.",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Memory",
+        "Does memory function with GPTs?"
+      ]
+    },
+    {
+      "title": "Is memory different from Custom Instructions?",
+      "url": "https://help.openai.com/en/articles/8983151-is-memory-different-from-custom-instructions",
+      "last_updated": null,
+      "brief_summary": "Custom Instructions continue to allow you to provide ChatGPT with direct guidance on what you’d like it to know about you and how you’d like it to respond. For explicit information or instructions, you can add it to your Custom Instructions. For information shared via conversations, ChatGPT can remember relevant details for you.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Memory",
+        "Is memory different from Custom Instructions?"
+      ]
+    },
+    {
+      "title": "Memory FAQ Overview How Memory works How does “Reference saved memories” work? How do I enable or disable saved memories? How long does ChatGPT keep saved memories? How do I manage my saved memory storage? How does “Reference chat history” work? How do I enable or disable Reference Chat History? Does ChatGPT have a storage limit when Reference Chat History is on? How do I manage what ChatGPT remembers when Reference Chat History is on? How do I fully delete something ChatGPT knows about me? Can I disable memories for my ChatGPT Enterprise or Edu workspace? Does memory remember sensitive information? Do you train your models with memories? Do all Models support memories or chat history? How does memory work with ChatGPT search?",
+      "url": "https://help.openai.com/en/articles/8590148-memory-faq",
+      "last_updated": null,
+      "brief_summary": "Learn more about managing memory in ChatGPT. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. 📞 Try our AI voice help experiment!",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Memory",
+        "Memory FAQ"
+      ]
+    },
+    {
+      "title": "Memory FAQ (Business Version)",
+      "url": "https://help.openai.com/en/articles/9295112-memory-faq-business-version",
+      "last_updated": null,
+      "brief_summary": "Learn how memory works with ChatGPT Business, including merging personal accounts, workspace deactivation, and managing settings. Note: As of August 29th, 2025, we've renamed ChatGPT Team to ChatGPT Business. For more information and questions related to the name change, please refer to our article: ChatGPT Business Rename FAQ Organizations and businesses using ChatGPT Business can now use memories to enhance their experience.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Memory",
+        "Memory FAQ (Business Version)"
+      ]
+    },
+    {
+      "title": "What is Memory?",
+      "url": "https://help.openai.com/en/articles/8983136-what-is-memory",
+      "last_updated": null,
+      "brief_summary": "Please note that “Saved Memories” and “Chat history” are only available to Plus and Pro accounts. Free tier users only have access to “Saved Memories”. Call 1-888-GPT-0090 to help answer your general questions about ChatGPT and other OpenAI products.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Memory",
+        "What is Memory?"
+      ]
+    },
+    {
+      "title": "ChatGPT search What information is shared when I search? How to search in ChatGPT Searching with Voice on ChatGPT Setting ChatGPT as your browser’s default search",
+      "url": "https://help.openai.com/en/articles/9237897-chatgpt-search",
+      "last_updated": null,
+      "brief_summary": "ChatGPT search is available to all ChatGPT Free, Plus, Team, Edu, Enterprise users. Free users who are logged out will also have access to ChatGPT search. ChatGPT search can be accessed at chatgpt.com and in our desktop and mobile apps .",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Search",
+        "ChatGPT search"
+      ]
+    },
+    {
+      "title": "Improved Shopping Results from ChatGPT Search",
+      "url": "https://help.openai.com/en/articles/11128490-improved-shopping-results-from-chatgpt-search",
+      "last_updated": null,
+      "brief_summary": "Call 1-888-GPT-0090 to help answer your general questions about ChatGPT and other OpenAI products. Calls may be used to improve OpenAI's services. Learn more .",
+      "plus_relevance": [
+        "benefits-features",
+        "pricing-billing-refunds",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Search",
+        "Improved Shopping Results from ChatGPT Search"
+      ]
+    },
+    {
+      "title": "Voice Mode  FAQ General FAQ Privacy & Controls",
+      "url": "https://help.openai.com/en/articles/8400625-voice-mode-faq",
+      "last_updated": null,
+      "brief_summary": "Your guide to voice chats with ChatGPT, from setting up and using the voice mode to understanding its capabilities and limitations. Last month we announced that everyone now has access to Advanced Voice Mode, with usage limits expanded from minutes per day to hours for free users and near unlimited for Plus. We also announced that Standard Voice Mode would be retired after a 30-day sunset.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Voice",
+        "Voice Mode  FAQ"
+      ]
+    },
+    {
+      "title": "Using the ChatGPT Windows app",
+      "url": "https://help.openai.com/en/articles/9982051-using-the-chatgpt-windows-app",
+      "last_updated": null,
+      "brief_summary": "System Requirements: Windows 10 (x64 and arm64) version 17763.0 or higher We are excited to introduce an early version of the ChatGPT Windows app to ChatGPT users on paid plans (Plus, Team, Edu, and Enterprise). You can download the Windows app from the Microsoft Store . ChatGPT users that are familiar with our experience on the web can seamlessly integrate the Windows app into anything they’re doing on their computer.",
+      "plus_relevance": [
+        "benefits-features",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Windows app",
+        "Using the ChatGPT Windows app"
+      ]
+    },
+    {
+      "title": "Windows App - Release Notes January 30 2025 November 14 2024 November 7 2024 October 30 2024 Early version for Plus, Team, Enterprise, and EDU (October 17 2024)",
+      "url": "https://help.openai.com/en/articles/10003026-windows-app-release-notes",
+      "last_updated": null,
+      "brief_summary": "Release notes for the ChatGPT Windows app winget is now a supported way to install ChatGPT. This will be useful for ChatGPT Enterprise workspaces whose IT admins may prefer winget as a method of managing installation for their teams. ​ ​",
+      "plus_relevance": [
+        "benefits-features",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "Windows app",
+        "Windows App - Release Notes"
+      ]
+    },
+    {
+      "title": "ChatGPT iOS App FAQ",
+      "url": "https://help.openai.com/en/articles/7885016-chatgpt-ios-app-faq",
+      "last_updated": null,
+      "brief_summary": "Frequently asked questions about the ChatGPT iOS app. Download the official ChatGPT iOS app in the App Store . To see your past chats, press the three-dot symbol on the top right of your screen.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "ChatGPT iOS App FAQ"
+      ]
+    },
+    {
+      "title": "ChatGPT iOS app \"Cookies are disabled\" error using Google authentication",
+      "url": "https://help.openai.com/en/articles/7993298-chatgpt-ios-app-cookies-are-disabled-error-using-google-authentication",
+      "last_updated": null,
+      "brief_summary": "If you have cookies blocked then you won't be able to login. If you see a \"Cookies are disabled\" error signing in with Google authentication: Then you will need to disable the \"Block cookies\" setting in Safari :",
+      "plus_relevance": [
+        "account-management",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "ChatGPT iOS app \"Cookies are disabled\" error using Google authentication"
+      ]
+    },
+    {
+      "title": "ChatGPT iOS app - iPad drag & drop",
+      "url": "https://help.openai.com/en/articles/7993487-chatgpt-ios-app-ipad-drag-drop",
+      "last_updated": null,
+      "brief_summary": "How \"drag & drop\" functionality works in the ChatGPT iOS app for iPad While using the ChatGPT iOS app on an iPad you can press and hold on a generated response then drag the entire thing into another application. On a iPad you can use this to move a generated response from the ChatGPT iOS app via drag & drop into a notes app or a spreadsheet.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "ChatGPT iOS app - iPad drag & drop"
+      ]
+    },
+    {
+      "title": "ChatGPT iOS app potential failures",
+      "url": "https://help.openai.com/en/articles/7910461-chatgpt-ios-app-potential-failures",
+      "last_updated": null,
+      "brief_summary": "Oh no! We hoped that you will never land on this page, but you did. First, we are sorry about the inconvenience!",
+      "plus_relevance": [
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "ChatGPT iOS app potential failures"
+      ]
+    },
+    {
+      "title": "ChatGPT iOS app: Upgrading to a paid subscription Option 1: Upgrade on the web Option 2: Upgrade via the iOS app For new ChatGPT subscribers",
+      "url": "https://help.openai.com/en/articles/7905739-chatgpt-ios-app-upgrading-to-a-paid-subscription",
+      "last_updated": null,
+      "brief_summary": "The ChatGPT iOS mobile app is currently available in the countries listed on the ChatGPT Supported Countries article . If you are an existing ChatGPT user, please log in with the same authentication method (username and password, Google, Microsoft, or Apple). When you're ready to subscribe to a paid ChatGPT subscription, there are a couple options.",
+      "plus_relevance": [
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "ChatGPT iOS app: Upgrading to a paid subscription"
+      ]
+    },
+    {
+      "title": "Disable chat history on iOS",
+      "url": "https://help.openai.com/en/articles/7943569-disable-chat-history-on-ios",
+      "last_updated": null,
+      "brief_summary": "See our article on Data Controls to learn more about the options to customize how ChatGPT uses your conversations and interactions.",
+      "plus_relevance": [
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "Disable chat history on iOS"
+      ]
+    },
+    {
+      "title": "Does the ChatGPT iOS app work on iPad?",
+      "url": "https://help.openai.com/en/articles/7993396-does-the-chatgpt-ios-app-work-on-ipad",
+      "last_updated": null,
+      "brief_summary": "iPhone and iPad are both supported for the ChatGPT iOS app Yes, you can use ChatGPT via our iOS app on your iPad.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "Does the ChatGPT iOS app work on iPad?"
+      ]
+    },
+    {
+      "title": "How can I delete a conversation in the ChatGPT iOS app?",
+      "url": "https://help.openai.com/en/articles/8980316-how-can-i-delete-a-conversation-in-the-chatgpt-ios-app",
+      "last_updated": null,
+      "brief_summary": "Learn how to remove a past conversation in the ChatGPT iOS app. Deleted chats cannot be recovered. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details.",
+      "plus_relevance": [
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "How can I delete a conversation in the ChatGPT iOS app?"
+      ]
+    },
+    {
+      "title": "How can I view my conversation history in the iOS app?",
+      "url": "https://help.openai.com/en/articles/8980299-how-can-i-view-my-conversation-history-in-the-ios-app",
+      "last_updated": null,
+      "brief_summary": "Learn how to quickly access your past conversations in the ChatGPT iOS app using the main menu. Open the ChatGPT app on your iOS device. Tap the menu icon (the two horizontal lines) located in the top-left corner of the screen.",
+      "plus_relevance": [
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "How can I view my conversation history in the iOS app?"
+      ]
+    },
+    {
+      "title": "How do I obtain my ChatGPT subscription invoice if I subscribed from the Apple App Store?",
+      "url": "https://help.openai.com/en/articles/9030143-how-do-i-obtain-my-chatgpt-subscription-invoice-if-i-subscribed-from-the-apple-app-store",
+      "last_updated": null,
+      "brief_summary": "If you subscribed to ChatGPT through the Apple App Store, the method to access your invoice differs from that used for the web version . You can easily view your receipt through your Apple account: Via iPhone or iPad: 1. Open the Settings app on your iOS device.",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "How do I obtain my ChatGPT subscription invoice if I subscribed from the Apple App Store?"
+      ]
+    },
+    {
+      "title": "How to cancel your Apple subscription for ChatGPT in the ChatGPT iOS app",
+      "url": "https://help.openai.com/en/articles/7905690-how-to-cancel-your-apple-subscription-for-chatgpt-in-the-chatgpt-ios-app",
+      "last_updated": null,
+      "brief_summary": "If you subscribed to ChatGPT through the Apple App Store, your subscription is managed by Apple and will need to be canceled through the subscription plan on your iOS device. If you wish to cancel your subscription, please follow these steps: Go to “Settings” on your iPhone",
+      "plus_relevance": [
+        "benefits-features",
+        "subscription-upgrade-downgrade",
+        "pricing-billing-refunds",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "How to cancel your Apple subscription for ChatGPT in the ChatGPT iOS app"
+      ]
+    },
+    {
+      "title": "How to delete your account in the ChatGPT iOS app?",
+      "url": "https://help.openai.com/en/articles/8980410-how-to-delete-your-account-in-the-chatgpt-ios-app",
+      "last_updated": null,
+      "brief_summary": "Deleting your account will prevent you from using the account to access OpenAI services, including ChatGPT and API. You will NOT be able to create a new account using the same email address. If you delete your account, we will delete your data within 30 days, except we may retain a limited set of data for longer where required or permitted by law.",
+      "plus_relevance": [
+        "subscription-upgrade-downgrade",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "How to delete your account in the ChatGPT iOS app?"
+      ]
+    },
+    {
+      "title": "Is ChatGPT available on Android?",
+      "url": "https://help.openai.com/en/articles/7920239-is-chatgpt-available-on-android",
+      "last_updated": null,
+      "brief_summary": "Yes, you can download and install the ChatGPT Android app from the Google Play Store here: https://play.google.com/store/apps/details?id=com.openai.chatgpt See the Android app section of the help center .",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "Is ChatGPT available on Android?"
+      ]
+    },
+    {
+      "title": "Restoring a ChatGPT subscription purchased in the Apple App Store",
+      "url": "https://help.openai.com/en/articles/8346573-restoring-a-chatgpt-subscription-purchased-in-the-apple-app-store",
+      "last_updated": null,
+      "brief_summary": "How to restore your purchase of a ChatGPT subscription made in the Apple App Store in the ChatGPT iOS app. Users that subscribed to ChatGPT in the Apple App Store can use the Restore purchases feature in the ChatGPT iOS app to restore their subscription on their iOS device. Under Settings -> Account -> Restore purchases",
+      "plus_relevance": [
+        "subscription-upgrade-downgrade",
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "Restoring a ChatGPT subscription purchased in the Apple App Store"
+      ]
+    },
+    {
+      "title": "What Does the Official ChatGPT iOS App Icon Look Like?",
+      "url": "https://help.openai.com/en/articles/7905742-what-does-the-official-chatgpt-ios-app-icon-look-like",
+      "last_updated": null,
+      "brief_summary": "This is what the app icon looks like: ​",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "What Does the Official ChatGPT iOS App Icon Look Like?"
+      ]
+    },
+    {
+      "title": "Where can I download the OpenAI ChatGPT iOS app on the Apple App Store?",
+      "url": "https://help.openai.com/en/articles/7908378-where-can-i-download-the-openai-chatgpt-ios-app-on-the-apple-app-store",
+      "last_updated": null,
+      "brief_summary": "Link and guidance to find and install the ChatGPT iOS app on the App Store You can find and install the official ChatGPT iOS app in two ways: Search : Open the App Store and search for \"openai chatgpt\" to ensure you're downloading the official app published by OpenAI.",
+      "plus_relevance": [
+        "account-management"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "Where can I download the OpenAI ChatGPT iOS app on the Apple App Store?"
+      ]
+    },
+    {
+      "title": "Why did Haptic Feedback stop working?",
+      "url": "https://help.openai.com/en/articles/7925783-why-did-haptic-feedback-stop-working",
+      "last_updated": null,
+      "brief_summary": "The app will automatically disable the Haptic Feedback (vibration) feature when one of the following conditions is met: When going on low power mode Haptic Feedback will be disabled When the iPhone battery is below 20% the Haptic Feedback will be disabled",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "iOS app",
+        "Why did Haptic Feedback stop working?"
+      ]
+    },
+    {
+      "title": "ChatGPT MacOS app release notes Mar 6, 2025 Jan 15, 2025 Dec 19, 2024 November 26 2024 November 14 2024 October 30 2024 August 6, 2024",
+      "url": "https://help.openai.com/en/articles/9703738-chatgpt-macos-app-release-notes",
+      "last_updated": null,
+      "brief_summary": "Notes on updates to the ChatGPT MacOS app ChatGPT can now edit code directly in your IDE. Now, you can create and edit canvases on macOS using GPT 4o.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data",
+        "troubleshooting"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "ChatGPT MacOS app release notes"
+      ]
+    },
+    {
+      "title": "ChatGPT macOS app -  File Uploads and Photos",
+      "url": "https://help.openai.com/en/articles/9295234-chatgpt-macos-app-file-uploads-and-photos",
+      "last_updated": null,
+      "brief_summary": "Uploading files and taking photos with the ChatGPT macOS app. The ChatGPT macOS app enables you to start new conversations with photos from your computer, or new photos you take. To get started, access the prompt window by opening the ChatGPT macOS app or opening the launcher.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "ChatGPT macOS app -  File Uploads and Photos"
+      ]
+    },
+    {
+      "title": "ChatGPT macOS app - Screenshot Tool",
+      "url": "https://help.openai.com/en/articles/9295245-chatgpt-macos-app-screenshot-tool",
+      "last_updated": null,
+      "brief_summary": "A guide on taking screenshots with the ChatGPT macOS app. To get started, access the prompt window by opening the ChatGPT macOS app or opening the launcher. Click on the Plus icon to access the screenshot tool.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "ChatGPT macOS app - Screenshot Tool"
+      ]
+    },
+    {
+      "title": "Downloading the ChatGPT macOS app",
+      "url": "https://help.openai.com/en/articles/9275200-downloading-the-chatgpt-macos-app",
+      "last_updated": null,
+      "brief_summary": "System requirements: macOS 14 and Apple Silicon (M1 or better) The ChatGPT macOS app is designed to integrate seamlessly into your desktop experience. ​To get started, download the ChatGPT macOS app: https://openai.com/chatgpt/desktop/",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "Downloading the ChatGPT macOS app"
+      ]
+    },
+    {
+      "title": "How is data retained in the macOS app?",
+      "url": "https://help.openai.com/en/articles/9268871-how-is-data-retained-in-the-macos-app",
+      "last_updated": null,
+      "brief_summary": "Learn how chats, files, and custom GPT data are stored and deleted in the ChatGPT macOS app. Note : Data retention for certain services may be affected by recent legal developments – please see our blog post for more details. Yes.",
+      "plus_relevance": [
+        "benefits-features",
+        "availability-rate-limits",
+        "account-management",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "How is data retained in the macOS app?"
+      ]
+    },
+    {
+      "title": "How to install the Work with Apps Visual Studio Code extension",
+      "url": "https://help.openai.com/en/articles/10128592-how-to-install-the-work-with-apps-visual-studio-code-extension",
+      "last_updated": null,
+      "brief_summary": "The Visual Studio Code extension is only for use with the ChatGPT macOS app Work with Apps feature. Learn more about Work with Apps. (Note: The extension also works with VSCode Insiders, VSCodium, Cursor, and Windsurf.) For most VSCode forks, install the “openai.chatgpt” extension from the marketplace",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "How to install the Work with Apps Visual Studio Code extension"
+      ]
+    },
+    {
+      "title": "How to launch the Chat Bar",
+      "url": "https://help.openai.com/en/articles/9295241-how-to-launch-the-chat-bar",
+      "last_updated": null,
+      "brief_summary": "Instantly ask ChatGPT anything using the macOS app You can use the Chat Bar to instantly ask ChatGPT anything, upload files, take a screenshot, or take a photo. By default, to open the Chat Bar using your keyboard, press ⌥+Space: You can click and drag the Chat Bar window anywhere on the desktop and you can also open the Chat Bar from the menu bar icon:",
+      "plus_relevance": [
+        "benefits-features",
+        "privacy-data"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "How to launch the Chat Bar"
+      ]
+    },
+    {
+      "title": "Temporary Chats on the ChatGPT macOS app",
+      "url": "https://help.openai.com/en/articles/9295248-temporary-chats-on-the-chatgpt-macos-app",
+      "last_updated": null,
+      "brief_summary": "We have rolled out access to the ChatGPT macOS app to a small portion of our users, and plan to enable access to all of our users later this year. Temporary Chat enables you to have a conversation with ChatGPT that starts with a blank slate. ChatGPT won’t remember any memories or be aware of any previous conversations.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "Temporary Chats on the ChatGPT macOS app"
+      ]
+    },
+    {
+      "title": "What are the system requirements for the ChatGPT macOS app?",
+      "url": "https://help.openai.com/en/articles/9395554-what-are-the-system-requirements-for-the-chatgpt-macos-app",
+      "last_updated": null,
+      "brief_summary": "Understand the system requirements for the macOS app The system requirements for the macOS app are macOS 14 and Apple Silicon (M1 or better). We will not be releasing a version of the app that is compatible with older operating systems or models.",
+      "plus_relevance": [
+        "benefits-features"
+      ],
+      "key_points": [
+        "All Collections",
+        "ChatGPT",
+        "macOS app",
+        "What are the system requirements for the ChatGPT macOS app?"
+      ]
+    }
+  ]
+}

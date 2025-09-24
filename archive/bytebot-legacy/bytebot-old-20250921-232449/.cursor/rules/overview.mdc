@@ -1,0 +1,175 @@
+---
+alwaysApply: true
+description: ByteBot 项目开发规范总览
+---
+
+# ByteBot 开发规范总览
+
+## 📋 规则文件索引
+
+本项目包含以下 Cursor 规则文件，每个文件针对特定的开发领域提供详细指导：
+
+### 🏗️ 项目架构
+- **[project-structure.mdc](.cursor/rules/project-structure.mdc)** - 项目结构和导航指南
+- **[development-workflow.mdc](.cursor/rules/development-workflow.mdc)** - 开发工作流程和最佳实践
+
+### 💻 代码规范
+- **[typescript-standards.mdc](.cursor/rules/typescript-standards.mdc)** - TypeScript 编码标准
+- **[react-nextjs-standards.mdc](.cursor/rules/react-nextjs-standards.mdc)** - React 和 Next.js 开发标准
+- **[api-design-standards.mdc](.cursor/rules/api-design-standards.mdc)** - API 设计标准和最佳实践
+
+### ⚙️ 配置管理
+- **[config-standards.mdc](.cursor/rules/config-standards.mdc)** - 配置文件标准和最佳实践
+
+### 🔒 安全规范
+- **[security-standards.mdc](.cursor/rules/security-standards.mdc)** - 安全开发标准和最佳实践
+
+## 🎯 核心开发原则
+
+### 1. 一致性优先
+- 遵循统一的命名规范（kebab-case）
+- 使用一致的代码格式化（4空格缩进）
+- 保持统一的错误处理模式
+
+### 2. 类型安全
+- 所有公共接口都要有 TypeScript 类型定义
+- 使用严格的类型检查
+- 避免使用 `any` 类型
+
+### 3. 模块化设计
+- 核心功能集中在 `src/core/` 目录
+- 配置文件统一管理在 `config/` 目录
+- 每个模块都有清晰的职责边界
+
+### 4. 安全第一
+- 所有用户输入都要验证和清理
+- 敏感信息使用环境变量管理
+- 实施适当的身份验证和授权
+
+### 5. 性能优化
+- 使用适当的缓存策略
+- 实施代码分割和懒加载
+- 监控关键性能指标
+
+## 🚀 快速开始检查清单
+
+### 开发环境设置
+- [ ] 使用 Node.js 20.19.4 (`nvm use`)
+- [ ] 安装所有依赖 (`npm install`)
+- [ ] 配置环境变量 (`cp docker/.env.example docker/.env`)
+- [ ] 启动开发服务 (`docker-compose up -d`)
+
+### 代码开发
+- [ ] 遵循 TypeScript 编码标准
+- [ ] 添加适当的 JSDoc 注释
+- [ ] 实施输入验证和错误处理
+- [ ] 编写单元测试
+
+### 提交前检查
+- [ ] 代码格式化 (`npm run format`)
+- [ ] 类型检查 (`npm run type-check`)
+- [ ] Lint 检查 (`npm run lint`)
+- [ ] 测试通过 (`npm run test`)
+- [ ] 安全扫描 (`npm audit`)
+
+## 📚 重要文档链接
+
+### 项目文档
+- **项目结构总览**: [STRUCTURE_OVERVIEW.md](mdc:STRUCTURE_OVERVIEW.md)
+- **详细结构说明**: [docs/project/NEW_PROJECT_STRUCTURE.md](mdc:docs/project/NEW_PROJECT_STRUCTURE.md)
+- **主要 README**: [README.md](mdc:README.md)
+
+### 核心模块
+- **核心模块入口**: [src/core/index.ts](mdc:src/core/index.ts)
+- **提示词管理**: [src/core/prompts/prompt-manager.ts](mdc:src/core/prompts/prompt-manager.ts)
+- **对话历史管理**: [src/core/history/conversation-manager.ts](mdc:src/core/history/conversation-manager.ts)
+- **MCP 客户端**: [src/core/mcp/mcp-client.ts](mdc:src/core/mcp/mcp-client.ts)
+
+### 配置文件
+- **系统提示词**: [config/prompt-templates/system-prompts.yaml](mdc:config/prompt-templates/system-prompts.yaml)
+- **MCP 服务器**: [config/mcp-servers/server-registry.yaml](mdc:config/mcp-servers/server-registry.yaml)
+- **用户配置模式**: [config/user-profiles/profile-schema.json](mdc:config/user-profiles/profile-schema.json)
+- **Docker 配置**: [docker/docker-compose.yml](mdc:docker/docker-compose.yml)
+
+## 🔧 开发工具配置
+
+### VS Code 设置
+```json
+{
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "typescript.preferences.importModuleSpecifier": "relative"
+}
+```
+
+### Git 提交规范
+```
+feat: 新功能
+fix: 修复问题
+docs: 文档更新
+style: 代码格式化
+refactor: 代码重构
+test: 测试相关
+chore: 构建过程或辅助工具的变动
+```
+
+## 🎨 UI/UX 指导原则
+
+### 设计系统
+- 使用一致的颜色方案
+- 遵循无障碍设计原则
+- 实施响应式设计
+- 优化用户体验流程
+
+### 组件设计
+- 可复用的组件库
+- 一致的交互模式
+- 清晰的视觉层次
+- 适当的加载状态
+
+## 🧪 测试策略
+
+### 测试类型
+- **单元测试**: 核心功能模块
+- **集成测试**: 模块间交互
+- **端到端测试**: 完整用户流程
+- **安全测试**: 漏洞扫描和渗透测试
+
+### 测试覆盖率
+- 核心模块: 90%+
+- API 路由: 80%+
+- UI 组件: 70%+
+- 整体项目: 80%+
+
+## 📊 监控和维护
+
+### 关键指标
+- 应用性能监控 (APM)
+- 错误率和响应时间
+- 用户行为分析
+- 安全事件监控
+
+### 日志记录
+- 结构化日志格式
+- 适当的日志级别
+- 敏感信息脱敏
+- 日志轮转和归档
+
+## 🚀 部署和发布
+
+### 环境管理
+- **开发环境**: 本地 Docker 环境
+- **测试环境**: CI/CD 自动化测试
+- **生产环境**: 容器化部署
+
+### 发布流程
+1. 代码审查和测试
+2. 版本标记和文档更新
+3. 构建和安全扫描
+4. 灰度发布和监控
+5. 全量发布和回滚准备
+
+---
+
+> 💡 **提示**: 这些规则会随着项目发展不断完善。如有疑问或建议，请查看具体的规则文件或在团队中讨论。

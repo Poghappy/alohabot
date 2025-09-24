@@ -1,0 +1,242 @@
+# 提示词库自动化管理配置文件
+# 版本: 1.0.0
+# 更新时间: 2024-12-19
+
+# 分类体系配置
+categories:
+  business:
+    - "需求分析"
+    - "方案设计" 
+    - "开发实现"
+    - "质量保证"
+    - "部署运维"
+    - "项目管理"
+  
+  function:
+    - "问题诊断"
+    - "方案生成"
+    - "代码操作"
+    - "工具使用"
+    - "知识管理"
+  
+  technical:
+    - "前端技术"
+    - "后端技术"
+    - "DevOps"
+    - "AI_ML"
+    - "安全技术"
+
+# 模板配置
+template:
+  quality_stars: 5
+  default_usage_count: 0
+  auto_increment_id: true
+  default_score: 4.3
+  
+# 触发条件配置
+triggers:
+  # 关键词触发
+  keywords:
+    - "牛逼"
+    - "很好"
+    - "确认"
+    - "认可"
+    - "同意"
+    - "采用"
+    - "通过"
+    - "OK"
+    - "好的"
+  
+  # 正则表达式模式
+  patterns:
+    - "确认.*需求"
+    - "认可.*方案"
+    - "同意.*设计"
+    - "采用.*建议"
+    - "通过.*评审"
+    - "接受.*提案"
+    - "批准.*计划"
+  
+  # 上下文条件
+  context_conditions:
+    - "需求文档"
+    - "用户故事"
+    - "技术方案"
+    - "设计文档"
+    - "项目计划"
+
+# 自动分类规则
+auto_classification:
+  business_keywords:
+    需求分析:
+      - "需求"
+      - "用户故事"
+      - "验收标准"
+      - "功能范围"
+    方案设计:
+      - "架构"
+      - "设计"
+      - "方案"
+      - "技术选型"
+    开发实现:
+      - "代码"
+      - "开发"
+      - "实现"
+      - "编程"
+    质量保证:
+      - "测试"
+      - "质量"
+      - "验证"
+      - "检查"
+    部署运维:
+      - "部署"
+      - "运维"
+      - "发布"
+      - "监控"
+    项目管理:
+      - "项目"
+      - "管理"
+      - "协作"
+      - "沟通"
+  
+  function_keywords:
+    问题诊断:
+      - "问题"
+      - "错误"
+      - "调试"
+      - "诊断"
+    方案生成:
+      - "生成"
+      - "创建"
+      - "制定"
+      - "规划"
+    代码操作:
+      - "代码"
+      - "编程"
+      - "开发"
+      - "实现"
+    工具使用:
+      - "工具"
+      - "使用"
+      - "操作"
+      - "配置"
+    知识管理:
+      - "文档"
+      - "知识"
+      - "管理"
+      - "整理"
+  
+  technical_keywords:
+    前端技术:
+      - "前端"
+      - "UI"
+      - "界面"
+      - "React"
+      - "Vue"
+    后端技术:
+      - "后端"
+      - "API"
+      - "数据库"
+      - "服务器"
+    DevOps:
+      - "Docker"
+      - "K8s"
+      - "CI/CD"
+      - "自动化"
+    AI_ML:
+      - "AI"
+      - "机器学习"
+      - "模型"
+      - "算法"
+    安全技术:
+      - "安全"
+      - "加密"
+      - "认证"
+      - "权限"
+
+# 质量评估配置
+quality_assessment:
+  innovation_factors:
+    - "新颖性"
+    - "创造性"
+    - "独特性"
+  
+  practicality_factors:
+    - "实用性"
+    - "可操作性"
+    - "效果性"
+  
+  universality_factors:
+    - "通用性"
+    - "复用性"
+    - "适应性"
+  
+  scoring_rules:
+    high_quality: 4.5
+    medium_quality: 3.5
+    low_quality: 2.5
+
+# 文件命名规则
+file_naming:
+  pattern: "{title}提示词_{id}.md"
+  id_format: "{:03d}"
+  title_max_length: 20
+  
+# 索引更新配置
+index_update:
+  auto_update: true
+  batch_size: 10
+  update_frequency: "immediate"
+  
+# 备份配置
+backup:
+  enabled: true
+  frequency: "daily"
+  retention_days: 30
+  backup_path: "./backups"
+  
+# 日志配置
+logging:
+  level: "INFO"
+  file_path: "./logs/prompt_manager.log"
+  max_size: "10MB"
+  backup_count: 5
+  
+# 性能配置
+performance:
+  max_file_size: "1MB"
+  max_files_per_category: 100
+  cache_enabled: true
+  cache_ttl: 3600
+  
+# 验证规则
+validation:
+  required_fields:
+    - "title"
+    - "content"
+    - "business_category"
+    - "function_category"
+    - "technical_category"
+  
+  content_rules:
+    min_length: 10
+    max_length: 5000
+    forbidden_chars: ["<script>", "<?php"]
+  
+  tag_rules:
+    max_tags: 10
+    min_tags: 3
+    tag_pattern: "^[\u4e00-\u9fa5a-zA-Z0-9_]+$"
+  
+# 通知配置
+notifications:
+  enabled: true
+  channels:
+    - "console"
+    - "log"
+  
+  events:
+    - "prompt_created"
+    - "prompt_updated"
+    - "index_updated"
+    - "error_occurred"

@@ -1,0 +1,295 @@
+# 火鸟门户 + Bytebot AI桌面代理 - 完整集成配置
+# 使用方法: docker-compose -f docker-compose.bytebot.yml up -d
+
+version: '3.8'
+
+services:
+  # ===========================
+  # 火鸟门户核心服务
+  # ===========================
+  
+  # 火鸟门户前端
+  huoniao-portal:
+    build:
+      context: .
+      dockerfile: Dockerfile.portal
+    container_name: huoniao-portal
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # 基础服务URL
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/huoniao
+      - NEXTAUTH_SECRET=your-secret-key-change-in-production
+      
+      # Bytebot集成URL
+      - BYTEBOT_DESKTOP_URL=http://bytebot-desktop:9990
+      - BYTEBOT_AGENT_URL=http://bytebot-agent:9991
+      - BYTEBOT_UI_URL=http://bytebot-ui:9992
+      
+      # AI API密钥
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      
+      # 其他服务集成
+      - FIRECRAWL_API_URL=http://firecrawl-api:8000
+      - N8N_URL=http://n8n:5678
+    depends_on:
+      - redis
+      - postgres
+      - bytebot-ui
+    networks:
+      - huoniao-network
+    volumes:
+      - ./logs:/app/logs
+
+  # ===========================
+  # Bytebot AI桌面代理服务
+  # ===========================
+
+  # Bytebot桌面环境 (Linux桌面 + noVNC)
+  bytebot-desktop:
+    image: ghcr.io/bytebot-ai/bytebot-desktop:edge
+    container_name: bytebot-desktop
+    restart: unless-stopped
+    hostname: computer
+    privileged: true
+    shm_size: "2g"
+    ports:
+      - "9990:9990"  # noVNC Web界面 + 桌面控制API
+    environment:
+      - DISPLAY=:0
+      - VNC_PASSWORD=bytebot123
+      - RESOLUTION=1920x1080
+    networks:
+      - huoniao-network
+    volumes:
+      - bytebot_desktop_data:/home/user
+      - bytebot_shared_files:/shared
+      - ./logs/bytebot:/var/log/bytebot
+
+  # Bytebot AI代理服务 (任务处理引擎)
+  bytebot-agent:
+    image: ghcr.io/bytebot-ai/bytebot-agent:edge
+    container_name: bytebot-agent
+    restart: unless-stopped
+    ports:
+      - "9991:9991"  # AI代理API服务
+    environment:
+      # 数据库连接
+      - DATABASE_URL=postgresql://postgres:password@bytebot-postgres:5432/bytebotdb
+      
+      # Bytebot桌面连接
+      - BYTEBOT_DESKTOP_BASE_URL=http://bytebot-desktop:9990
+      
+      # AI模型API密钥
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      
+      # Redis缓存 (共享)
+      - REDIS_URL=redis://redis:6379
+      
+      # 性能配置
+      - MAX_CONCURRENT_TASKS=5
+      - TASK_TIMEOUT=3600
+      - LOG_LEVEL=INFO
+    depends_on:
+      - bytebot-postgres
+      - bytebot-desktop
+      - redis
+    networks:
+      - huoniao-network
+    volumes:
+      - bytebot_agent_data:/app/data
+      - bytebot_shared_files:/shared
+      - ./logs/bytebot:/app/logs
+
+  # Bytebot Web UI (用户界面)
+  bytebot-ui:
+    image: ghcr.io/bytebot-ai/bytebot-ui:edge
+    container_name: bytebot-ui
+    restart: unless-stopped
+    ports:
+      - "9992:9992"  # Web用户界面
+    environment:
+      - NODE_ENV=production
+      - BYTEBOT_AGENT_BASE_URL=http://bytebot-agent:9991
+      - BYTEBOT_DESKTOP_VNC_URL=http://bytebot-desktop:9990/websockify
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - bytebot-agent
+      - bytebot-desktop
+    networks:
+      - huoniao-network
+    volumes:
+      - ./logs/bytebot:/app/logs
+
+  # Bytebot专用PostgreSQL数据库
+  bytebot-postgres:
+    image: postgres:16-alpine
+    container_name: bytebot-postgres
+    restart: unless-stopped
+    ports:
+      - "5433:5432"  # 避免与主数据库端口冲突
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=bytebotdb
+    networks:
+      - huoniao-network
+    volumes:
+      - bytebot_postgres_data:/var/lib/postgresql/data
+      - ./backups/bytebot:/backups
+
+  # ===========================
+  # 共享基础服务
+  # ===========================
+
+  # Redis缓存和任务队列 (共享)
+  redis:
+    image: redis:7-alpine
+    container_name: huoniao-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis123}
+    networks:
+      - huoniao-network
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+
+  # PostgreSQL主数据库 (火鸟门户)
+  postgres:
+    image: postgres:15
+    container_name: huoniao-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=huoniao
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    networks:
+      - huoniao-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups/postgres:/backups
+
+  # ===========================
+  # 工作流和数据采集服务
+  # ===========================
+
+  # N8N工作流管理
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: huoniao-n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      # 数据库配置
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=postgres
+      - DB_POSTGRESDB_PASSWORD=password
+      
+      # 认证配置
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin123
+      
+      # Bytebot集成配置
+      - BYTEBOT_AGENT_URL=http://bytebot-agent:9991
+      - BYTEBOT_UI_URL=http://bytebot-ui:9992
+    depends_on:
+      - postgres
+      - bytebot-agent
+    networks:
+      - huoniao-network
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - bytebot_shared_files:/shared
+
+  # Firecrawl数据采集API
+  firecrawl-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.firecrawl
+    container_name: firecrawl-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/huoniao
+      - FIRECRAWL_API_KEY=${FIRECRAWL_API_KEY}
+      - BYTEBOT_AGENT_URL=http://bytebot-agent:9991
+    depends_on:
+      - redis
+      - postgres
+      - bytebot-agent
+    networks:
+      - huoniao-network
+    volumes:
+      - ./data:/app/data
+      - bytebot_shared_files:/shared
+
+  # ===========================
+  # 监控和管理服务
+  # ===========================
+
+  # Nginx反向代理 (可选)
+  nginx:
+    image: nginx:alpine
+    container_name: huoniao-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - huoniao-portal
+      - bytebot-ui
+    networks:
+      - huoniao-network
+    profiles:
+      - production  # 仅在生产环境启用
+
+# ===========================
+# 网络和存储卷配置
+# ===========================
+
+networks:
+  huoniao-network:
+    driver: bridge
+    name: huoniao-network
+
+volumes:
+  # 火鸟门户数据卷
+  postgres_data:
+    name: huoniao_postgres_data
+  redis_data:
+    name: huoniao_redis_data
+  n8n_data:
+    name: huoniao_n8n_data
+  
+  # Bytebot数据卷
+  bytebot_postgres_data:
+    name: bytebot_postgres_data
+  bytebot_desktop_data:
+    name: bytebot_desktop_data
+  bytebot_agent_data:
+    name: bytebot_agent_data
+  bytebot_shared_files:
+    name: bytebot_shared_files
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/bytebot_shared

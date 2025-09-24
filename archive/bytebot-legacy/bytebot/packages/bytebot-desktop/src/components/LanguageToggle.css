@@ -1,0 +1,216 @@
+.language-toggle {
+    position: relative;
+    display: inline-block;
+}
+
+.language-toggle-button {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    backdrop-filter: blur(10px);
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    min-width: 100px;
+}
+
+.language-toggle-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left var(--transition-slow);
+}
+
+.language-toggle-button:hover {
+    background: var(--color-bg-tertiary);
+    border-color: var(--color-border-focus);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.language-toggle-button:hover::before {
+    left: 100%;
+}
+
+.language-toggle-button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+.language-toggle-button:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: 2px;
+}
+
+.language-flag {
+    font-size: 1.125rem;
+    transition: transform var(--transition-normal);
+}
+
+.language-name {
+    font-size: var(--text-xs);
+    opacity: 0.9;
+    transition: opacity var(--transition-normal);
+}
+
+.language-arrow {
+    font-size: var(--text-xs);
+    transition: transform var(--transition-normal);
+    margin-left: auto;
+}
+
+.language-arrow.open {
+    transform: rotate(180deg);
+}
+
+.language-toggle-button:hover .language-flag {
+    transform: scale(1.1);
+}
+
+.language-toggle-button:hover .language-name {
+    opacity: 1;
+}
+
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: var(--spacing-xs);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    min-width: 140px;
+    overflow: hidden;
+    animation: dropdown-appear 0.2s ease-out;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: var(--text-sm);
+    text-align: left;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    outline: none;
+}
+
+.language-option:hover {
+    background: var(--color-bg-tertiary);
+}
+
+.language-option:focus {
+    background: var(--color-bg-tertiary);
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: -2px;
+}
+
+.language-option.selected {
+    background: var(--color-accent-primary);
+    color: white;
+}
+
+.language-option.selected:hover {
+    background: var(--color-accent-secondary);
+}
+
+.language-check {
+    margin-left: auto;
+    font-weight: bold;
+    color: inherit;
+}
+
+.language-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+/* 动画 */
+@keyframes dropdown-appear {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .language-toggle-button {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        min-width: 80px;
+    }
+
+    .language-name {
+        display: none;
+    }
+
+    .language-dropdown {
+        min-width: 120px;
+    }
+}
+
+/* 深色模式特定样式 */
+.dark .language-dropdown {
+    background: rgba(15, 15, 35, 0.95);
+}
+
+.light .language-dropdown {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* 无障碍支持 */
+@media (prefers-reduced-motion: reduce) {
+
+    .language-toggle-button,
+    .language-option,
+    .language-flag,
+    .language-arrow,
+    .language-dropdown {
+        transition: none;
+    }
+
+    .language-dropdown {
+        animation: none;
+    }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+    .language-toggle-button {
+        border-width: 2px;
+    }
+
+    .language-dropdown {
+        border-width: 2px;
+    }
+}

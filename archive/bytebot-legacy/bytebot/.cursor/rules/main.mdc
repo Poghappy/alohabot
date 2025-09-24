@@ -1,0 +1,102 @@
+---
+alwaysApply: true
+description: ByteBot 桌面应用项目主规则
+---
+
+# ByteBot 桌面应用项目主规则
+
+## 项目概述
+ByteBot 是一个基于 AI 的桌面智能体项目，目标是将现有 Web 版本打包成原生桌面应用，支持 Mac 和 Windows 平台。
+
+## 技术栈
+- **前端**: React 18 + Next.js 14 + TypeScript + Tailwind CSS
+- **桌面框架**: Tauri 2.0 + Rust
+- **后端**: Node.js + NestJS + Prisma + PostgreSQL
+- **AI 集成**: LiteLLM 代理，支持 100+ LLM 提供商
+- **模型支持**: 本地模型 (Ollama) + 云端模型 (OpenAI, Anthropic, Google)
+- **容器化**: Docker + Docker Compose
+
+## 核心文件结构
+- [packages/bytebot-ui/](mdc:packages/bytebot-ui/) - 前端 UI 组件
+- [packages/bytebot-agent/](mdc:packages/bytebot-agent/) - 后端 API 服务
+- [packages/bytebotd/](mdc:packages/bytebotd/) - 桌面环境服务
+- [packages/bytebot-llm-proxy/](mdc:packages/bytebot-llm-proxy/) - LiteLLM 代理
+- [docker/](mdc:docker/) - Docker 配置文件
+- [docs/](mdc:docs/) - 项目文档
+
+## 开发规范
+
+### 代码质量
+- **TypeScript**: 严格模式，所有文件必须使用 TypeScript
+- **ESLint**: 使用项目配置的 ESLint 规则
+- **Prettier**: 统一代码格式化
+- **测试覆盖率**: 整体 ≥ 80%，关键模块 ≥ 90%
+
+### 提交规范
+- 使用 Conventional Commits 格式
+- 类型: feat, fix, docs, style, refactor, test, chore
+- 示例: `feat(desktop): add tauri window management`
+
+### 安全要求
+- 禁止在代码中硬编码密钥和敏感信息
+- 所有环境变量通过 `.env` 文件管理
+- 输入验证和错误处理必须完整
+- 使用结构化日志记录 (JSON + traceId)
+
+### 性能要求
+- 应用启动时间 < 3 秒
+- 内存占用 < 500MB
+- 支持离线模式运行
+- 本地模型推理速度 > 15 tokens/秒
+
+## 桌面应用特殊要求
+
+### Tauri 集成
+- 使用 Tauri 2.0 最新版本
+- 支持系统托盘集成
+- 全局快捷键支持
+- 文件拖拽功能
+- 原生通知系统
+
+### 模型管理
+- 支持本地模型下载和管理
+- 智能模型推荐系统
+- 模型性能监控
+- 离线/在线模式切换
+
+### 用户体验
+- 响应式设计，支持不同屏幕尺寸
+- 深色/浅色主题切换
+- 多语言支持 (中文、英文)
+- 无障碍访问支持
+
+## 质量门禁
+
+### 代码审查
+- 所有 PR 必须经过代码审查
+- 关键目录需要 CODEOWNERS 审查
+- 公共 API 变更必须同步文档
+
+### 测试要求
+- 单元测试覆盖关键业务逻辑
+- 集成测试覆盖 API 接口
+- E2E 测试覆盖主要用户流程
+- 性能测试验证响应时间
+
+### 部署要求
+- 支持增量部署和回滚
+- 金丝雀发布策略
+- 自动化测试通过后才能部署
+- 监控和告警配置完整
+
+## 文档要求
+- API 文档使用 OpenAPI 3.0 规范
+- 用户文档包含安装、配置、使用指南
+- 开发者文档包含架构设计、部署说明
+- 所有文档保持最新状态
+
+## 风险控制
+- 关键功能必须有回滚方案
+- 数据备份和恢复策略
+- 安全漏洞及时修复
+- 性能问题及时优化

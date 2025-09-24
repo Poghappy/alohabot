@@ -1,0 +1,165 @@
+name: bytebot-litellm-complete
+
+services:
+  bytebot-desktop:
+    image: ghcr.io/bytebot-ai/bytebot-desktop:edge
+    shm_size: "4g"
+    container_name: bytebot-desktop
+    restart: unless-stopped
+    hostname: computer
+    privileged: true
+    ports:
+      - "9990:9990"
+    environment:
+      - DISPLAY=:0
+    networks:
+      - bytebot-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: bytebot-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=bytebotdb
+      # 数据库优化
+      - POSTGRES_SHARED_BUFFERS=1GB
+      - POSTGRES_EFFECTIVE_CACHE_SIZE=4GB
+      - POSTGRES_MAINTENANCE_WORK_MEM=512MB
+    networks:
+      - bytebot-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  bytebot-agent:
+    image: ghcr.io/bytebot-ai/bytebot-agent:edge
+    container_name: bytebot-agent
+    restart: unless-stopped
+    ports:
+      - "9991:9991"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/bytebotdb}
+      - BYTEBOT_DESKTOP_BASE_URL=${BYTEBOT_DESKTOP_BASE_URL:-http://bytebot-desktop:9990}
+      - BYTEBOT_LLM_PROXY_URL=${BYTEBOT_LLM_PROXY_URL:-http://bytebot-llm-proxy:4000}
+      # 性能优化
+      - NODE_OPTIONS=--max-old-space-size=4096
+      - UV_THREADPOOL_SIZE=16
+    depends_on:
+      - postgres
+      - bytebot-llm-proxy
+    networks:
+      - bytebot-network
+
+  # 完整的 LiteLLM 代理服务
+  bytebot-llm-proxy:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: bytebot-llm-proxy
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      # API 密钥配置
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY:-}
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-litellm-master-key}
+      
+      # 性能优化
+      - PYTHONUNBUFFERED=1
+      - OMP_NUM_THREADS=8
+      - MKL_NUM_THREADS=8
+      
+      # 调试设置
+      - LITELLM_LOG=INFO
+      - LITELLM_LOCAL_MODEL_COST_MAP=1
+    volumes:
+      - ../packages/bytebot-llm-proxy/litellm-config-complete.yaml:/app/litellm-config.yaml
+    command: [
+      "--config", "/app/litellm-config.yaml",
+      "--port", "4000",
+      "--host", "0.0.0.0",
+      "--detailed_debug"
+    ]
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+        reservations:
+          memory: 2G
+    networks:
+      - bytebot-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  bytebot-ui:
+    image: ghcr.io/bytebot-ai/bytebot-ui:edge
+    container_name: bytebot-ui
+    restart: unless-stopped
+    ports:
+      - "9992:9992"
+    environment:
+      - NODE_ENV=production
+      - BYTEBOT_AGENT_BASE_URL=${BYTEBOT_AGENT_BASE_URL:-http://bytebot-agent:9991}
+      - BYTEBOT_DESKTOP_VNC_URL=${BYTEBOT_DESKTOP_VNC_URL:-http://bytebot-desktop:9990/websockify}
+      # 前端优化
+      - NODE_OPTIONS=--max-old-space-size=2048
+    depends_on:
+      - bytebot-agent
+    networks:
+      - bytebot-network
+
+  # Redis 缓存服务 (可选)
+  redis:
+    image: redis:7-alpine
+    container_name: bytebot-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 1gb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - bytebot-network
+    profiles:
+      - cache  # 可选启动
+
+  # 监控服务 (可选)
+  bytebot-monitor:
+    image: ghcr.io/bytebot-ai/bytebot-ui:edge
+    container_name: bytebot-monitor
+    restart: unless-stopped
+    ports:
+      - "9993:9992"
+    environment:
+      - NODE_ENV=development
+      - MONITORING_MODE=true
+    networks:
+      - bytebot-network
+    profiles:
+      - monitoring  # 可选启动
+
+networks:
+  bytebot-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1500
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local

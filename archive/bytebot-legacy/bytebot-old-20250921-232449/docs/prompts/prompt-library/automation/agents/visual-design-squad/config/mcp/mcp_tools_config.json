@@ -1,0 +1,531 @@
+{
+  "version": "1.0.0",
+  "description": "ByteBot.ai 视觉设计智能体团队 MCP 工具链配置",
+  "created_at": "2025-01-16T10:00:00Z",
+  "updated_at": "2025-01-16T10:00:00Z",
+  "author": "ByteBot Design Agent Squad",
+  
+  "mcp_servers": {
+    "image_processing": {
+      "name": "imagemagick-mcp",
+      "description": "图像处理和格式转换工具",
+      "priority": "high",
+      "required_for_agents": ["A3_logo_agent", "A4_iconography_agent", "A5_illustration_agent", "A9_asset_ops_agent"],
+      "capabilities": [
+        "图像格式转换 (PNG, JPG, WebP, SVG)",
+        "图像压缩和优化",
+        "批量图像处理",
+        "图像尺寸调整和裁剪",
+        "水印添加和移除",
+        "色彩空间转换"
+      ],
+      "configuration": {
+        "max_file_size": "50MB",
+        "supported_formats": ["png", "jpg", "jpeg", "webp", "svg", "gif", "bmp", "tiff"],
+        "quality_settings": {
+          "high": 95,
+          "medium": 85,
+          "low": 70
+        },
+        "compression_presets": {
+          "web_optimized": {
+            "format": "webp",
+            "quality": 85,
+            "progressive": true
+          },
+          "print_ready": {
+            "format": "png",
+            "quality": 100,
+            "dpi": 300
+          }
+        }
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-imagemagick",
+        "config_path": "~/.config/mcp/imagemagick.json",
+        "verification": "mcp list-servers | grep imagemagick"
+      }
+    },
+    
+    "vector_processing": {
+      "name": "svgo-mcp",
+      "description": "SVG矢量图形优化工具",
+      "priority": "high",
+      "required_for_agents": ["A3_logo_agent", "A4_iconography_agent", "A6_ui_agent"],
+      "capabilities": [
+        "SVG文件优化和压缩",
+        "移除不必要的元素和属性",
+        "路径简化和合并",
+        "颜色优化",
+        "精度统一",
+        "批量SVG处理"
+      ],
+      "configuration": {
+        "precision": 2,
+        "remove_comments": true,
+        "remove_metadata": true,
+        "optimize_paths": true,
+        "merge_paths": true,
+        "plugins": [
+          "removeDoctype",
+          "removeXMLProcInst",
+          "removeComments",
+          "removeMetadata",
+          "removeEditorsNSData",
+          "cleanupAttrs",
+          "mergeStyles",
+          "inlineStyles",
+          "minifyStyles",
+          "cleanupNumericValues",
+          "convertColors",
+          "removeUnknownsAndDefaults",
+          "removeNonInheritableGroupAttrs",
+          "removeUselessStrokeAndFill",
+          "removeUnusedNS",
+          "cleanupIDs",
+          "cleanupListOfValues",
+          "minifyPathData",
+          "convertTransform",
+          "removeEmptyAttrs",
+          "removeEmptyText",
+          "removeEmptyContainers",
+          "mergePaths",
+          "removeUnusedNS",
+          "sortAttrs",
+          "removeTitle",
+          "removeDesc"
+        ]
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-svgo",
+        "config_path": "~/.config/mcp/svgo.json",
+        "verification": "mcp list-servers | grep svgo"
+      }
+    },
+    
+    "icon_management": {
+      "name": "iconify-mcp",
+      "description": "图标系统化管理工具",
+      "priority": "high",
+      "required_for_agents": ["A4_iconography_agent", "A6_ui_agent"],
+      "capabilities": [
+        "图标网格系统生成",
+        "图标一致性检查",
+        "批量图标处理",
+        "图标字体生成",
+        "图标命名规范化",
+        "图标变体生成"
+      ],
+      "configuration": {
+        "grid_sizes": [16, 20, 24, 32, 48, 64],
+        "stroke_widths": [1, 1.5, 2, 2.5],
+        "icon_styles": ["line", "fill", "duotone"],
+        "naming_convention": "kebab-case",
+        "export_formats": ["svg", "png", "webp"],
+        "font_generation": {
+          "enabled": true,
+          "font_name": "ByteBotIcons",
+          "css_prefix": "bb-icon"
+        }
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-iconify",
+        "config_path": "~/.config/mcp/iconify.json",
+        "verification": "mcp list-servers | grep iconify"
+      }
+    },
+    
+    "animation_tools": {
+      "name": "lottie-mcp",
+      "description": "动效设计和Lottie动画工具",
+      "priority": "medium",
+      "required_for_agents": ["A7_motion_agent"],
+      "capabilities": [
+        "Lottie动画文件生成",
+        "动画优化和压缩",
+        "动画预览和测试",
+        "多格式动画导出",
+        "动画性能分析",
+        "交互动画配置"
+      ],
+      "configuration": {
+        "output_formats": ["json", "mp4", "gif", "webm"],
+        "quality_presets": {
+          "high": {
+            "fps": 60,
+            "quality": 100
+          },
+          "medium": {
+            "fps": 30,
+            "quality": 80
+          },
+          "low": {
+            "fps": 24,
+            "quality": 60
+          }
+        },
+        "optimization": {
+          "remove_unused_assets": true,
+          "compress_images": true,
+          "simplify_paths": true
+        }
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-lottie",
+        "config_path": "~/.config/mcp/lottie.json",
+        "verification": "mcp list-servers | grep lottie"
+      }
+    },
+    
+    "accessibility_checker": {
+      "name": "a11y-checker-mcp",
+      "description": "可访问性和合规性检测工具",
+      "priority": "high",
+      "required_for_agents": ["A8_a11y_qa_agent", "A10_design_qa_agent"],
+      "capabilities": [
+        "WCAG 2.1 合规性检查",
+        "颜色对比度检测",
+        "色盲模拟测试",
+        "字体大小和可读性检查",
+        "键盘导航测试",
+        "屏幕阅读器兼容性测试"
+      ],
+      "configuration": {
+        "wcag_level": "AA",
+        "contrast_ratio_threshold": 4.5,
+        "font_size_minimum": 16,
+        "color_blindness_types": [
+          "protanopia",
+          "deuteranopia",
+          "tritanopia",
+          "achromatopsia"
+        ],
+        "test_scenarios": [
+          "keyboard_navigation",
+          "screen_reader",
+          "high_contrast",
+          "reduced_motion"
+        ]
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-a11y-checker",
+        "config_path": "~/.config/mcp/a11y-checker.json",
+        "verification": "mcp list-servers | grep a11y-checker"
+      }
+    },
+    
+    "version_control": {
+      "name": "git-mcp",
+      "description": "Git版本控制和协作工具",
+      "priority": "high",
+      "required_for_agents": ["A12_release_manager_agent", "A9_asset_ops_agent"],
+      "capabilities": [
+        "自动化Git操作",
+        "分支管理和合并",
+        "提交信息规范化",
+        "变更日志生成",
+        "版本标签管理",
+        "冲突解决辅助"
+      ],
+      "configuration": {
+        "commit_message_template": "<type>(<scope>): <subject>\n\n<body>\n\n<footer>",
+        "branch_naming": {
+          "feature": "feature/<description>",
+          "bugfix": "bugfix/<description>",
+          "hotfix": "hotfix/<description>",
+          "release": "release/v<version>"
+        },
+        "auto_changelog": true,
+        "semantic_versioning": true
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-git",
+        "config_path": "~/.config/mcp/git.json",
+        "verification": "mcp list-servers | grep git"
+      }
+    },
+    
+    "license_audit": {
+      "name": "license-audit-mcp",
+      "description": "许可证管理和合规审计工具",
+      "priority": "medium",
+      "required_for_agents": ["A9_asset_ops_agent", "A12_release_manager_agent"],
+      "capabilities": [
+        "自动生成许可证清单",
+        "开源协议合规检查",
+        "版权信息管理",
+        "许可证冲突检测",
+        "合规报告生成",
+        "许可证更新提醒"
+      ],
+      "configuration": {
+        "supported_licenses": [
+          "MIT",
+          "Apache-2.0",
+          "GPL-3.0",
+          "BSD-3-Clause",
+          "CC-BY-4.0",
+          "CC-BY-SA-4.0"
+        ],
+        "output_format": "csv",
+        "include_dev_dependencies": false,
+        "auto_update": true
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-license-audit",
+        "config_path": "~/.config/mcp/license-audit.json",
+        "verification": "mcp list-servers | grep license-audit"
+      }
+    },
+    
+    "browser_automation": {
+      "name": "playwright-mcp",
+      "description": "浏览器自动化和测试工具",
+      "priority": "medium",
+      "required_for_agents": ["A7_motion_agent", "A8_a11y_qa_agent", "A10_design_qa_agent"],
+      "capabilities": [
+        "自动化浏览器测试",
+        "截图和视觉回归测试",
+        "性能监控",
+        "用户交互模拟",
+        "跨浏览器兼容性测试",
+        "动画效果预览"
+      ],
+      "configuration": {
+        "browsers": ["chromium", "firefox", "webkit"],
+        "viewport_sizes": [
+          {"width": 1920, "height": 1080},
+          {"width": 1366, "height": 768},
+          {"width": 768, "height": 1024},
+          {"width": 375, "height": 667}
+        ],
+        "screenshot_options": {
+          "full_page": true,
+          "quality": 90,
+          "format": "png"
+        },
+        "performance_metrics": [
+          "first_contentful_paint",
+          "largest_contentful_paint",
+          "cumulative_layout_shift",
+          "first_input_delay"
+        ]
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-playwright",
+        "config_path": "~/.config/mcp/playwright.json",
+        "verification": "mcp list-servers | grep playwright"
+      }
+    },
+    
+    "file_system": {
+      "name": "filesystem-mcp",
+      "description": "文件系统操作和管理工具",
+      "priority": "high",
+      "required_for_agents": ["A9_asset_ops_agent", "A12_release_manager_agent"],
+      "capabilities": [
+        "文件和目录操作",
+        "批量文件处理",
+        "文件搜索和过滤",
+        "目录结构管理",
+        "文件权限管理",
+        "存储空间监控"
+      ],
+      "configuration": {
+        "allowed_extensions": [
+          ".svg", ".png", ".jpg", ".jpeg", ".webp", ".gif",
+          ".json", ".css", ".scss", ".js", ".ts",
+          ".md", ".txt", ".pdf", ".ai", ".sketch", ".fig"
+        ],
+        "max_file_size": "100MB",
+        "backup_enabled": true,
+        "compression_enabled": true
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-filesystem",
+        "config_path": "~/.config/mcp/filesystem.json",
+        "verification": "mcp list-servers | grep filesystem"
+      }
+    },
+    
+    "http_client": {
+      "name": "fetch-mcp",
+      "description": "HTTP客户端和API调用工具",
+      "priority": "medium",
+      "required_for_agents": ["A1_brand_strategist", "A11_prompt_engineer_agent"],
+      "capabilities": [
+        "HTTP请求发送",
+        "API数据获取",
+        "文件下载和上传",
+        "认证和授权处理",
+        "请求缓存",
+        "错误处理和重试"
+      ],
+      "configuration": {
+        "timeout": 30000,
+        "max_redirects": 5,
+        "retry_attempts": 3,
+        "cache_enabled": true,
+        "supported_methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        "headers": {
+          "User-Agent": "ByteBot-Design-Agent/1.0",
+          "Accept": "application/json, text/plain, */*"
+        }
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-fetch",
+        "config_path": "~/.config/mcp/fetch.json",
+        "verification": "mcp list-servers | grep fetch"
+      }
+    },
+    
+    "diagnostics": {
+      "name": "diagnostics-mcp",
+      "description": "系统诊断和健康检查工具",
+      "priority": "low",
+      "required_for_agents": ["A12_release_manager_agent"],
+      "capabilities": [
+        "系统性能监控",
+        "工具链健康检查",
+        "错误日志分析",
+        "资源使用统计",
+        "配置验证",
+        "问题诊断报告"
+      ],
+      "configuration": {
+        "check_interval": 300,
+        "log_level": "info",
+        "metrics_retention": "7d",
+        "alert_thresholds": {
+          "cpu_usage": 80,
+          "memory_usage": 85,
+          "disk_usage": 90
+        }
+      },
+      "installation": {
+        "command": "npm install -g @modelcontextprotocol/server-diagnostics",
+        "config_path": "~/.config/mcp/diagnostics.json",
+        "verification": "mcp list-servers | grep diagnostics"
+      }
+    }
+  },
+  
+  "installation_script": {
+    "description": "自动化MCP工具链安装脚本",
+    "script_path": "./scripts/install-mcp-tools.sh",
+    "commands": [
+      "#!/bin/bash",
+      "echo 'Installing ByteBot Design Agent MCP Tools...'",
+      "",
+      "# 创建MCP配置目录",
+      "mkdir -p ~/.config/mcp",
+      "",
+      "# 安装核心工具",
+      "npm install -g @modelcontextprotocol/server-imagemagick",
+      "npm install -g @modelcontextprotocol/server-svgo",
+      "npm install -g @modelcontextprotocol/server-iconify",
+      "npm install -g @modelcontextprotocol/server-a11y-checker",
+      "npm install -g @modelcontextprotocol/server-git",
+      "npm install -g @modelcontextprotocol/server-filesystem",
+      "",
+      "# 安装可选工具",
+      "npm install -g @modelcontextprotocol/server-lottie",
+      "npm install -g @modelcontextprotocol/server-license-audit",
+      "npm install -g @modelcontextprotocol/server-playwright",
+      "npm install -g @modelcontextprotocol/server-fetch",
+      "npm install -g @modelcontextprotocol/server-diagnostics",
+      "",
+      "# 验证安装",
+      "echo 'Verifying installation...'",
+      "mcp list-servers",
+      "",
+      "echo 'MCP Tools installation completed!'"
+    ]
+  },
+  
+  "usage_examples": {
+    "image_optimization": {
+      "description": "批量优化Logo图像",
+      "agent": "A3_logo_agent",
+      "mcp_tool": "imagemagick-mcp",
+      "example": {
+        "input": "./assets/logo/source/",
+        "output": "./assets/logo/optimized/",
+        "command": "convert logo.png -resize 512x512 -quality 85 -format webp logo_512x512.webp"
+      }
+    },
+    "svg_optimization": {
+      "description": "优化图标SVG文件",
+      "agent": "A4_iconography_agent",
+      "mcp_tool": "svgo-mcp",
+      "example": {
+        "input": "./assets/icons/source/",
+        "output": "./assets/icons/optimized/",
+        "command": "svgo --folder ./assets/icons/source/ --output ./assets/icons/optimized/ --precision 2"
+      }
+    },
+    "accessibility_check": {
+      "description": "检查设计可访问性",
+      "agent": "A8_a11y_qa_agent",
+      "mcp_tool": "a11y-checker-mcp",
+      "example": {
+        "input": "https://bytebot.ai",
+        "command": "a11y-check --url https://bytebot.ai --level AA --output report.json"
+      }
+    },
+    "version_release": {
+      "description": "创建设计系统版本发布",
+      "agent": "A12_release_manager_agent",
+      "mcp_tool": "git-mcp",
+      "example": {
+        "commands": [
+          "git checkout -b release/v1.2.0",
+          "git add .",
+          "git commit -m 'feat(design-system): release v1.2.0'",
+          "git tag v1.2.0",
+          "git push origin release/v1.2.0 --tags"
+        ]
+      }
+    }
+  },
+  
+  "quality_gates": {
+    "pre_commit": {
+      "description": "提交前质量检查",
+      "checks": [
+        "图像文件大小检查 (<5MB)",
+        "SVG文件优化验证",
+        "文件命名规范检查",
+        "许可证信息验证"
+      ],
+      "tools": ["filesystem-mcp", "svgo-mcp", "license-audit-mcp"]
+    },
+    "pre_release": {
+      "description": "发布前质量检查",
+      "checks": [
+        "可访问性合规检查",
+        "性能基准测试",
+        "跨浏览器兼容性测试",
+        "设计一致性验证"
+      ],
+      "tools": ["a11y-checker-mcp", "playwright-mcp", "diagnostics-mcp"]
+    }
+  },
+  
+  "monitoring": {
+    "health_checks": {
+      "frequency": "daily",
+      "metrics": [
+        "MCP服务器响应时间",
+        "工具执行成功率",
+        "资源使用情况",
+        "错误日志统计"
+      ]
+    },
+    "alerts": {
+      "service_down": "MCP服务器不可用",
+      "high_error_rate": "错误率超过5%",
+      "performance_degradation": "响应时间超过10秒"
+    }
+  }
+}

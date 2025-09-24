@@ -1,0 +1,232 @@
+---
+globs: *.yaml,*.yml,*.json,*.env*
+description: 配置文件标准和最佳实践
+---
+
+# 配置文件标准
+
+## YAML 配置规范
+
+### 文件结构
+- 使用 2 个空格缩进
+- 包含版本信息和更新时间
+- 添加详细的注释说明
+
+参考: [config/prompt-templates/system-prompts.yaml](mdc:config/prompt-templates/system-prompts.yaml)
+
+```yaml
+# 系统提示词配置
+# System Prompts Configuration
+
+version: "1.0.0"
+last_updated: "2025-09-20"
+
+# 核心系统提示词
+core_prompts:
+  default:
+    name: "ByteBot 默认系统提示词"
+    description: "ByteBot AI助手的默认系统行为指令"
+    content: |
+      你是 ByteBot，一个智能的 AI 自动化助手...
+```
+
+### MCP 服务器配置
+参考: [config/mcp-servers/server-registry.yaml](mdc:config/mcp-servers/server-registry.yaml)
+
+```yaml
+servers:
+  filesystem:
+    name: "文件系统工具"
+    description: "提供文件读写、目录操作等功能"
+    type: "builtin"
+    endpoint: "mcp://filesystem"
+    capabilities:
+      - file_read
+      - file_write
+      - directory_list
+    config:
+      allowed_directories:
+        - "/path/to/allowed/directory"
+      max_file_size: "10MB"
+```
+
+## JSON 配置规范
+
+### 用户配置文件
+参考: [config/user-profiles/profile-schema.json](mdc:config/user-profiles/profile-schema.json)
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ByteBot 用户配置文件模式",
+  "description": "定义用户配置文件的结构和验证规则",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    }
+  }
+}
+```
+
+### Package.json 规范
+- 统一使用 kebab-case 命名包名
+- 包含完整的依赖版本
+- 添加必要的脚本命令
+
+```json
+{
+  "name": "bytebot-ui",
+  "version": "0.1.0",
+  "description": "ByteBot Web 用户界面",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
+}
+```
+
+## 环境变量规范
+
+### .env 文件结构
+参考: [docker/.env](mdc:docker/.env)
+
+```bash
+# API 密钥配置
+OPENAI_API_KEY=sk-proj-...
+ANTHROPIC_API_KEY=sk-ant-...
+GEMINI_API_KEY=...
+
+# 数据库配置
+DATABASE_URL=postgresql://user:password@host:port/database
+
+# 服务端口配置
+BYTEBOT_UI_PORT=9992
+BYTEBOT_AGENT_PORT=9991
+BYTEBOT_DESKTOP_PORT=9990
+
+# 功能开关
+ENABLE_MCP_SUPPORT=true
+ENABLE_HISTORY_LOGGING=true
+```
+
+### 环境变量命名规范
+- 使用 UPPER_SNAKE_CASE
+- 按功能分组，添加注释
+- 敏感信息使用占位符
+
+## Docker 配置规范
+
+### docker-compose.yml
+参考: [docker/docker-compose.yml](mdc:docker/docker-compose.yml)
+
+```yaml
+version: '3.8'
+
+services:
+  bytebot-ui:
+    image: ghcr.io/bytebot-ai/bytebot-ui:edge
+    ports:
+      - "9992:9992"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - bytebot-agent
+```
+
+### Dockerfile 规范
+- 使用多阶段构建
+- 优化镜像大小
+- 设置非 root 用户
+
+```dockerfile
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM node:20-alpine AS runtime
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY . .
+EXPOSE 9992
+USER node
+CMD ["npm", "start"]
+```
+
+## 配置验证
+
+### Schema 验证
+- 所有 JSON 配置文件都应该有对应的 schema
+- 使用 JSON Schema 进行结构验证
+- 提供默认值和示例
+
+### 配置加载
+```typescript
+// 配置文件加载时进行验证
+const configContent = readFileSync(this.configPath, 'utf8');
+this.config = yaml.load(configContent) as PromptConfig;
+
+// 验证必需字段
+if (!this.config.version) {
+    throw new Error('配置文件缺少版本信息');
+}
+```
+
+## 配置文件组织
+
+### 目录结构
+```
+config/
+├── agents/                 # 智能体配置
+├── mcp-servers/           # MCP 服务器配置
+├── prompt-templates/      # 提示词模板
+└── user-profiles/         # 用户配置文件
+```
+
+### 文件命名规范
+- 使用 kebab-case 命名
+- 包含功能描述
+- 添加适当的文件扩展名
+
+### 版本管理
+- 所有配置文件都应包含版本信息
+- 记录变更历史
+- 支持向后兼容
+
+```yaml
+version: "1.0.0"
+last_updated: "2025-09-20"
+
+version_history:
+  - version: "1.0.0"
+    date: "2025-09-20"
+    changes: "初始版本，包含核心系统提示词"
+```
+
+## 安全考虑
+
+### 敏感信息处理
+- 不在代码仓库中存储真实的 API 密钥
+- 使用环境变量或密钥管理服务
+- 提供示例配置文件
+
+### 访问控制
+```yaml
+security:
+  allowed_origins:
+    - "localhost"
+    - "127.0.0.1"
+  
+  rate_limits:
+    per_minute: 60
+    per_hour: 1000
+  
+  access_control:
+    require_auth: true
+    allowed_users:
+      - "admin"
+      - "developer"
+```

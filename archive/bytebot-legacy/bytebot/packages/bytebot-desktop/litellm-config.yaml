@@ -1,0 +1,145 @@
+model_list:
+  # 云端模型 - 高性能
+  - model_name: claude-3-5-sonnet
+    litellm_params:
+      model: anthropic/claude-3-5-sonnet-20241022
+      api_key: os.environ/ANTHROPIC_API_KEY
+      supports_vision: true
+      supports_function_calling: true
+      max_tokens: 8192
+
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+      supports_vision: true
+      supports_function_calling: true
+      max_tokens: 4096
+
+  # 本地模型 - 离线支持
+  - model_name: local-qwen3-32b
+    litellm_params:
+      model: ollama/qwen3:32b
+      api_base: http://localhost:11434
+      supports_vision: false
+      supports_function_calling: true
+      max_tokens: 32768
+
+  - model_name: local-deepseek-v3
+    litellm_params:
+      model: ollama/deepseek-v3:32b
+      api_base: http://localhost:11434
+      supports_vision: false
+      supports_function_calling: true
+      max_tokens: 65536
+
+  - model_name: local-llama4-scout
+    litellm_params:
+      model: ollama/llama4-scout:70b
+      api_base: http://localhost:11434
+      supports_vision: false
+      supports_function_calling: true
+      max_tokens: 1000000
+
+  # 轻量级模型 - 快速响应
+  - model_name: claude-3-5-haiku
+    litellm_params:
+      model: anthropic/claude-3-5-haiku-20241022
+      api_key: os.environ/ANTHROPIC_API_KEY
+      supports_vision: true
+      supports_function_calling: true
+      max_tokens: 4096
+
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+      supports_vision: true
+      supports_function_calling: true
+      max_tokens: 16384
+
+  - model_name: local-gemma3-9b
+    litellm_params:
+      model: ollama/gemma3:9b
+      api_base: http://localhost:11434
+      supports_vision: false
+      supports_function_calling: true
+      max_tokens: 128000
+
+# 智能路由配置
+router_settings:
+  routing_strategy: "least-busy"
+
+  # 模型组别名 - 智能选择
+  model_group_alias:
+    "smart-model": ["claude-3-5-sonnet", "gpt-4o", "local-qwen3-32b"]
+    "fast-model": ["claude-3-5-haiku", "gpt-4o-mini", "local-gemma3-9b"]
+    "local-model":
+      ["local-qwen3-32b", "local-deepseek-v3", "local-llama4-scout"]
+    "vision-model": ["claude-3-5-sonnet", "gpt-4o", "claude-3-5-haiku"]
+    "long-context": ["local-llama4-scout", "local-deepseek-v3", "gpt-4o-mini"]
+
+  # 故障转移配置
+  fallback_models:
+    - ["claude-3-5-sonnet", "gpt-4o", "local-qwen3-32b"]
+    - ["gpt-4o-mini", "local-gemma3-9b"]
+    - ["local-qwen3-32b"]
+
+  # 性能优化
+  enable_pre_call_checks: true
+  cooldown_time: 60
+  num_retries: 3
+  request_timeout: 300
+
+# 成本控制
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+  # 预算控制
+  max_budget: 50 # $50 月度限制
+  budget_duration: "30d"
+
+  # 模型预算分配
+  model_max_budget:
+    claude-3-5-sonnet: 20
+    gpt-4o: 20
+    claude-3-5-haiku: 5
+    gpt-4o-mini: 5
+
+  # 缓存配置
+  cache: true
+  cache_params:
+    type: "redis"
+    host: "localhost"
+    port: 6379
+    ttl: 3600
+
+# LiteLLM 设置
+litellm_settings:
+  debug: false
+  detailed_debug: false
+
+  # 回调函数
+  callbacks: ["langfuse"]
+
+  # 性能监控
+  success_callback: "langfuse"
+  failure_callback: "langfuse"
+
+  # 模型信息存储
+  store_model_in_db: true
+
+# 安全设置
+security:
+  # IP 白名单
+  allowed_ips: ["127.0.0.1", "localhost"]
+
+  # 请求限制
+  max_requests_per_minute: 100
+  max_tokens_per_minute: 100000
+
+  # 加密设置
+  encrypt_keys: true
+
+  # 审计日志
+  audit_logs: true

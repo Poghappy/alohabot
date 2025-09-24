@@ -1,0 +1,239 @@
+# ByteBot 混合配置优化 - M4 Pro + 云端模型
+# 针对您的 M4 Pro 和现有 API 密钥优化
+
+model_list:
+  # ==================== 本地模型 (M4 Pro 优化) ====================
+  # 基于您现有的 Ollama 模型
+  - model_name: local-qwen2.5vl-7b
+    litellm_params:
+      model: ollama/qwen2.5vl:7b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+      # M4 Pro 优化参数
+      gpu_layers: -1
+      num_ctx: 4096
+
+  - model_name: local-llama3.2-3b
+    litellm_params:
+      model: ollama/llama3.2:3b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 16384
+      temperature: 0.8
+      # 3B 模型在 M4 Pro 上运行极快
+      gpu_layers: -1
+      num_ctx: 16384
+
+  - model_name: local-gpt-oss-20b
+    litellm_params:
+      model: ollama/gpt-oss:20b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 4096
+      temperature: 0.6
+      # 20B 模型在 24GB 内存下运行流畅
+      gpu_layers: -1
+      num_ctx: 4096
+
+  - model_name: local-qwen3-1.7b
+    litellm_params:
+      model: ollama/kiwi_kiwi/qwen3_a:1.7b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      # 1.7B 模型响应极快
+      gpu_layers: -1
+      num_ctx: 8192
+
+  # ==================== 云端模型 (您已配置的) ====================
+  # OpenAI 模型 (您已配置 API 密钥)
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      max_tokens: 16384
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: gpt-4-turbo
+    litellm_params:
+      model: openai/gpt-4-turbo
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+
+  # 如果您有 Anthropic API 密钥，可以添加
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: anthropic/claude-3-5-sonnet-20241022
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: claude-3-5-haiku-20241022
+    litellm_params:
+      model: anthropic/claude-3-5-haiku-20241022
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+  # 如果您有 Gemini API 密钥，可以添加
+  - model_name: gemini-1.5-pro
+    litellm_params:
+      model: gemini/gemini-1.5-pro
+      api_key: os.environ/GEMINI_API_KEY
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: gemini-1.5-flash
+    litellm_params:
+      model: gemini/gemini-1.5-flash
+      api_key: os.environ/GEMINI_API_KEY
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+# ==================== 智能路由配置 ====================
+router_settings:
+  # 路由策略 - 基于延迟和可用性
+  routing_strategy: "latency-based"
+  cooldown_time: 30 # 失败后冷却时间
+  num_retries: 2 # 重试次数
+  request_timeout: 300 # 请求超时时间 (5分钟)
+
+  # 模型组别名 - 针对不同使用场景
+  model_group_alias:
+    # 快速响应组 - 优先使用本地模型
+    "fast-model":
+      [
+        "local-llama3.2-3b",
+        "local-qwen3-1.7b",
+        "gpt-4o-mini",
+        "claude-3-5-haiku-20241022",
+      ]
+
+    # 智能对话组 - 本地 + 云端平衡
+    "smart-model":
+      [
+        "local-qwen2.5vl-7b",
+        "gpt-4o",
+        "claude-3-5-sonnet-20241022",
+        "local-gpt-oss-20b",
+      ]
+
+    # 视觉任务组 - 支持图像理解
+    "vision-model":
+      [
+        "local-qwen2.5vl-7b",
+        "gpt-4o",
+        "claude-3-5-sonnet-20241022",
+        "gemini-1.5-pro",
+      ]
+
+    # 本地优先组 - 优先使用本地模型
+    "local-first": [
+        "local-qwen2.5vl-7b",
+        "local-llama3.2-3b",
+        "local-gpt-oss-20b",
+        "local-qwen3-1.7b",
+        "gpt-4o-mini", # 云端备选
+      ]
+
+    # 云端优先组 - 优先使用云端模型
+    "cloud-first": [
+        "gpt-4o",
+        "claude-3-5-sonnet-20241022",
+        "gemini-1.5-pro",
+        "local-qwen2.5vl-7b", # 本地备选
+      ]
+
+    # 高性能组 - 复杂任务
+    "power-model":
+      [
+        "local-gpt-oss-20b",
+        "gpt-4o",
+        "claude-3-5-sonnet-20241022",
+        "gpt-4-turbo",
+      ]
+
+  # 负载均衡配置
+  load_balancing:
+    enabled: true
+    strategy: "round-robin"
+
+  # 缓存配置 - 利用 M4 Pro 高速内存
+  cache:
+    enabled: true
+    ttl: 3600 # 1小时缓存
+    max_size: "2GB"
+
+# ==================== 通用设置 ====================
+general_settings:
+  # 主密钥
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+  # 并发控制 - M4 Pro 可以处理更多并发
+  max_concurrent_requests: 15
+
+  # 超时设置
+  request_timeout: 300
+  read_timeout: 300
+
+  # 日志配置
+  log_level: "INFO"
+
+  # 健康检查
+  health_check_interval: 30
+
+  # 成本控制 - 基于您的使用情况
+  max_budget: 200 # $200 月度限制
+  budget_duration: "30d"
+
+  # 安全设置
+  allowed_ips: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+
+  # 加密设置
+  encrypt_keys: true
+
+  # 转发头部
+  forward_headers: ["X-Request-ID", "X-User-ID", "Authorization"]
+
+# ==================== LiteLLM 设置 ====================
+litellm_settings:
+  # 调试模式
+  debug: false
+  detailed_debug: false
+
+  # 回调设置
+  callbacks: [] # 暂时不使用外部监控
+
+  # 重试设置
+  num_retries: 2
+  retry_delay: 1
+
+  # 速率限制
+  default_max_requests_per_minute: 1000
+  default_max_tokens_per_minute: 100000

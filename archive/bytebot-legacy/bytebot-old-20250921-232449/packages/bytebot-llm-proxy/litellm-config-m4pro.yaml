@@ -1,0 +1,99 @@
+model_list:
+  # M4 Pro 优化配置 - 利用 24GB 统一内存和 Metal GPU
+  - model_name: local-qwen2.5-7b
+    litellm_params:
+      model: ollama/qwen2.5:7b
+      api_base: http://host.docker.internal:11434
+    # M4 Pro 优化参数
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      top_p: 0.9
+
+  - model_name: local-qwen2.5vl-7b
+    litellm_params:
+      model: ollama/qwen2.5vl:7b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: local-llama3.2-3b
+    litellm_params:
+      model: ollama/llama3.2:3b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 16384
+      temperature: 0.8
+      # 3B 模型在 M4 Pro 上运行极快
+
+  - model_name: local-gpt-oss-20b
+    litellm_params:
+      model: ollama/gpt-oss:20b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 4096
+      temperature: 0.6
+      # 20B 模型在 24GB 内存下运行流畅
+
+  - model_name: local-gpt-oss-120b
+    litellm_params:
+      model: ollama/gpt-oss:120b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 2048
+      temperature: 0.5
+      # 120B 模型需要更多内存，但 M4 Pro 可以处理
+
+  # 云端模型作为备选
+  - model_name: claude-sonnet-4
+    litellm_params:
+      model: anthropic/claude-sonnet-4-20250514
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+
+# M4 Pro 优化路由配置
+router_settings:
+  routing_strategy: "latency-based"
+  cooldown_time: 30
+  num_retries: 2
+  request_timeout: 300 # 5分钟超时
+
+  # 模型组别名 - 针对不同任务类型
+  model_group_alias:
+    "fast-model": ["local-llama3.2-3b", "local-qwen2.5-7b"]
+    "smart-model": ["local-qwen2.5-7b", "local-gpt-oss-20b"]
+    "vision-model": ["local-qwen2.5vl-7b", "gpt-4o"]
+    "power-model": ["local-gpt-oss-20b", "local-gpt-oss-120b"]
+    "ultra-model": ["local-gpt-oss-120b", "claude-sonnet-4"]
+
+  # 负载均衡配置
+  load_balancing:
+    enabled: true
+    strategy: "round-robin"
+
+  # 缓存配置 - 利用 M4 Pro 的高速内存
+  cache:
+    enabled: true
+    ttl: 3600 # 1小时缓存
+    max_size: "2GB"
+
+# 性能优化设置
+general_settings:
+  # 并发控制 - M4 Pro 可以处理更多并发
+  max_concurrent_requests: 10
+
+  # 超时设置
+  request_timeout: 300
+  read_timeout: 300
+
+  # 日志级别
+  log_level: "INFO"
+
+  # 健康检查
+  health_check_interval: 30

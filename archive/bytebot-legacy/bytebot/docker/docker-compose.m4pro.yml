@@ -1,0 +1,144 @@
+name: bytebot-m4pro
+
+services:
+  bytebot-desktop:
+    image: ghcr.io/bytebot-ai/bytebot-desktop:edge
+    shm_size: "4g"  # M4 Pro 可以分配更多共享内存
+    container_name: bytebot-desktop
+    restart: unless-stopped
+    hostname: computer
+    privileged: true
+    ports:
+      - "9990:9990"
+    environment:
+      - DISPLAY=:0
+    # M4 Pro 资源优化
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
+    networks:
+      - bytebot-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: bytebot-postgres
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=bytebotdb
+      # M4 Pro 数据库优化
+      - POSTGRES_SHARED_BUFFERS=1GB
+      - POSTGRES_EFFECTIVE_CACHE_SIZE=4GB
+      - POSTGRES_MAINTENANCE_WORK_MEM=512MB
+    networks:
+      - bytebot-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  bytebot-agent:
+    image: ghcr.io/bytebot-ai/bytebot-agent:edge
+    container_name: bytebot-agent
+    restart: unless-stopped
+    ports:
+      - "9991:9991"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/bytebotdb}
+      - BYTEBOT_DESKTOP_BASE_URL=${BYTEBOT_DESKTOP_BASE_URL:-http://bytebot-desktop:9990}
+      - BYTEBOT_LLM_PROXY_URL=${BYTEBOT_LLM_PROXY_URL:-http://bytebot-llm-proxy:4000}
+      # M4 Pro 性能优化
+      - NODE_OPTIONS=--max-old-space-size=4096
+      - UV_THREADPOOL_SIZE=16
+    depends_on:
+      - postgres
+    # M4 Pro 资源分配
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+        reservations:
+          memory: 2G
+    networks:
+      - bytebot-network
+
+  bytebot-llm-proxy:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: bytebot-llm-proxy
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      # M4 Pro 优化环境变量
+      - PYTHONUNBUFFERED=1
+      - OMP_NUM_THREADS=8
+      - MKL_NUM_THREADS=8
+    volumes:
+      - ../packages/bytebot-llm-proxy/litellm-config-m4pro.yaml:/app/litellm-config.yaml
+    command: ["--config", "/app/litellm-config.yaml", "--port", "4000"]
+    # M4 Pro 资源优化
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 1G
+    networks:
+      - bytebot-network
+
+  bytebot-ui:
+    image: ghcr.io/bytebot-ai/bytebot-ui:edge
+    container_name: bytebot-ui
+    restart: unless-stopped
+    ports:
+      - "9992:9992"
+    environment:
+      - NODE_ENV=production
+      - BYTEBOT_AGENT_BASE_URL=${BYTEBOT_AGENT_BASE_URL:-http://bytebot-agent:9991}
+      - BYTEBOT_DESKTOP_VNC_URL=${BYTEBOT_DESKTOP_VNC_URL:-http://bytebot-desktop:9990/websockify}
+      # M4 Pro 前端优化
+      - NODE_OPTIONS=--max-old-space-size=2048
+    depends_on:
+      - bytebot-agent
+    # M4 Pro 资源分配
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+    networks:
+      - bytebot-network
+
+  # M4 Pro 专用监控服务
+  bytebot-monitor:
+    image: ghcr.io/bytebot-ai/bytebot-ui:edge
+    container_name: bytebot-monitor
+    restart: unless-stopped
+    ports:
+      - "9993:9992"  # 监控端口
+    environment:
+      - NODE_ENV=development
+      - MONITORING_MODE=true
+    networks:
+      - bytebot-network
+    profiles:
+      - monitoring  # 可选启动
+
+networks:
+  bytebot-network:
+    driver: bridge
+    # M4 Pro 网络优化
+    driver_opts:
+      com.docker.network.driver.mtu: 1500
+
+volumes:
+  postgres_data:
+    driver: local

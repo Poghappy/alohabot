@@ -1,0 +1,264 @@
+# ByteBot 完整 LiteLLM 配置
+# 支持 100+ LLM 提供商，包括本地模型和云端服务
+
+model_list:
+  # ==================== 本地模型 (Ollama) ====================
+  # M4 Pro 优化配置
+  - model_name: local-qwen2.5-7b
+    litellm_params:
+      model: ollama/qwen2.5:7b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: false
+
+  - model_name: local-qwen2.5vl-7b
+    litellm_params:
+      model: ollama/qwen2.5vl:7b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: local-llama3.2-3b
+    litellm_params:
+      model: ollama/llama3.2:3b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 16384
+      temperature: 0.8
+
+  - model_name: local-gpt-oss-20b
+    litellm_params:
+      model: ollama/gpt-oss:20b
+      api_base: http://host.docker.internal:11434
+    model_info:
+      max_tokens: 4096
+      temperature: 0.6
+
+  # ==================== Anthropic 模型 ====================
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: anthropic/claude-3-5-sonnet-20241022
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: claude-3-5-haiku-20241022
+    litellm_params:
+      model: anthropic/claude-3-5-haiku-20241022
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: claude-3-opus-20240229
+    litellm_params:
+      model: anthropic/claude-3-opus-20240229
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+
+  # ==================== OpenAI 模型 ====================
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      max_tokens: 16384
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: gpt-4-turbo
+    litellm_params:
+      model: openai/gpt-4-turbo
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+
+  # ==================== Google 模型 ====================
+  - model_name: gemini-1.5-pro
+    litellm_params:
+      model: gemini/gemini-1.5-pro
+      api_key: os.environ/GEMINI_API_KEY
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: gemini-1.5-flash
+    litellm_params:
+      model: gemini/gemini-1.5-flash
+      api_key: os.environ/GEMINI_API_KEY
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+  # ==================== Azure OpenAI ====================
+  - model_name: azure-gpt-4o
+    litellm_params:
+      model: azure/gpt-4o-deployment
+      api_base: os.environ/AZURE_OPENAI_ENDPOINT
+      api_key: os.environ/AZURE_OPENAI_API_KEY
+      api_version: "2024-02-15-preview"
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+      supports_vision: true
+
+  # ==================== AWS Bedrock ====================
+  - model_name: claude-bedrock
+    litellm_params:
+      model: bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0
+      aws_region_name: os.environ/AWS_REGION
+    model_info:
+      max_tokens: 8192
+      temperature: 0.7
+      supports_vision: true
+
+  - model_name: llama-bedrock
+    litellm_params:
+      model: bedrock/meta.llama3-70b-instruct-v1:0
+      aws_region_name: os.environ/AWS_REGION
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+
+  # ==================== Hugging Face ====================
+  - model_name: hf-llama3-70b
+    litellm_params:
+      model: huggingface/meta-llama/Llama-3-70b-chat-hf
+      api_key: os.environ/HUGGINGFACE_API_KEY
+    model_info:
+      max_tokens: 4096
+      temperature: 0.7
+
+# ==================== 路由配置 ====================
+router_settings:
+  # 路由策略
+  routing_strategy: "latency-based" # 基于延迟的路由
+  cooldown_time: 60 # 失败后冷却时间
+  num_retries: 2 # 重试次数
+  request_timeout: 600 # 请求超时时间 (10分钟)
+
+  # 模型组别名 - 智能路由
+  model_group_alias:
+    # 快速模型组
+    "fast-model":
+      ["local-llama3.2-3b", "gpt-4o-mini", "claude-3-5-haiku-20241022"]
+
+    # 智能模型组
+    "smart-model": ["local-qwen2.5-7b", "claude-3-5-sonnet-20241022", "gpt-4o"]
+
+    # 视觉模型组
+    "vision-model":
+      [
+        "local-qwen2.5vl-7b",
+        "gpt-4o",
+        "claude-3-5-sonnet-20241022",
+        "gemini-1.5-pro",
+      ]
+
+    # 本地模型组
+    "local-model":
+      [
+        "local-qwen2.5-7b",
+        "local-qwen2.5vl-7b",
+        "local-llama3.2-3b",
+        "local-gpt-oss-20b",
+      ]
+
+    # 云端模型组
+    "cloud-model": ["claude-3-5-sonnet-20241022", "gpt-4o", "gemini-1.5-pro"]
+
+    # 高性能模型组
+    "power-model":
+      ["local-gpt-oss-20b", "claude-3-opus-20240229", "gpt-4-turbo"]
+
+  # 负载均衡配置
+  load_balancing:
+    enabled: true
+    strategy: "round-robin"
+
+  # 缓存配置
+  cache:
+    enabled: true
+    ttl: 3600 # 1小时缓存
+    max_size: "2GB"
+
+# ==================== 通用设置 ====================
+general_settings:
+  # 主密钥
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+  # 并发控制
+  max_concurrent_requests: 20
+
+  # 超时设置
+  request_timeout: 600
+  read_timeout: 600
+
+  # 日志配置
+  log_level: "INFO"
+
+  # 健康检查
+  health_check_interval: 30
+
+  # 数据库存储 (可选)
+  # database_url: "postgresql://user:pass@localhost:5432/litellm"
+  # store_model_in_db: true
+
+  # 成本控制 (可选)
+  # max_budget: 1000  # $1000 月度限制
+  # budget_duration: "30d"
+
+  # 安全设置
+  allowed_ips: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+
+  # 加密设置
+  encrypt_keys: true
+
+  # 转发头部
+  forward_headers: ["X-Request-ID", "X-User-ID", "Authorization"]
+
+# ==================== LiteLLM 设置 ====================
+litellm_settings:
+  # 调试模式
+  debug: false
+  detailed_debug: false
+
+  # 回调设置
+  callbacks: ["langfuse"] # 可选: 添加监控回调
+
+  # 成功回调
+  success_callback: []
+
+  # 失败回调
+  failure_callback: []
+
+  # 重试设置
+  num_retries: 2
+  retry_delay: 1
+
+  # 速率限制
+  default_max_requests_per_minute: 1000
+  default_max_tokens_per_minute: 100000

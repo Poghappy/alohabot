@@ -1,0 +1,175 @@
+---
+globs: *.rs,src-tauri/**,tauri.conf.json,package.json
+description: 桌面应用打包和 Tauri 开发规则
+---
+
+# 桌面应用打包规则
+
+## Tauri 开发规范
+
+### 项目结构
+- 前端代码位于 [packages/bytebot-ui/](mdc:packages/bytebot-ui/)
+- Tauri 配置位于 `src-tauri/` 目录
+- 构建产物输出到 `src-tauri/target/`
+
+### Rust 后端开发
+- 使用 Rust 2021 版本
+- 遵循 Rust 官方编码规范
+- 使用 `cargo clippy` 进行代码检查
+- 使用 `cargo fmt` 进行代码格式化
+
+### Tauri 配置
+- 应用标识符: `com.bytebot.desktop`
+- 支持平台: macOS, Windows
+- 最小系统要求: macOS 10.15+, Windows 10+
+- 权限配置: 文件系统、网络、通知
+
+### 窗口管理
+```rust
+// 主窗口配置
+let window = WindowBuilder::new()
+    .title("ByteBot Desktop")
+    .inner_size(1200.0, 800.0)
+    .min_inner_size(800.0, 600.0)
+    .resizable(true)
+    .build(tauri::generate_context!())?;
+```
+
+### 系统集成
+- 系统托盘图标和菜单
+- 全局快捷键 (Cmd/Ctrl + Shift + B)
+- 文件关联和拖拽支持
+- 原生通知系统
+
+## 模型集成规范
+
+### 本地模型支持
+- 使用 Ollama 作为本地模型运行时
+- 支持 GGUF 格式模型文件
+- 模型下载和更新机制
+- 模型性能监控
+
+### LiteLLM 集成
+- 通过 HTTP API 与 LiteLLM 代理通信
+- 支持模型切换和负载均衡
+- 错误处理和重试机制
+- 成本和使用量监控
+
+### 模型管理
+```rust
+// 模型管理命令
+#[tauri::command]
+async fn get_available_models() -> Result<Vec<ModelInfo>, String> {
+    // 获取可用模型列表
+}
+
+#[tauri::command]
+async fn download_model(model_name: &str) -> Result<String, String> {
+    // 下载模型
+}
+
+#[tauri::command]
+async fn select_model(model_name: &str) -> Result<String, String> {
+    // 选择模型
+}
+```
+
+## 性能优化
+
+### 启动优化
+- 应用启动时间 < 3 秒
+- 延迟加载非关键组件
+- 预加载常用模型
+- 缓存机制优化
+
+### 内存管理
+- 内存占用 < 500MB
+- 模型内存管理
+- 垃圾回收优化
+- 内存泄漏检测
+
+### 响应性
+- UI 响应时间 < 100ms
+- 模型推理时间 < 5 秒
+- 异步操作不阻塞 UI
+- 进度指示器显示
+
+## 安全要求
+
+### 数据保护
+- 本地数据加密存储
+- 敏感信息不记录日志
+- 用户数据隐私保护
+- 安全删除机制
+
+### 权限控制
+- 最小权限原则
+- 文件访问权限控制
+- 网络访问权限管理
+- 系统资源使用限制
+
+### 代码安全
+- 输入验证和清理
+- 防止注入攻击
+- 安全错误处理
+- 依赖项安全扫描
+
+## 打包和分发
+
+### 构建配置
+- 支持 Debug 和 Release 构建
+- 代码签名配置
+- 资源文件优化
+- 依赖项打包
+
+### 安装包
+- macOS: `.dmg` 格式，支持拖拽安装
+- Windows: `.msi` 格式，支持静默安装
+- 自动更新机制
+- 卸载清理完整
+
+### 分发策略
+- 应用商店分发
+- 直接下载分发
+- 企业内部分发
+- 版本管理策略
+
+## 测试要求
+
+### 单元测试
+- Rust 代码测试覆盖率 ≥ 90%
+- 关键功能测试完整
+- 边界条件测试
+- 错误处理测试
+
+### 集成测试
+- Tauri 命令测试
+- 模型集成测试
+- 文件操作测试
+- 网络通信测试
+
+### E2E 测试
+- 完整用户流程测试
+- 跨平台兼容性测试
+- 性能基准测试
+- 稳定性测试
+
+## 监控和调试
+
+### 日志系统
+- 结构化日志记录
+- 日志级别控制
+- 日志文件管理
+- 远程日志收集
+
+### 性能监控
+- 启动时间监控
+- 内存使用监控
+- CPU 使用监控
+- 网络使用监控
+
+### 错误报告
+- 崩溃报告收集
+- 错误统计分析
+- 用户反馈收集
+- 问题跟踪系统

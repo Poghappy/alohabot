@@ -1,0 +1,575 @@
+---
+description: 安全开发标准和最佳实践
+---
+
+# 安全开发标准
+
+## 环境变量和密钥管理
+
+### 敏感信息处理
+参考: [docker/.env](mdc:docker/.env)
+
+```bash
+# ❌ 错误：不要在代码中硬编码密钥
+const OPENAI_API_KEY = "sk-proj-abc123...";
+
+# ✅ 正确：使用环境变量
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+# ✅ 正确：提供默认值和验证
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || 
+    (() => { throw new Error('OPENAI_API_KEY is required') })();
+```
+
+### 环境变量验证
+```typescript
+// lib/env.ts
+import { z } from 'zod';
+
+const envSchema = z.object({
+    OPENAI_API_KEY: z.string().min(1),
+    ANTHROPIC_API_KEY: z.string().optional(),
+    DATABASE_URL: z.string().url(),
+    NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+    ALLOWED_ORIGINS: z.string().default('http://localhost:3000'),
+});
+
+export const env = envSchema.parse(process.env);
+
+// 使用验证后的环境变量
+export const config = {
+    openaiApiKey: env.OPENAI_API_KEY,
+    databaseUrl: env.DATABASE_URL,
+    allowedOrigins: env.ALLOWED_ORIGINS.split(','),
+};
+```
+
+### 密钥轮换
+```typescript
+// lib/api-keys.ts
+interface APIKeyConfig {
+    primary: string;
+    fallback?: string;
+    expiresAt?: Date;
+}
+
+class APIKeyManager {
+    private keys: Map<string, APIKeyConfig> = new Map();
+    
+    public setKey(service: string, config: APIKeyConfig): void {
+        this.keys.set(service, config);
+    }
+    
+    public getKey(service: string): string {
+        const config = this.keys.get(service);
+        if (!config) {
+            throw new Error(`API key not found for service: ${service}`);
+        }
+        
+        // 检查密钥是否过期
+        if (config.expiresAt && config.expiresAt < new Date()) {
+            if (config.fallback) {
+                return config.fallback;
+            }
+            throw new Error(`API key expired for service: ${service}`);
+        }
+        
+        return config.primary;
+    }
+}
+
+export const apiKeyManager = new APIKeyManager();
+```
+
+## 输入验证和清理
+
+### 请求参数验证
+```typescript
+import Joi from 'joi';
+import DOMPurify from 'isomorphic-dompurify';
+
+// 定义验证模式
+const messageSchema = Joi.object({
+    content: Joi.string().min(1).max(4000).required(),
+    sessionId: Joi.string().uuid().optional(),
+    metadata: Joi.object().optional()
+});
+
+// 输入清理函数
+export function sanitizeInput(input: string): string {
+    // 移除潜在的 HTML 标签
+    const cleaned = DOMPurify.sanitize(input, { 
+        ALLOWED_TAGS: [],
+        ALLOWED_ATTR: []
+    });
+    
+    // 移除控制字符
+    return cleaned.replace(/[\x00-\x1F\x7F]/g, '');
+}
+
+// API 路由中的使用
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    try {
+        // 验证输入
+        const { error, value } = messageSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                error: {
+                    code: 'VALIDATION_ERROR',
+                    message: '输入验证失败',
+                    details: error.details
+                }
+            });
+        }
+        
+        // 清理输入
+        const sanitizedContent = sanitizeInput(value.content);
+        
+        // 处理请求...
+    } catch (error) {
+        // 错误处理...
+    }
+}
+```
+
+### SQL 注入防护
+```typescript
+// ❌ 错误：字符串拼接容易导致 SQL 注入
+const query = `SELECT * FROM users WHERE id = ${userId}`;
+
+// ✅ 正确：使用参数化查询
+const query = 'SELECT * FROM users WHERE id = $1';
+const result = await db.query(query, [userId]);
+
+// ✅ 正确：使用 ORM
+const user = await User.findByPk(userId);
+```
+
+### NoSQL 注入防护
+```typescript
+// ❌ 错误：直接使用用户输入
+const user = await User.findOne({ email: req.body.email });
+
+// ✅ 正确：验证和清理输入
+const emailSchema = Joi.string().email().required();
+const { error, value } = emailSchema.validate(req.body.email);
+
+if (!error) {
+    const user = await User.findOne({ email: value });
+}
+```
+
+## 身份验证和授权
+
+### JWT 令牌管理
+```typescript
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
+
+interface TokenPayload {
+    userId: string;
+    role: string;
+    exp?: number;
+}
+
+export class AuthService {
+    private readonly secretKey: string;
+    private readonly refreshSecretKey: string;
+    
+    constructor() {
+        this.secretKey = process.env.JWT_SECRET!;
+        this.refreshSecretKey = process.env.JWT_REFRESH_SECRET!;
+        
+        if (!this.secretKey || !this.refreshSecretKey) {
+            throw new Error('JWT secrets not configured');
+        }
+    }
+    
+    public generateTokens(payload: Omit<TokenPayload, 'exp'>): {
+        accessToken: string;
+        refreshToken: string;
+    } {
+        const accessToken = jwt.sign(
+            payload,
+            this.secretKey,
+            { expiresIn: '15m' }
+        );
+        
+        const refreshToken = jwt.sign(
+            { userId: payload.userId },
+            this.refreshSecretKey,
+            { expiresIn: '7d' }
+        );
+        
+        return { accessToken, refreshToken };
+    }
+    
+    public async verifyToken(token: string): Promise<TokenPayload> {
+        try {
+            const payload = await promisify(jwt.verify)(token, this.secretKey) as TokenPayload;
+            return payload;
+        } catch (error) {
+            if (error instanceof jwt.TokenExpiredError) {
+                throw new Error('Token expired');
+            } else if (error instanceof jwt.JsonWebTokenError) {
+                throw new Error('Invalid token');
+            }
+            throw error;
+        }
+    }
+}
+
+export const authService = new AuthService();
+```
+
+### 权限控制
+```typescript
+// lib/permissions.ts
+export enum Permission {
+    READ_CONVERSATIONS = 'read:conversations',
+    WRITE_CONVERSATIONS = 'write:conversations',
+    ADMIN_MCP_SERVERS = 'admin:mcp_servers',
+    MANAGE_USERS = 'manage:users'
+}
+
+export enum Role {
+    USER = 'user',
+    ADMIN = 'admin',
+    DEVELOPER = 'developer'
+}
+
+const rolePermissions: Record<Role, Permission[]> = {
+    [Role.USER]: [
+        Permission.READ_CONVERSATIONS,
+        Permission.WRITE_CONVERSATIONS
+    ],
+    [Role.DEVELOPER]: [
+        Permission.READ_CONVERSATIONS,
+        Permission.WRITE_CONVERSATIONS,
+        Permission.ADMIN_MCP_SERVERS
+    ],
+    [Role.ADMIN]: Object.values(Permission)
+};
+
+export function hasPermission(userRole: Role, requiredPermission: Permission): boolean {
+    return rolePermissions[userRole]?.includes(requiredPermission) ?? false;
+}
+
+// 权限中间件
+export function requirePermission(permission: Permission) {
+    return async (req: NextApiRequest, res: NextApiResponse, next: Function) => {
+        try {
+            const token = req.headers.authorization?.replace('Bearer ', '');
+            if (!token) {
+                return res.status(401).json({
+                    success: false,
+                    error: { code: 'UNAUTHORIZED', message: '缺少认证令牌' }
+                });
+            }
+            
+            const payload = await authService.verifyToken(token);
+            
+            if (!hasPermission(payload.role as Role, permission)) {
+                return res.status(403).json({
+                    success: false,
+                    error: { code: 'FORBIDDEN', message: '权限不足' }
+                });
+            }
+            
+            req.user = payload;
+            next();
+        } catch (error) {
+            return res.status(401).json({
+                success: false,
+                error: { code: 'INVALID_TOKEN', message: '无效令牌' }
+            });
+        }
+    };
+}
+```
+
+## CORS 和 CSP 配置
+
+### CORS 配置
+```typescript
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    async headers() {
+        return [
+            {
+                source: '/api/:path*',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: process.env.ALLOWED_ORIGINS || 'http://localhost:3000'
+                    },
+                    {
+                        key: 'Access-Control-Allow-Methods',
+                        value: 'GET, POST, PUT, DELETE, OPTIONS'
+                    },
+                    {
+                        key: 'Access-Control-Allow-Headers',
+                        value: 'Content-Type, Authorization'
+                    },
+                    {
+                        key: 'Access-Control-Max-Age',
+                        value: '86400'
+                    }
+                ]
+            }
+        ];
+    }
+};
+
+module.exports = nextConfig;
+```
+
+### CSP 配置
+```typescript
+// lib/csp.ts
+export const cspHeader = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' blob: data:",
+    "font-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests"
+].join('; ');
+
+// 在 Next.js 中应用
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+    res.setHeader('Content-Security-Policy', cspHeader);
+    // API 逻辑...
+}
+```
+
+## 数据保护
+
+### 敏感数据加密
+```typescript
+import crypto from 'crypto';
+
+export class EncryptionService {
+    private readonly algorithm = 'aes-256-gcm';
+    private readonly secretKey: Buffer;
+    
+    constructor() {
+        const key = process.env.ENCRYPTION_KEY;
+        if (!key) {
+            throw new Error('ENCRYPTION_KEY not configured');
+        }
+        this.secretKey = Buffer.from(key, 'hex');
+    }
+    
+    public encrypt(text: string): { encrypted: string; iv: string; tag: string } {
+        const iv = crypto.randomBytes(16);
+        const cipher = crypto.createCipher(this.algorithm, this.secretKey);
+        cipher.setAAD(Buffer.from('ByteBot', 'utf8'));
+        
+        let encrypted = cipher.update(text, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+        
+        const tag = cipher.getAuthTag();
+        
+        return {
+            encrypted,
+            iv: iv.toString('hex'),
+            tag: tag.toString('hex')
+        };
+    }
+    
+    public decrypt(encryptedData: { encrypted: string; iv: string; tag: string }): string {
+        const decipher = crypto.createDecipher(this.algorithm, this.secretKey);
+        decipher.setAAD(Buffer.from('ByteBot', 'utf8'));
+        decipher.setAuthTag(Buffer.from(encryptedData.tag, 'hex'));
+        
+        let decrypted = decipher.update(encryptedData.encrypted, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        
+        return decrypted;
+    }
+}
+
+export const encryptionService = new EncryptionService();
+```
+
+### 数据脱敏
+```typescript
+export function maskSensitiveData(data: any): any {
+    if (typeof data !== 'object' || data === null) {
+        return data;
+    }
+    
+    const sensitiveFields = ['password', 'apiKey', 'token', 'secret'];
+    const maskedData = { ...data };
+    
+    for (const key in maskedData) {
+        if (sensitiveFields.some(field => key.toLowerCase().includes(field))) {
+            maskedData[key] = '***masked***';
+        } else if (typeof maskedData[key] === 'object') {
+            maskedData[key] = maskSensitiveData(maskedData[key]);
+        }
+    }
+    
+    return maskedData;
+}
+
+// 日志记录时使用
+console.log('User data:', maskSensitiveData(userData));
+```
+
+## 安全日志记录
+
+### 安全事件记录
+```typescript
+export enum SecurityEventType {
+    LOGIN_SUCCESS = 'login_success',
+    LOGIN_FAILURE = 'login_failure',
+    PERMISSION_DENIED = 'permission_denied',
+    INVALID_TOKEN = 'invalid_token',
+    RATE_LIMIT_EXCEEDED = 'rate_limit_exceeded',
+    SUSPICIOUS_ACTIVITY = 'suspicious_activity'
+}
+
+interface SecurityEvent {
+    type: SecurityEventType;
+    userId?: string;
+    ip: string;
+    userAgent: string;
+    details?: any;
+    timestamp: Date;
+}
+
+export class SecurityLogger {
+    public logEvent(event: Omit<SecurityEvent, 'timestamp'>): void {
+        const securityEvent: SecurityEvent = {
+            ...event,
+            timestamp: new Date()
+        };
+        
+        // 记录到安全日志文件
+        console.log('SECURITY_EVENT:', JSON.stringify(securityEvent));
+        
+        // 对于严重事件，可以发送告警
+        if (this.isCriticalEvent(event.type)) {
+            this.sendAlert(securityEvent);
+        }
+    }
+    
+    private isCriticalEvent(type: SecurityEventType): boolean {
+        return [
+            SecurityEventType.SUSPICIOUS_ACTIVITY,
+            SecurityEventType.RATE_LIMIT_EXCEEDED
+        ].includes(type);
+    }
+    
+    private sendAlert(event: SecurityEvent): void {
+        // 发送安全告警的逻辑
+        console.error('SECURITY_ALERT:', event);
+    }
+}
+
+export const securityLogger = new SecurityLogger();
+
+// 在 API 中使用
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    try {
+        // API 逻辑...
+        
+        securityLogger.logEvent({
+            type: SecurityEventType.LOGIN_SUCCESS,
+            userId: user.id,
+            ip: req.ip || 'unknown',
+            userAgent: req.headers['user-agent'] || 'unknown'
+        });
+        
+    } catch (error) {
+        securityLogger.logEvent({
+            type: SecurityEventType.LOGIN_FAILURE,
+            ip: req.ip || 'unknown',
+            userAgent: req.headers['user-agent'] || 'unknown',
+            details: { error: error.message }
+        });
+    }
+}
+```
+
+## 安全测试
+
+### 安全扫描
+```bash
+# 依赖漏洞扫描
+npm audit
+
+# 修复已知漏洞
+npm audit fix
+
+# 使用 Snyk 进行更详细的扫描
+npx snyk test
+
+# Docker 镜像安全扫描
+docker scan bytebot-ui:latest
+```
+
+### 渗透测试清单
+```typescript
+// tests/security/security.test.ts
+describe('Security Tests', () => {
+    test('should prevent SQL injection', async () => {
+        const maliciousInput = "'; DROP TABLE users; --";
+        const response = await request(app)
+            .post('/api/users')
+            .send({ name: maliciousInput });
+        
+        expect(response.status).toBe(400);
+        expect(response.body.error.code).toBe('VALIDATION_ERROR');
+    });
+    
+    test('should prevent XSS attacks', async () => {
+        const maliciousScript = '<script>alert("XSS")</script>';
+        const response = await request(app)
+            .post('/api/messages')
+            .send({ content: maliciousScript });
+        
+        expect(response.body.data.content).not.toContain('<script>');
+    });
+    
+    test('should enforce rate limiting', async () => {
+        const promises = Array(101).fill(0).map(() =>
+            request(app).get('/api/conversations')
+        );
+        
+        const responses = await Promise.all(promises);
+        const rateLimited = responses.filter(r => r.status === 429);
+        
+        expect(rateLimited.length).toBeGreaterThan(0);
+    });
+});
+```
+
+## 安全配置检查清单
+
+### 部署前检查
+- [ ] 所有敏感信息都使用环境变量
+- [ ] API 密钥已正确配置
+- [ ] CORS 策略已正确设置
+- [ ] CSP 头部已配置
+- [ ] 输入验证已实施
+- [ ] 身份验证和授权已测试
+- [ ] 安全日志记录已启用
+- [ ] 依赖漏洞已扫描和修复
+- [ ] Docker 镜像安全扫描通过
+- [ ] 渗透测试已完成
+
+### 运行时监控
+- [ ] 异常登录尝试监控
+- [ ] API 滥用检测
+- [ ] 敏感操作审计日志
+- [ ] 性能异常监控
+- [ ] 错误率监控

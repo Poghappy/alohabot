@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: n8n API Integration
+  version: 1.0.0
+  description: Direct n8n API access for ChatGPT Plus users
+servers:
+  - url: http://localhost:5678/api/v1
+    description: n8n API endpoint
+paths:
+  /workflows:
+    get:
+      summary: List all workflows
+      parameters:
+        - name: X-N8N-API-KEY
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+    post:
+      summary: Create new workflow
+      parameters:
+        - name: X-N8N-API-KEY
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                nodes:
+                  type: array
+                connections:
+                  type: object
+                settings:
+                  type: object
+              required: [name, nodes, connections, settings]
+      responses:
+        '201':
+          description: Workflow created
+  /workflows/{id}:
+    get:
+      summary: Get workflow details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: X-N8N-API-KEY
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workflow details
+  /executions:
+    get:
+      summary: List workflow executions
+      parameters:
+        - name: X-N8N-API-KEY
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Execution list
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-N8N-API-KEY
+security:
+  - ApiKeyAuth: []

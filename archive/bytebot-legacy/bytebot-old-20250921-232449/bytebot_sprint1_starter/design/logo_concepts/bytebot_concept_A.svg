@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+<rect width="512" height="512" fill="#111827"/>
+<g transform="translate(96,64)">
+<rect x="0" y="0" width="64" height="64" fill="#6366f1"/>
+<rect x="80" y="0" width="64" height="64" fill="#818cf8"/>
+<rect x="0" y="80" width="64" height="64" fill="#818cf8"/>
+<rect x="80" y="80" width="64" height="64" fill="#6366f1"/>
+<path d="M200,0 h80 a80,80 0 0 1 0,160 h-80 z" fill="#6366f1"/>
+<path d="M200,160 h80 a80,80 0 0 1 0,160 h-80 z" fill="#818cf8"/>
+</g>
+<text x="256" y="460" font-size="56" fill="#e5e7eb" text-anchor="middle" font-family="Inter, Arial">bytebot</text>
+</svg>

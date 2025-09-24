@@ -1,0 +1,40 @@
+model_list:
+  # 本地模型配置 (通过 Ollama)
+  - model_name: local-qwen2.5-7b
+    litellm_params:
+      model: ollama/qwen2.5:7b
+      api_base: http://host.docker.internal:11434
+
+  - model_name: local-qwen2.5vl-7b
+    litellm_params:
+      model: ollama/qwen2.5vl:7b
+      api_base: http://host.docker.internal:11434
+
+  - model_name: local-llama3.2
+    litellm_params:
+      model: ollama/llama3.2:latest
+      api_base: http://host.docker.internal:11434
+
+  - model_name: local-gpt-oss-20b
+    litellm_params:
+      model: ollama/gpt-oss:20b
+      api_base: http://host.docker.internal:11434
+
+  # 云端模型 (作为备选)
+  - model_name: claude-sonnet-4
+    litellm_params:
+      model: anthropic/claude-sonnet-4-20250514
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+
+# 路由配置
+router_settings:
+  routing_strategy: "least-busy"
+  model_group_alias:
+    "smart-model": ["local-qwen2.5-7b", "claude-sonnet-4"]
+    "vision-model": ["local-qwen2.5vl-7b", "gpt-4o"]
+    "fast-model": ["local-llama3.2", "gpt-4o"]

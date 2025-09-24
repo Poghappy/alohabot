@@ -1,0 +1,101 @@
+# MCP 服务器注册配置
+# MCP Server Registry Configuration
+
+version: "1.0.0"
+last_updated: "2025-09-20"
+
+# 可用的 MCP 服务器列表
+servers:
+  filesystem:
+    name: "文件系统工具"
+    description: "提供文件读写、目录操作等功能"
+    type: "builtin"
+    endpoint: "mcp://filesystem"
+    capabilities:
+      - file_read
+      - file_write
+      - directory_list
+      - file_search
+    config:
+      allowed_directories:
+        - "/Users/zhiledeng/Downloads/新闻模块api接口/bytebot"
+      max_file_size: "10MB"
+
+  web_search:
+    name: "网络搜索工具"
+    description: "提供网络搜索和内容抓取功能"
+    type: "external"
+    endpoint: "mcp://web-search"
+    capabilities:
+      - web_search
+      - content_scrape
+      - url_analyze
+    config:
+      api_key: "${WEB_SEARCH_API_KEY}"
+      rate_limit: 100
+
+  code_analysis:
+    name: "代码分析工具"
+    description: "提供代码分析、重构建议等功能"
+    type: "builtin"
+    endpoint: "mcp://code-analysis"
+    capabilities:
+      - syntax_check
+      - code_review
+      - refactor_suggest
+      - dependency_analyze
+
+  database:
+    name: "数据库工具"
+    description: "提供数据库查询和操作功能"
+    type: "external"
+    endpoint: "mcp://database"
+    capabilities:
+      - query_execute
+      - schema_analyze
+      - data_export
+    config:
+      connection_string: "${DATABASE_URL}"
+      query_timeout: "30s"
+
+# 工具链配置
+tool_chains:
+  development_workflow:
+    name: "开发工作流"
+    description: "代码开发相关的工具链"
+    tools:
+      - filesystem
+      - code_analysis
+      - web_search
+    sequence:
+      - code_analysis
+      - filesystem
+      - web_search
+
+  content_creation:
+    name: "内容创建工作流"
+    description: "文档和内容创建相关的工具链"
+    tools:
+      - filesystem
+      - web_search
+    sequence:
+      - web_search
+      - filesystem
+
+# 安全配置
+security:
+  allowed_origins:
+    - "localhost"
+    - "127.0.0.1"
+    - "bytebot.local"
+
+  rate_limits:
+    per_minute: 60
+    per_hour: 1000
+    per_day: 10000
+
+  access_control:
+    require_auth: true
+    allowed_users:
+      - "admin"
+      - "developer"
