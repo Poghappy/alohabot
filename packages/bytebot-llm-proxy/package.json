@@ -1,0 +1,9 @@
+{
+  "name": "bytebot-llm-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LiteLLM proxy configuration and containerization",
+  "scripts": {
+    "start": "echo 'This package is config-only'"
+  }
+}
