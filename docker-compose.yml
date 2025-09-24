@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  bytebot-ui:
+    build: ./packages/bytebot-ui
+    ports:
+      - "9992:9992"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - bytebot-agent
+      - postgres
+      - redis
+
+  bytebot-agent:
+    build: ./packages/bytebot-agent
+    ports:
+      - "9991:9991"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://bytebot:password@postgres:5432/bytebot
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  bytebot-desktop:
+    build: ./packages/bytebotd
+    ports:
+      - "9990:9990"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - bytebot-agent
+
+  bytebot-llm-proxy:
+    build: ./packages/bytebot-llm-proxy
+    ports:
+      - "9993:9993"
+    environment:
+      - NODE_ENV=production
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=bytebot
+      - POSTGRES_USER=bytebot
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

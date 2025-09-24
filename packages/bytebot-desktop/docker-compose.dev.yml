@@ -1,0 +1,76 @@
+name: bytebot-desktop-dev
+
+services:
+  # LiteLLM 代理服务
+  litellm-proxy:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: bytebot-litellm-proxy
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./litellm-config.yaml:/app/config.yaml:ro
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY:-sk-litellm-master}
+    command: ["--config", "/app/config.yaml", "--port", "4000", "--host", "0.0.0.0"]
+    networks:
+      - bytebot-desktop-network
+
+  # Ollama 本地模型服务
+  ollama:
+    image: ollama/ollama:latest
+    container_name: bytebot-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    networks:
+      - bytebot-desktop-network
+    # 可选：自动拉取模型
+    # command: ["serve"]
+    # depends_on:
+    #   - model-puller
+
+  # Redis 缓存服务
+  redis:
+    image: redis:7-alpine
+    container_name: bytebot-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - bytebot-desktop-network
+
+  # PostgreSQL 数据库（可选，用于存储性能数据）
+  postgres:
+    image: postgres:16-alpine
+    container_name: bytebot-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=bytebotdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bytebot-desktop-network
+
+networks:
+  bytebot-desktop-network:
+    driver: bridge
+
+volumes:
+  ollama_data:
+  redis_data:
+  postgres_data:

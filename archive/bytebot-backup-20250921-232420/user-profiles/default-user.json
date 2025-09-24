@@ -1,0 +1,40 @@
+{
+    "user_id": "default_user",
+    "profile": {
+        "name": "默认用户",
+        "role": "user",
+        "language": "zh-CN",
+        "timezone": "Asia/Shanghai"
+    },
+    "preferences": {
+        "default_prompt_style": "technical",
+        "response_format": "markdown",
+        "auto_save_history": true,
+        "max_history_days": 30
+    },
+    "mcp_access": {
+        "enabled_servers": [
+            "filesystem",
+            "web_search",
+            "code_analysis"
+        ],
+        "allowed_tools": [
+            "filesystem_file_read",
+            "filesystem_file_write",
+            "filesystem_directory_list",
+            "web_search_web_search",
+            "code_analysis_syntax_check"
+        ],
+        "rate_limits": {
+            "requests_per_minute": 60,
+            "requests_per_hour": 1000
+        }
+    },
+    "session_config": {
+        "max_context_length": 10000,
+        "auto_cleanup": true,
+        "session_timeout_minutes": 60
+    },
+    "created_at": "2025-09-20T10:00:00.000Z",
+    "updated_at": "2025-09-20T10:00:00.000Z"
+}
