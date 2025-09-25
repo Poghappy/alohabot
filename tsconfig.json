@@ -2,12 +2,15 @@
   "compilerOptions": {
     // 基础选项
     "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowJs": true,
     "checkJs": false,
-    
     // 严格模式
     "strict": true,
     "noImplicitAny": true,
@@ -20,21 +23,31 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-    
     // 模块解析
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@bytebot/ui": ["./packages/ui/src"],
-      "@bytebot/types": ["./packages/types/src"],
-      "@bytebot/utils": ["./packages/utils/src"],
-      "@bytebot/config": ["./packages/config/src"],
-      "@bytebot/mcp": ["./packages/mcp/src"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@bytebot/ui": [
+        "./packages/ui/src"
+      ],
+      "@bytebot/types": [
+        "./packages/types/src"
+      ],
+      "@bytebot/utils": [
+        "./packages/utils/src"
+      ],
+      "@bytebot/config": [
+        "./packages/config/src"
+      ],
+      "@bytebot/mcp": [
+        "./packages/mcp/src"
+      ]
     },
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    
     // 输出选项
     "declaration": true,
     "declarationMap": true,
@@ -42,11 +55,9 @@
     "outDir": "./dist",
     "removeComments": false,
     "importHelpers": true,
-    
     // JSX 支持
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    
     // 其他选项
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
@@ -70,6 +81,10 @@
     ".next",
     "target",
     "coverage",
+    "archive",
+    "packages/bytebot-desktop/src-tauri/target",
+    "**/*.min.js",
+    "**/*.bundle.js",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
