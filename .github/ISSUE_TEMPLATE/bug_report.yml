@@ -1,0 +1,122 @@
+name: 🐛 Bug Report
+description: 报告一个问题或错误
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您报告问题！请填写以下信息以帮助我们更好地理解和解决问题。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      description: 请详细描述遇到的问题
+      placeholder: 描述问题的具体表现...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      description: 请提供详细的复现步骤
+      placeholder: |
+        1. 打开应用
+        2. 点击 '...'
+        3. 输入 '...'
+        4. 看到错误
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+      description: 描述您期望发生的行为
+      placeholder: 应该显示...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      description: 描述实际发生的行为
+      placeholder: 实际显示...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: 受影响的组件
+      description: 选择受影响的组件
+      options:
+        - 桌面应用 (Desktop App)
+        - Web 界面 (Web UI)
+        - AI 智能体 (AI Agent)
+        - LLM 代理 (LLM Proxy)
+        - 数据库 (Database)
+        - API 服务 (API Service)
+        - 其他 (Other)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重程度
+      description: 选择问题的严重程度
+      options:
+        - 🔴 Critical - 系统崩溃或数据丢失
+        - 🟠 High - 核心功能无法使用
+        - 🟡 Medium - 功能受限但有替代方案
+        - 🟢 Low - 轻微问题或改进建议
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 环境信息
+      description: 请提供环境信息
+      value: |
+        - OS: [e.g. macOS 14.0, Windows 11, Ubuntu 22.04]
+        - Browser: [e.g. Chrome 120, Safari 17]
+        - App Version: [e.g. 1.0.0]
+        - Node.js Version: [e.g. 20.19.4]
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 错误日志
+      description: 请粘贴相关的错误日志或控制台输出
+      render: shell
+      placeholder: |
+        请粘贴错误日志...
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图或视频
+      description: 如果适用，请添加截图或视频来说明问题
+      placeholder: 拖拽图片到此处或粘贴图片链接...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 请确认以下事项
+      options:
+        - label: 我已经搜索了现有的 Issues，确认这不是重复问题
+          required: true
+        - label: 我已经尝试了最新版本，问题仍然存在
+          required: true
+        - label: 我已经提供了足够的信息来复现问题
+          required: true

@@ -1,0 +1,383 @@
+// ByteBot 数据库 Schema
+// Prisma ORM 配置文件
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// 用户管理
+// =============================================================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  avatar    String?
+  role      UserRole @default(USER)
+  status    UserStatus @default(ACTIVE)
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lastLoginAt DateTime?
+  
+  // 关联关系
+  conversations Conversation[]
+  sessions      Session[]
+  apiKeys       ApiKey[]
+  
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  GUEST
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+// =============================================================================
+// 会话管理
+// =============================================================================
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  
+  // 会话信息
+  userAgent String?
+  ipAddress String?
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 关联关系
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("sessions")
+}
+
+// =============================================================================
+// 对话管理
+// =============================================================================
+
+model Conversation {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  
+  // 对话配置
+  model       String   @default("gpt-4")
+  provider    String   @default("openai")
+  temperature Float    @default(0.7)
+  maxTokens   Int      @default(4000)
+  
+  // 状态
+  status      ConversationStatus @default(ACTIVE)
+  isArchived  Boolean  @default(false)
+  isPinned    Boolean  @default(false)
+  
+  // 统计信息
+  messageCount Int     @default(0)
+  tokenUsage   Int     @default(0)
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lastMessageAt DateTime?
+  
+  // 关联关系
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+  
+  @@map("conversations")
+}
+
+enum ConversationStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ERROR
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  
+  // 消息内容
+  role           MessageRole
+  content        String
+  rawContent     Json?    // 原始消息数据
+  
+  // 消息元数据
+  model          String?
+  provider       String?
+  tokenCount     Int?
+  processingTime Int?     // 处理时间 (ms)
+  
+  // 状态
+  status         MessageStatus @default(COMPLETED)
+  error          String?
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 关联关系
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  @@map("messages")
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOL
+}
+
+enum MessageStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  ERROR
+  CANCELLED
+}
+
+// =============================================================================
+// API 密钥管理
+// =============================================================================
+
+model ApiKey {
+  id       String @id @default(cuid())
+  userId   String
+  name     String
+  provider String // openai, anthropic, gemini, etc.
+  
+  // 密钥信息 (加密存储)
+  keyHash  String // 加密后的密钥
+  keyHint  String // 密钥提示 (如: sk-...abc123)
+  
+  // 配置
+  isActive Boolean @default(true)
+  
+  // 使用统计
+  usageCount Int @default(0)
+  lastUsedAt DateTime?
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime?
+  
+  // 关联关系
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, provider])
+  @@map("api_keys")
+}
+
+// =============================================================================
+// 系统配置
+// =============================================================================
+
+model SystemConfig {
+  id    String @id @default(cuid())
+  key   String @unique
+  value Json
+  
+  // 配置元数据
+  description String?
+  category    String?
+  isPublic    Boolean @default(false)
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("system_configs")
+}
+
+// =============================================================================
+// 任务管理
+// =============================================================================
+
+model Task {
+  id          String @id @default(cuid())
+  userId      String?
+  
+  // 任务信息
+  type        String
+  title       String
+  description String?
+  input       Json
+  output      Json?
+  
+  // 状态
+  status      TaskStatus @default(PENDING)
+  priority    TaskPriority @default(MEDIUM)
+  progress    Float @default(0)
+  
+  // 执行信息
+  startedAt   DateTime?
+  completedAt DateTime?
+  error       String?
+  retryCount  Int @default(0)
+  maxRetries  Int @default(3)
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("tasks")
+}
+
+enum TaskStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// =============================================================================
+// 文件管理
+// =============================================================================
+
+model File {
+  id       String @id @default(cuid())
+  userId   String?
+  
+  // 文件信息
+  filename String
+  originalName String
+  mimeType String
+  size     Int
+  path     String
+  url      String?
+  
+  // 文件元数据
+  metadata Json?
+  tags     String[]
+  
+  // 状态
+  status   FileStatus @default(UPLOADED)
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("files")
+}
+
+enum FileStatus {
+  UPLOADING
+  UPLOADED
+  PROCESSING
+  PROCESSED
+  ERROR
+  DELETED
+}
+
+// =============================================================================
+// 审计日志
+// =============================================================================
+
+model AuditLog {
+  id       String @id @default(cuid())
+  userId   String?
+  
+  // 操作信息
+  action   String
+  resource String
+  resourceId String?
+  
+  // 请求信息
+  method   String?
+  path     String?
+  userAgent String?
+  ipAddress String?
+  
+  // 数据
+  oldData  Json?
+  newData  Json?
+  metadata Json?
+  
+  // 结果
+  success  Boolean @default(true)
+  error    String?
+  
+  // 时间戳
+  createdAt DateTime @default(now())
+  
+  @@map("audit_logs")
+}
+
+// =============================================================================
+// 索引优化
+// =============================================================================
+
+// 用户相关索引
+@@index([User.email])
+@@index([User.status])
+@@index([User.createdAt])
+
+// 会话相关索引
+@@index([Session.userId])
+@@index([Session.expiresAt])
+
+// 对话相关索引
+@@index([Conversation.userId])
+@@index([Conversation.status])
+@@index([Conversation.createdAt])
+@@index([Conversation.lastMessageAt])
+
+// 消息相关索引
+@@index([Message.conversationId])
+@@index([Message.role])
+@@index([Message.createdAt])
+
+// API 密钥索引
+@@index([ApiKey.userId])
+@@index([ApiKey.provider])
+@@index([ApiKey.isActive])
+
+// 任务相关索引
+@@index([Task.userId])
+@@index([Task.status])
+@@index([Task.priority])
+@@index([Task.createdAt])
+
+// 文件相关索引
+@@index([File.userId])
+@@index([File.status])
+@@index([File.mimeType])
+
+// 审计日志索引
+@@index([AuditLog.userId])
+@@index([AuditLog.action])
+@@index([AuditLog.resource])
+@@index([AuditLog.createdAt])

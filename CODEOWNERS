@@ -1,0 +1,235 @@
+# ByteBot 代码所有者配置
+# 定义代码审查的责任人和必需审查者
+
+# =============================================================================
+# 全局规则 - 默认代码所有者
+# =============================================================================
+
+# 所有文件的默认所有者
+* @bytebot-team
+
+# =============================================================================
+# 核心架构和配置文件
+# =============================================================================
+
+# 项目根配置文件
+package.json @bytebot-team @tech-lead
+tsconfig.json @bytebot-team @tech-lead
+.eslintrc.js @bytebot-team @tech-lead
+.prettierrc.js @bytebot-team @tech-lead
+jest.config.js @bytebot-team @tech-lead
+
+# 环境和部署配置
+docker/ @bytebot-team @devops-team
+.github/ @bytebot-team @devops-team
+.env.* @bytebot-team @security-team
+
+# 数据库相关
+prisma/ @bytebot-team @backend-team
+**/migrations/ @backend-team @database-admin
+
+# =============================================================================
+# 核心模块
+# =============================================================================
+
+# 核心功能模块
+core/ @bytebot-team @backend-team
+core/prompts/ @bytebot-team @ai-team
+core/history/ @bytebot-team @backend-team
+core/mcp/ @bytebot-team @integration-team
+
+# 配置管理
+config/ @bytebot-team @backend-team
+config/prompt-templates/ @ai-team
+config/mcp-servers/ @integration-team
+
+# =============================================================================
+# 服务包
+# =============================================================================
+
+# 前端 UI
+packages/bytebot-ui/ @frontend-team
+packages/bytebot-ui/src/components/ @frontend-team @ui-team
+packages/bytebot-ui/src/pages/ @frontend-team
+packages/bytebot-ui/src/hooks/ @frontend-team @react-experts
+
+# AI 智能体服务
+packages/bytebot-agent/ @backend-team @ai-team
+packages/bytebot-agent/src/services/ @backend-team
+packages/bytebot-agent/src/controllers/ @backend-team
+packages/bytebot-agent/src/ai/ @ai-team
+
+# 桌面应用
+packages/bytebot-desktop/ @desktop-team
+packages/bytebot-desktop/src-tauri/ @rust-team @desktop-team
+packages/bytebot-desktop/src/ @frontend-team @desktop-team
+
+# LLM 代理
+packages/bytebot-llm-proxy/ @ai-team @backend-team
+packages/bytebot-llm-proxy/src/providers/ @ai-team
+
+# 桌面服务守护进程
+packages/bytebotd/ @backend-team @desktop-team
+packages/bytebotd/src/services/ @backend-team
+
+# 共享包
+packages/shared/ @bytebot-team
+packages/shared/src/types/ @bytebot-team @typescript-experts
+packages/shared/src/utils/ @bytebot-team
+
+# =============================================================================
+# 文档
+# =============================================================================
+
+# 项目文档
+docs/ @bytebot-team @tech-writer
+docs/api-reference/ @backend-team @tech-writer
+docs/guides/ @tech-writer
+docs/project/ @tech-lead @tech-writer
+
+# 规划文档 (需要产品和技术双重审查)
+docs/vision.md @product-team @tech-lead
+docs/spec.md @product-team @tech-lead
+docs/roadmap.md @product-team @tech-lead
+docs/risks.md @tech-lead @security-team
+
+# 技术文档
+docs/tech-design.md @tech-lead @senior-engineers
+docs/dev-process.md @tech-lead @devops-team
+docs/code-style.md @tech-lead @senior-engineers
+docs/testing.md @qa-team @tech-lead
+docs/monorepo.md @tech-lead @senior-engineers
+
+# API 文档
+docs/api/ @backend-team @tech-writer
+**/openapi.yml @backend-team @api-team
+
+# =============================================================================
+# 测试文件
+# =============================================================================
+
+# 测试配置
+jest.*.js @qa-team @tech-lead
+**/*.test.ts @qa-team
+**/*.test.tsx @qa-team @frontend-team
+**/*.spec.ts @qa-team
+**/*.integration.test.ts @qa-team @backend-team
+**/*.e2e.test.ts @qa-team
+
+# 测试工具和设置
+**/test-utils/ @qa-team
+**/fixtures/ @qa-team
+**/mocks/ @qa-team
+
+# =============================================================================
+# 构建和部署
+# =============================================================================
+
+# GitHub Actions 工作流
+.github/workflows/ @devops-team @tech-lead
+.github/workflows/ci.yml @devops-team @qa-team
+.github/workflows/cd.yml @devops-team @security-team
+
+# Docker 配置
+Dockerfile @devops-team
+docker-compose*.yml @devops-team
+**/Dockerfile @devops-team
+
+# 构建脚本
+scripts/ @devops-team @tech-lead
+scripts/build/ @devops-team
+scripts/deployment/ @devops-team @security-team
+scripts/maintenance/ @devops-team
+
+# =============================================================================
+# 安全敏感文件
+# =============================================================================
+
+# 安全配置 (需要安全团队审查)
+**/security/ @security-team @tech-lead
+**/auth/ @security-team @backend-team
+**/middleware/auth* @security-team @backend-team
+
+# 密钥和证书相关
+**/keys/ @security-team
+**/certs/ @security-team
+**/.env* @security-team @devops-team
+
+# =============================================================================
+# 特定技术栈文件
+# =============================================================================
+
+# Rust 文件
+**/*.rs @rust-team
+**/Cargo.toml @rust-team
+**/Cargo.lock @rust-team
+
+# TypeScript 配置
+**/tsconfig*.json @typescript-experts @tech-lead
+
+# React 相关
+**/components/ @frontend-team @react-experts
+**/hooks/ @frontend-team @react-experts
+**/contexts/ @frontend-team @react-experts
+
+# Node.js 后端
+**/controllers/ @backend-team
+**/services/ @backend-team
+**/middleware/ @backend-team
+**/models/ @backend-team @database-team
+
+# =============================================================================
+# 第三方集成
+# =============================================================================
+
+# MCP 协议相关
+**/mcp/ @integration-team @ai-team
+**/*mcp* @integration-team
+
+# AI 提供商集成
+**/providers/ @ai-team
+**/ai/ @ai-team
+**/*openai* @ai-team
+**/*anthropic* @ai-team
+**/*gemini* @ai-team
+
+# =============================================================================
+# 特殊规则
+# =============================================================================
+
+# 关键配置文件需要多人审查
+package.json @tech-lead @senior-engineers
+docker-compose.yml @devops-team @tech-lead @security-team
+.github/workflows/ci.yml @devops-team @qa-team @tech-lead
+
+# 数据库迁移需要特别审查
+**/migrations/ @database-admin @backend-team @tech-lead
+
+# 发布相关文件
+CHANGELOG.md @tech-lead @product-team
+VERSION @tech-lead @devops-team
+
+# =============================================================================
+# 团队定义说明
+# =============================================================================
+
+# @bytebot-team - 核心开发团队
+# @tech-lead - 技术负责人
+# @senior-engineers - 高级工程师
+# @frontend-team - 前端开发团队
+# @backend-team - 后端开发团队
+# @desktop-team - 桌面应用团队
+# @ai-team - AI 算法团队
+# @rust-team - Rust 开发专家
+# @devops-team - 运维团队
+# @qa-team - 质量保证团队
+# @security-team - 安全团队
+# @database-team - 数据库团队
+# @integration-team - 集成开发团队
+# @ui-team - UI/UX 设计团队
+# @product-team - 产品团队
+# @tech-writer - 技术文档团队
+# @typescript-experts - TypeScript 专家
+# @react-experts - React 专家
+# @api-team - API 设计团队
+# @database-admin - 数据库管理员

@@ -1,0 +1,95 @@
+{
+  "compilerOptions": {
+    // 基础选项
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "checkJs": false,
+    
+    // 严格模式
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    
+    // 模块解析
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@bytebot/ui": ["./packages/ui/src"],
+      "@bytebot/types": ["./packages/types/src"],
+      "@bytebot/utils": ["./packages/utils/src"],
+      "@bytebot/config": ["./packages/config/src"],
+      "@bytebot/mcp": ["./packages/mcp/src"]
+    },
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    
+    // 输出选项
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "removeComments": false,
+    "importHelpers": true,
+    
+    // JSX 支持
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    
+    // 其他选项
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo"
+  },
+  "include": [
+    "src/**/*",
+    "packages/*/src/**/*",
+    "core/**/*",
+    "scripts/**/*",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    "target",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
+  ],
+  "references": [
+    {
+      "path": "./packages/types"
+    },
+    {
+      "path": "./packages/utils"
+    },
+    {
+      "path": "./packages/ui"
+    },
+    {
+      "path": "./packages/config"
+    },
+    {
+      "path": "./packages/mcp"
+    }
+  ]
+}
