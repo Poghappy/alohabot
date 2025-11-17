@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/config-conventional": "^20.0.0",
     "@prisma/client": "^6.16.2",
     "@testing-library/jest-dom": "^5.0.0",
     "@testing-library/react": "^13.0.0",
